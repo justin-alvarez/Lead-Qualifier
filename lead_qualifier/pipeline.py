@@ -176,7 +176,7 @@ def run_pipeline(config: Dict[str, Any]):
             def review_progress(current, total, blocked=False):
                 if blocked:
                     return
-                sys.stdout.write(f"\r   \U0001f50d Scraping Google... {_progress_bar(current, total)}")
+                sys.stdout.write(f"\r   \U0001f50d Looking up reviews... {_progress_bar(current, total)}")
                 sys.stdout.flush()
                 if current == total:
                     sys.stdout.write("\n")
