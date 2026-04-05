@@ -18,6 +18,14 @@ def apply_hard_filters(companies: List[Company], config: Dict) -> Tuple[List[Com
     manual_review = []
 
     for company in companies:
+        # No website = reject (can't scrape or detect platforms)
+        if not company.domain:
+            company.status = "REJECTED"
+            company.rejection_reason = "No website/domain"
+            company.gate_reached = 1
+            rejected.append(company)
+            continue
+
         has_revenue = company.revenue is not None
         has_employees = company.employees is not None
 

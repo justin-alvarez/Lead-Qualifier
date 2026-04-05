@@ -10,13 +10,13 @@ from .models import Company
 # Maps our internal field names to possible CSV header variations
 COLUMN_MAP = {
     "name": ["Company Name", "company_name", "Company", "name"],
-    "domain": ["Website", "Domain", "website", "domain", "Company Domain"],
-    "revenue": ["Revenue", "Revenue (in 000s $)", "Annual Revenue", "Revenue Range", "Estimated Revenue"],
-    "employees": ["Number of Employees", "Employees", "employees", "Employee Count"],
+    "domain": ["Domain", "Website", "website", "domain", "Company Domain"],
+    "revenue": ["Revenue--Clean", "Revenue", "Revenue (in 000s $)", "Annual Revenue", "Revenue Range", "Estimated Revenue"],
+    "employees": ["Employees", "Number of Employees", "employees", "Employee Count"],
     "city": ["City", "city", "Company City"],
     "state": ["State", "state", "State/Province", "Company State"],
     "phone": ["Phone", "phone", "Company Phone"],
-    "zoominfo_id": ["ZoomInfo Company ID", "Company ID", "zoominfo_id"],
+    "zoominfo_id": ["Company ID", "ZoomInfo Company ID", "zoominfo_id"],
 }
 
 
