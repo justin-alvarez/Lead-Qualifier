@@ -9,446 +9,741 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f0f2f5;
-            color: #1a1a2e;
+            background: #f1f5f9;
+            color: #1e293b;
             line-height: 1.6;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1 {
-            text-align: center;
-            padding: 30px 0 10px;
-            color: #1a1a2e;
-            font-size: 2em;
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #164e63 100%);
+            color: white;
+            padding: 32px 0 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
         }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 0.95em;
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header-left h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #fff;
+        }
+        .header-left .subtitle {
+            color: #94a3b8;
+            font-size: 0.9em;
+            margin-top: 2px;
+        }
+        .header-right {
+            text-align: right;
+            font-size: 0.8em;
+            color: #64748b;
+        }
+        .header-right strong { color: #94a3b8; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+        /* Section */
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+        }
+        .section h2 {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
         }
 
         /* Metric cards */
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
             gap: 16px;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
         .metric-card {
             background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            text-align: center;
+            border-radius: 16px;
+            padding: 22px 20px 18px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+            border-left: 4px solid #e2e8f0;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .metric-card.blue  { border-left-color: #6366f1; }
+        .metric-card.green { border-left-color: #10b981; }
+        .metric-card.sky   { border-left-color: #0ea5e9; }
+        .metric-card.amber { border-left-color: #f59e0b; }
+        .metric-card.violet{ border-left-color: #8b5cf6; }
+        .metric-card.rose  { border-left-color: #f43f5e; }
         .metric-card .value {
             font-size: 2em;
-            font-weight: 700;
-            color: #4472C4;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.1;
         }
         .metric-card .label {
-            color: #666;
-            font-size: 0.9em;
-            margin-top: 4px;
+            color: #64748b;
+            font-size: 0.82em;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
         }
 
-        /* Section */
-        .section {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .section h2 {
+        /* Run summary */
+        .run-meta {
+            font-size: 0.88em;
+            color: #64748b;
             margin-bottom: 16px;
-            color: #1a1a2e;
-            font-size: 1.3em;
-            border-bottom: 2px solid #4472C4;
-            padding-bottom: 8px;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
         }
+        .run-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+        .run-stat {
+            padding: 14px 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .run-stat .num { font-size: 1.6em; font-weight: 800; color: #0f172a; }
+        .run-stat .num.qualified { color: #10b981; }
+        .run-stat .lbl { font-size: 0.78em; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
 
-        /* Chart containers */
+        /* Charts row */
         .chart-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 24px;
+            gap: 20px;
             margin-bottom: 24px;
         }
-        @media (max-width: 768px) {
-            .chart-row { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 800px) { .chart-row { grid-template-columns: 1fr; } }
         .chart-container {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
         }
         .chart-container h2 {
-            margin-bottom: 16px;
-            color: #1a1a2e;
-            font-size: 1.2em;
+            font-size: 1.05em;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 18px;
         }
 
-        /* Latest run summary */
-        .run-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-            margin-top: 12px;
+        /* SVG Funnel */
+        .funnel-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            padding: 8px 0;
         }
-        .run-stat {
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
+        .funnel-step { width: 100%; max-width: 640px; }
+        .funnel-drop {
             text-align: center;
+            font-size: 0.78em;
+            color: #94a3b8;
+            padding: 3px 0;
+            letter-spacing: 0.02em;
         }
-        .run-stat .num { font-size: 1.5em; font-weight: 700; color: #333; }
-        .run-stat .lbl { font-size: 0.85em; color: #666; }
 
         /* Tables */
+        .table-wrap { overflow-x: auto; }
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9em;
-        }
-        th, td {
-            padding: 10px 12px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
+            font-size: 0.88em;
         }
         th {
-            background: #f8f9fa;
+            padding: 10px 14px;
+            background: #f8fafc;
             font-weight: 600;
-            color: #555;
+            color: #475569;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
         }
-        tr:hover { background: #f8f9fa; }
+        th.sortable { cursor: pointer; user-select: none; }
+        th.sortable:hover { background: #f1f5f9; color: #0f172a; }
+        th.sort-asc::after  { content: ' ▲'; font-size: 0.8em; color: #6366f1; }
+        th.sort-desc::after { content: ' ▼'; font-size: 0.8em; color: #6366f1; }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f8fafc; }
 
-        .status-qualified { color: #27ae60; font-weight: 600; }
-        .status-rejected { color: #e74c3c; font-weight: 600; }
-        .status-manual { color: #f39c12; font-weight: 600; }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-size: 0.78em;
+            font-weight: 600;
+        }
+        .badge-green  { background: #d1fae5; color: #065f46; }
+        .badge-gray   { background: #f1f5f9; color: #64748b; }
+        .badge-amber  { background: #fef3c7; color: #92400e; }
+        .badge-indigo { background: #e0e7ff; color: #3730a3; }
+        .badge-sky    { background: #e0f2fe; color: #075985; }
 
-        .funnel-bar {
-            display: flex;
-            align-items: center;
-            margin: 8px 0;
-        }
-        .funnel-label {
-            width: 120px;
-            font-weight: 600;
-            font-size: 0.9em;
-        }
-        .funnel-track {
-            flex: 1;
-            height: 28px;
-            background: #f0f2f5;
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-        .funnel-fill {
-            height: 100%;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            padding-left: 8px;
-            color: white;
-            font-size: 0.85em;
-            font-weight: 600;
-            min-width: 40px;
-        }
+        .status-qualified { color: #10b981; font-weight: 700; }
+        .status-rejected  { color: #ef4444; font-weight: 700; }
+        .status-manual    { color: #f59e0b; font-weight: 700; }
+
         .empty-state {
             text-align: center;
-            padding: 40px;
-            color: #999;
+            padding: 48px;
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+
+        /* Leads table pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 0 4px;
+            font-size: 0.88em;
+            color: #64748b;
+        }
+        .pagination button {
+            padding: 6px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #334155;
+            transition: background 0.1s;
+        }
+        .pagination button:hover:not(:disabled) { background: #f8fafc; border-color: #6366f1; color: #6366f1; }
+        .pagination button:disabled { opacity: 0.4; cursor: default; }
+
+        @media (max-width: 600px) {
+            .metrics-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
+
+<div class="header">
     <div class="container">
-        <h1>Lead Qualifier Dashboard</h1>
-        <p class="subtitle">Nuve HVAC/Plumbing Lead Qualification Pipeline</p>
-
-        <!-- Cumulative Stats -->
-        <div class="metrics-grid" id="metrics-grid"></div>
-
-        <!-- Latest Run Summary -->
-        <div class="section" id="latest-run-section">
-            <h2>Latest Run Summary</h2>
-            <div id="latest-run-content"></div>
+        <div class="header-left">
+            <h1>Lead Qualifier Dashboard</h1>
+            <div class="subtitle">Nuve HVAC / Plumbing Lead Qualification Pipeline</div>
         </div>
-
-        <!-- Funnel -->
-        <div class="section">
-            <h2>Qualification Funnel (All Time)</h2>
-            <div id="funnel-chart"></div>
+        <div class="header-right">
+            <strong>Last updated</strong><br>
+            <span id="last-updated">—</span>
         </div>
+    </div>
+</div>
 
-        <!-- Charts Row -->
-        <div class="chart-row">
-            <div class="chart-container">
-                <h2>Pipeline Over Time</h2>
-                <canvas id="pipeline-chart"></canvas>
-            </div>
-            <div class="chart-container">
-                <h2>Platform Breakdown</h2>
-                <canvas id="platform-chart"></canvas>
-            </div>
+<div class="container">
+
+    <!-- Cumulative metric cards -->
+    <div class="metrics-grid" id="metrics-grid"></div>
+
+    <!-- Latest Run Summary -->
+    <div class="section" id="latest-run-section">
+        <h2>Latest Run Summary</h2>
+        <div id="latest-run-content"></div>
+    </div>
+
+    <!-- Funnel + Platform side by side -->
+    <div class="chart-row">
+        <div class="chart-container">
+            <h2>Qualification Funnel</h2>
+            <div class="funnel-wrap" id="funnel-chart"></div>
         </div>
-
-        <div class="chart-row">
-            <div class="chart-container">
-                <h2>Review Distribution</h2>
-                <canvas id="review-chart"></canvas>
-            </div>
-            <div class="chart-container" style="overflow-x: auto;">
-                <h2>Recent Runs</h2>
-                <table id="runs-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Date</th>
-                            <th>File</th>
-                            <th>New</th>
-                            <th>Qualified</th>
-                            <th>Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody id="runs-tbody"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Status Changes -->
-        <div class="section">
-            <h2>Status Changes Between Runs</h2>
-            <div id="status-changes-content"></div>
+        <div class="chart-container">
+            <h2>Platform Breakdown</h2>
+            <canvas id="platform-chart"></canvas>
         </div>
     </div>
 
-    <script>
-    const DATA = {"latest_run": {"id": 1, "started_at": "2026-04-05T01:05:59.352129", "completed_at": "2026-04-05T01:07:08.353657", "status": "completed", "input_file": "input\\zoominfo_325_companies_2026-04-04.csv", "settings_json": "{\"min_revenue\": 2000000, \"min_employees\": 5, \"min_reviews\": 200, \"service_type\": \"residential\"}", "total_in_csv": 10, "new_companies": 10, "skipped_duplicates": 0, "rechecked": 0, "passed_gate1": 8, "passed_gate2": 8, "passed_gate3": 4, "total_qualified": 4, "total_rejected": 3, "total_manual_review": 3, "platforms_detected": 0, "estimated_cost": 0.0104, "output_file": "output\\qualified.xlsx", "notes": null}, "run_history": [{"id": 1, "started_at": "2026-04-05T01:05:59.352129", "completed_at": "2026-04-05T01:07:08.353657", "status": "completed", "input_file": "input\\zoominfo_325_companies_2026-04-04.csv", "settings_json": "{\"min_revenue\": 2000000, \"min_employees\": 5, \"min_reviews\": 200, \"service_type\": \"residential\"}", "total_in_csv": 10, "new_companies": 10, "skipped_duplicates": 0, "rechecked": 0, "passed_gate1": 8, "passed_gate2": 8, "passed_gate3": 4, "total_qualified": 4, "total_rejected": 3, "total_manual_review": 3, "platforms_detected": 0, "estimated_cost": 0.0104, "output_file": "output\\qualified.xlsx", "notes": null}], "cumulative_stats": {"total_companies": 10, "total_qualified": 4, "total_runs": 1, "avg_qualification_rate": 40.0, "total_cost": 0.01}, "funnel_data": {"total_input": 10, "passed_gate1": 8, "passed_gate2": 8, "passed_gate3": 4, "total_qualified": 4}, "platform_breakdown": {"No Platform Detected": 4}, "review_distribution": [], "status_changes": []};
+    <!-- Pipeline over time + Review distribution -->
+    <div class="chart-row">
+        <div class="chart-container">
+            <h2>Pipeline Over Time</h2>
+            <canvas id="pipeline-chart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h2>Review Distribution</h2>
+            <canvas id="review-chart"></canvas>
+        </div>
+    </div>
 
-    // --- Cumulative Stats ---
-    (function() {
-        const stats = DATA.cumulative_stats || {};
-        const grid = document.getElementById('metrics-grid');
-        const metrics = [
-            { value: (stats.total_companies || 0).toLocaleString(), label: 'Total Companies' },
-            { value: (stats.total_qualified || 0).toLocaleString(), label: 'Qualified Leads' },
-            { value: stats.total_runs || 0, label: 'Runs Completed' },
-            { value: (stats.avg_qualification_rate || 0) + '%', label: 'Qualification Rate' },
-            { value: '$' + (stats.total_cost || 0).toFixed(2), label: 'Total API Cost' },
-        ];
-        metrics.forEach(m => {
-            const card = document.createElement('div');
-            card.className = 'metric-card';
-            card.innerHTML = `<div class="value">${m.value}</div><div class="label">${m.label}</div>`;
-            grid.appendChild(card);
-        });
-    })();
+    <!-- Recent Runs table -->
+    <div class="section">
+        <h2>Recent Runs</h2>
+        <div class="table-wrap">
+            <table id="runs-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>File</th>
+                        <th>New</th>
+                        <th>Gate 1</th>
+                        <th>Gate 2</th>
+                        <th>Gate 3</th>
+                        <th>Qualified</th>
+                        <th>Rate</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody id="runs-tbody"></tbody>
+            </table>
+        </div>
+    </div>
 
-    // --- Latest Run ---
-    (function() {
-        const run = DATA.latest_run;
-        const content = document.getElementById('latest-run-content');
-        if (!run) {
-            content.innerHTML = '<p class="empty-state">No runs yet.</p>';
-            return;
-        }
-        let settings = {};
-        try { settings = JSON.parse(run.settings_json || '{}'); } catch(e) {}
+    <!-- Qualified Leads Table -->
+    <div class="section">
+        <h2>Qualified Leads</h2>
+        <div class="table-wrap">
+            <table id="leads-table">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-col="name">Company</th>
+                        <th class="sortable" data-col="domain">Domain</th>
+                        <th class="sortable" data-col="state">Location</th>
+                        <th class="sortable" data-col="revenue">Revenue</th>
+                        <th class="sortable" data-col="employees">Employees</th>
+                        <th class="sortable" data-col="google_review_count">Reviews</th>
+                        <th data-col="detected_platforms">Platform</th>
+                        <th class="sortable" data-col="service_type">Service Type</th>
+                    </tr>
+                </thead>
+                <tbody id="leads-tbody"></tbody>
+            </table>
+        </div>
+        <div class="pagination" id="leads-pagination"></div>
+    </div>
 
-        content.innerHTML = `
-            <p style="color:#666; margin-bottom:12px;">
-                Run #${run.id} &mdash; ${run.started_at || 'N/A'} &mdash;
-                <strong>${run.status || 'unknown'}</strong>
-                &mdash; File: ${run.input_file || 'N/A'}
-                &mdash; Settings: rev&ge;$${((settings.min_revenue||0)/1e6).toFixed(1)}M,
-                emp&ge;${settings.min_employees||'?'},
-                reviews&ge;${settings.min_reviews||'?'},
-                type=${settings.service_type||'?'}
-            </p>
-            <div class="run-summary">
-                <div class="run-stat"><div class="num">${(run.total_in_csv||0).toLocaleString()}</div><div class="lbl">In CSV</div></div>
-                <div class="run-stat"><div class="num">${(run.new_companies||0).toLocaleString()}</div><div class="lbl">New</div></div>
-                <div class="run-stat"><div class="num">${(run.skipped_duplicates||0).toLocaleString()}</div><div class="lbl">Skipped</div></div>
-                <div class="run-stat"><div class="num">${(run.passed_gate1||0).toLocaleString()}</div><div class="lbl">Gate 1</div></div>
-                <div class="run-stat"><div class="num">${(run.passed_gate2||0).toLocaleString()}</div><div class="lbl">Gate 2</div></div>
-                <div class="run-stat"><div class="num">${(run.passed_gate3||0).toLocaleString()}</div><div class="lbl">Gate 3</div></div>
-                <div class="run-stat"><div class="num" style="color:#27ae60">${(run.total_qualified||0).toLocaleString()}</div><div class="lbl">Qualified</div></div>
-                <div class="run-stat"><div class="num">$${(run.estimated_cost||0).toFixed(2)}</div><div class="lbl">Cost</div></div>
-            </div>
-        `;
-    })();
+    <!-- Status Changes -->
+    <div class="section">
+        <h2>Status Changes Between Runs</h2>
+        <div id="status-changes-content"></div>
+    </div>
 
-    // --- Funnel ---
-    (function() {
-        const f = DATA.funnel_data || {};
-        const container = document.getElementById('funnel-chart');
-        const steps = [
-            { label: 'CSV Input', value: f.total_input || 0, color: '#4472C4' },
-            { label: 'Gate 1', value: f.passed_gate1 || 0, color: '#5B9BD5' },
-            { label: 'Gate 2', value: f.passed_gate2 || 0, color: '#70AD47' },
-            { label: 'Gate 3', value: f.passed_gate3 || 0, color: '#FFC000' },
-            { label: 'Qualified', value: f.total_qualified || 0, color: '#27ae60' },
-        ];
-        const maxVal = Math.max(...steps.map(s => s.value), 1);
+</div>
 
-        steps.forEach(step => {
-            const pct = Math.max((step.value / maxVal) * 100, 5);
-            const bar = document.createElement('div');
-            bar.className = 'funnel-bar';
-            bar.innerHTML = `
-                <div class="funnel-label">${step.label}</div>
-                <div class="funnel-track">
-                    <div class="funnel-fill" style="width:${pct}%; background:${step.color}">
-                        ${step.value.toLocaleString()}
-                    </div>
-                </div>
-            `;
-            container.appendChild(bar);
-        });
-    })();
+<script type="application/json" id="dashboard-data">{"latest_run": {"id": 1, "started_at": "2026-04-05T04:00:24.473243", "completed_at": "2026-04-05T04:04:19.973941", "status": "completed", "input_file": "input\\zoominfo_325_companies_2026-04-04.csv", "settings_json": "{\"min_revenue\": 2000000, \"min_employees\": 5, \"min_reviews\": 5, \"service_type\": \"residential\"}", "total_in_csv": 30, "new_companies": 30, "skipped_duplicates": 0, "rechecked": 0, "passed_gate1": 28, "passed_gate2": 19, "passed_gate3": 15, "total_qualified": 15, "total_rejected": 11, "total_manual_review": 4, "platforms_detected": 2, "estimated_cost": 0.0247, "output_file": "output\\qualified.xlsx", "notes": null}, "run_history": [{"id": 1, "started_at": "2026-04-05T04:00:24.473243", "completed_at": "2026-04-05T04:04:19.973941", "status": "completed", "input_file": "input\\zoominfo_325_companies_2026-04-04.csv", "settings_json": "{\"min_revenue\": 2000000, \"min_employees\": 5, \"min_reviews\": 5, \"service_type\": \"residential\"}", "total_in_csv": 30, "new_companies": 30, "skipped_duplicates": 0, "rechecked": 0, "passed_gate1": 28, "passed_gate2": 19, "passed_gate3": 15, "total_qualified": 15, "total_rejected": 11, "total_manual_review": 4, "platforms_detected": 2, "estimated_cost": 0.0247, "output_file": "output\\qualified.xlsx", "notes": null}], "cumulative_stats": {"total_companies": 30, "total_qualified": 15, "total_runs": 1, "avg_qualification_rate": 50.0, "total_cost": 0.02}, "funnel_data": {"total_input": 30, "passed_gate1": 28, "passed_gate2": 19, "passed_gate3": 15, "total_qualified": 15}, "platform_breakdown": {"Dispatch": 1, "Housecall Pro": 1, "No Platform Detected": 13}, "review_distribution": [1, 2, 2, 2, 2, 2, 2, 4, 7, 8, 9, 11, 15, 15, 16, 22, 24, 24, 24, 33, 44, 85, 140, 143, 258, 636, 672], "status_changes": [], "qualified_leads": [{"id": 13, "zoominfo_id": "411474547", "name": "Mouradian Plumbing & Heating", "domain": "mouradianplumbingheating.com", "city": "Arlington", "state": "Massachusetts", "phone": "(781) 790-3890", "revenue": 5800000.0, "employees": 10, "google_review_count": 143, "google_rating": 4.9, "detected_platforms": "Housecall Pro", "website_text": "Top Plumbing Services In Arlington, MA | Mouradian Plumbing & Heating Skip to primary navigation Skip to main content Expert Plumbing for Your Dream Kitchen With our plumbing solutions, you can ensure a seamless and efficient cooking experience. Learn More Let\u2019s Keep Your Toilets Trouble-Free Avoid the hassle of clogged toilets with our reliable plumbing services. Learn More Perfect Baths Begin With Flawless Plumbing From installations to repairs, we ensure your bath is both beautiful and functional. Learn More Schedule an Appointment Innovative Equipment and Techniques Stay ahead with our use of cutting-edge equipment and techniques. We leverage the latest technology to provide efficient and reliable plumbing solutions. Read More Highly Trained and Skilled Team Our team consists of highly trained and skilled professionals dedicated to delivering top-notch service. Trust us for expert workmanship and attention to detail. Read More Best Value for Money Get the best value for your money with our competitive pricing and superior service. We combine quality with affordability to meet your plumbing and heating needs. Read More At Mouradian Plumbing & Heating , we specialize in providing top-notch plumbing and heating services to residential and commercial clients throughout Arlington, MA, and beyond. Our commitment to excellence, combined with our extensive expertise, makes us the go-to choice for anyone looking to ensure their property\u2019s plumbing and heating systems are in optimal condition. Whether you\u2019re dealing with an emergency, planning a remodel, or looking to maintain your current systems, our team is ready to deliver the quality service you deserve. Why Choose Mouradian Plumbing & Heating Choosing the right contractor for your plumbing and heating needs can significantly impact your home or business\u2019s comfort and efficiency. At Mouradian Plumbing & Heating , we stand out by offering reliable, prompt, and professional service tailored to meet each client\u2019s unique needs. With a strong focus on customer satisfaction, we strive to exceed expectations at every turn, ensuring your plumbing and heating systems function flawlessly. Our Professional Services Our range of services is designed to cover every aspect of plumbing and heating, ensuring we are your one-stop destination for all your needs. From routine maintenance and repairs to installations and upgrades, our skilled team is equipped with the knowledge and tools to handle any job, big or small. We specialize in water heaters, heat pumps, boilers, plumbing fixtures, water filtration systems, remodeling, new construction plumbing, and more, making us your comprehensive source for plumbing and heating solutions. Experienced Team, Quality Results At Mouradian Plumbing & Heating , our success is built on the foundation of our experienced and dedicated team. All our technicians are highly trained and certified, bringing a wealth of knowledge and expertise to each project. We value quality and efficiency, ensuring every job is completed to the highest standards. Our commitment to delivering exemplary results is unmatched, and we take pride in our work, knowing it plays a crucial role in ensuring the comfort and happiness of our clients. Contact Mouradian Plumbing & Heating Today Don\u2019t let plumbing and heating issues disrupt your comfort or your business. Contact Mouradian Plumbing & Heating today at (781) 790-3890 to schedule a consultation or learn more about our services. Let us show you the difference that quality and care can make for your plumbing and heating needs. What We Do Our Services Explore our comprehensive plumbing and heating services that meet all your needs. Residential Plumbing & Heating Ensure comfort and efficiency in your home with our residential plumbing and heating services. We handle everything from routine maintenance to complex repairs. Commercial Plumbing & Heating Our commercial plumbing and heating services are designed to keep your business running", "service_type": "both", "ai_reasoning": "The website explicitly states they provide services to 'residential and commercial clients' and has dedicated sections for both 'Residential Plumbing & Heating' and 'Commercial Plumbing & Heating' services. Multiple mentions throughout the content confirm they serve both customer types.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.872934", "last_updated_at": "2026-04-05T04:04:19.872934"}, {"id": 4, "zoominfo_id": "399316279", "name": "A+ Plumbing & Rootering", "domain": "plumbroot.com", "city": "North Hollywood", "state": "California", "phone": "(818) 757-7741", "revenue": 2000000.0, "employees": 7, "google_review_count": 24, "google_rating": 3.3, "detected_platforms": "Dispatch", "website_text": "A+ PLUMBING & ROOTERING, INC \u2013 Plumbing Drain Stoppage Sewer Repair Slab Detection Leak Rooter Water Heater Skip to content Skip to footer Close facebook-1 twitter-new yelp instagram youtube2 We Solve, You Evolve \u2014 Expert Plumbing Services We are committed to fostering long-term relationships with our clients, built on trust, transparency, and integrity. Our emergency plumbers prioritize clear, honest communication every step of the way, ensuring you always know exactly what to expect. Better Business Bureau\u00ae Request Service Online Payments CSLB Lic#: 993975 Office Text Message: 818 474 3465 Parts installed per day 0 + Happy customers weekly 0 + New clients daily 0 + Quality assurance On-Demand Plumbing Solutions, When You Need Them We provide top-tier plumbing installations for your home. A+ Plumbing & Rootering\u2019s exclusive Design On Demand program offers tailored services and product solutions, perfect for both large and small industrial applications in even the most demanding environments. As your trusted industry partner, we\u2019ve developed this program to deliver the safest, most efficient, and custom plumbing solutions available. About Us 818 757 7741 Our Services Pipe repair 24/7 Fitting From residential fixes to installations, trust our experienced. Read more Repiping We can handle everything - including inspections and wall patching. Read more Connection We are one of the few certified plumbing companies. Read more Pipeline We custom design, engineer, and fabricate specialty piping systems. Read more Work examples Our projects Staying on top of the latest trends is essential in the plumbing industry. By keeping up-to-date, we can offer our clients more effective solutions. With smart home technology revolutionizing everyday tasks, we\u2019re excited to highlight some of the latest and upcoming plumbing trends that are shaping the future. Kitchen faucet gallery Quality Exceptional plumbing work Pipeline , Plumbing The latest plumbing Quality Plumbing valve work Quality Skillful pipe installations Projects Contact us Have questions? Get in touch! Residence Plumbing Residence Drain Residence Leak Residence Faucet Testimonials Feedback from our clients Excellent work! Nice, courteous people. Your company\u2019s service is always prompt and professional, and the workmen are clean and polite. Thank you! \u2013 Edgar, 12/6/15 George Caldwell Los Angeles, CA Excellent work, nice, courteous people- your company\u2019s service is always prompt and professional, and the workmen are clean & polite- Thank you Felicia Garrett Agoura Hills, CA When I need plumbing repairs, I always call A+ Plumbing & Rootering. I know they will fix it right the first time. Thank you, guys! Owen Palmer Thousand Oaks, CA Very honest and hard-working individuals. I can always count on A+ Plumbing & Rootering to get the job done. Kind and respectful, they went above and beyond! Roland Berry Sherman Oaks, CA 0 Projects 0 People 0 Years 0 Offices A+ PLUMBING & ROOTERING, INC Plumbing Drain Stoppage Sewer Repair Slab Detection Leak Rooter Water Heater Facebook Twitter Yelp Instagram You Tube 818 757 7741 plumbroot@gmail.com Subscribe for the updates! facebook-1 twitter-new yelp instagram youtube2 Services \u2013 A+ PLUMBING & ROOTERING, INC Skip to content Skip to sidebar Skip to footer Close facebook-1 twitter-new yelp instagram youtube2 Your Trusted Pipeline and Plumbing Experts Laying pipes At A+ Plumbing & Rootering, Inc., we are committed to providing exceptional plumbing services tailored to meet your residential and commercial needs. Our team of skilled professionals ensures reliable, efficient,\u2026 Concreting Laying pipes Mauris eu nisi eget nisi imperdiet vestibulum. Nunc sodales vehicula risus. Suspendisse id mauris sodales, blandit tortor eu, sodales justo. Morbi tincidunt, ante vel suscipit volutpat, turpis enim volutpSectetur adipiscing\u2026 Construction Laying pipes Mauris eu nisi eget nisi imperdiet vestibulum. Nunc sodales vehicula risus. Suspendisse id mauris sodales, bland", "service_type": "both", "ai_reasoning": "The website explicitly mentions serving both residential and commercial customers. Key indicators include: (1) 'We provide top-tier plumbing installations for your home' for residential, (2) 'large and small industrial applications' and 'Design On Demand program' for commercial/industrial, (3) Service categories list both 'Residence' services (Residence Plumbing, Residence Drain, Residence Leak, Residence Faucet) and industrial/commercial capabilities, (4) Testimonials from both residential clients (homeowners) and references to industrial applications in their service descriptions.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.855786", "last_updated_at": "2026-04-05T04:04:19.855786"}, {"id": 9, "zoominfo_id": "411357433", "name": "Blaisdell Plumbing And Heating", "domain": "blaisdellplumbingandheating.com", "city": "Orangeburg", "state": "New York", "phone": "(845) 580-3150", "revenue": 6700000.0, "employees": 29, "google_review_count": 636, "google_rating": 5.0, "detected_platforms": "", "website_text": "Affordable Plumbing Services | Plumbing And Heating Contractors | Emergency Plumbing | Heating Services Dial to Contact :845-580-3150 Our Services Plumbing installation Water heater Toilet Hot water circulator Drain cleaning Leak detection and repair Faucet and fixture New construction Residential remodeling Air conditioning Heating Blaisdell Plumbing And Heating Whatever the situation Blaisdell Plumbing And Heating provides a service for both household and commercial services, whether it is boiler repairs to full heating system installations we will be able to help you. All our work is undertaken by fully qualified specialist engineers and technicians. \u00c2 We take a great deal of pride in the service that we provide. We will ensure first class workmanship on any work undertaken thereafter. Professional & competent, complete peace of mind is ensured. \u00c2 Whether it's a complete bathroom refit or a leaking shower, dripping tap to a new installation, guttering or lead work. Give us a call. Every customer's individual needs are important to us at Blaisdell Plumbing And Heating . Our focus of providing quality plumbing services combined with honesty has made our plumbers the first choice of many residential and commercial clients worldwide. You can count on Blaisdell Plumbing And Heating plumber to take care of your plumbing and drainage needs-day or night with never an overtime charge. Click to find out more about our Residential Plumbing and Drain Cleaning Services, Commercial Plumbing and Drain Cleaning Services, offered by our professional plumbers. There's a reason they call Blaisdell Plumbing And Heating. Blaisdell Plumbing And Heating.com. All rights reserved. Home | About Us | Services | Contact Us", "service_type": "both", "ai_reasoning": "The website explicitly states they provide 'service for both household and commercial services' and mentions 'residential and commercial clients' multiple times. Services listed include both residential (bathroom refit, household plumbing) and commercial offerings (boiler repairs, full heating system installations).", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.865848", "last_updated_at": "2026-04-05T04:04:19.865848"}, {"id": 15, "zoominfo_id": "458857497", "name": "Westerhouse Heating and Cooling", "domain": "westerhouse.com", "city": "Eudora", "state": "Kansas", "phone": "(785) 542-2707", "revenue": 2000000.0, "employees": 7, "google_review_count": 258, "google_rating": 5.0, "detected_platforms": "", "website_text": "Westerhouse Heating & Cooling, Eudora Lawrence DeSoto KS Westerhouse Heating and Cooling are your Experts for Repair, Service, and Installation. Contact Us LinkedIn This field is for validation purposes and should be left unchanged. Your Name * Your Email * Contact Reason * Services Repair New AC/Furnace Install Humidifier Other Products Other Issue Emergency? Call 785-542-2707 Trusted Heating and Cooling Services Since 1977 When your furnace stops working on a freezing January night or your air conditioner quits during a sweltering Kansas summer, you need a heating and cooling company you can count on. For nearly five decades, Westerhouse Heating and Cooling has been that trusted partner for families throughout Eudora, Lawrence , DeSoto , Baldwin City , and surrounding communities. We\u2019re not a national chain or corporate franchise\u2014we\u2019re your neighbors, a family-owned business that\u2019s been part of northeast Kansas since 1977. Our longevity in this community isn\u2019t accidental. We\u2019ve built our reputation one satisfied customer at a time by showing up when we say we will, doing the work right the first time, and treating every home like it\u2019s our own. Whether you\u2019re dealing with an emergency repair at two in the morning or planning a complete HVAC system replacement , you\u2019ll get the same honest, professional service that\u2019s made us the go-to HVAC contractor for Kansas families for almost fifty years. Westerhouse for Complete Heating Services for Northeast Kansas Kansas winters demand reliable heating systems. When temperatures drop below freezing and wind chills make it feel even colder, your furnace isn\u2019t just about comfort\u2014it\u2019s essential for your family\u2019s safety and well-being. Westerhouse provides comprehensive heating services, including furnace repair, installation, and preventive maintenance to keep your system running strong season after season. Our heating technicians have seen it all. From older furnaces that need careful repairs to keep running a few more years, to modern high-efficiency systems with advanced diagnostics, we have the training and experience to work on any make or model. We understand that a broken furnace often happens at the worst possible time, which is why we prioritize emergency heating calls and work to restore warmth to your home as quickly as possible. If your furnace is aging and you\u2019re considering a replacement, we\u2019ll help you make an informed decision. We never push unnecessary equipment sales, but we will give you honest guidance about whether repair or replacement makes the most sense for your situation. When it is time for a new furnace , we take great care to properly size your system, considering your home\u2019s square footage, insulation, windows, and heating needs, to ensure you get equipment that keeps you comfortable without wasting energy or money. Regular f urnace maintenance is one of the smartest investments you can make. Our comprehensive tune-ups catch small problems before they become expensive emergencies, improve your system\u2019s efficiency, and significantly extend its lifespan. Many of our customers have furnaces that are still running perfectly after fifteen or twenty years because they\u2019ve maintained them properly with annual service The Services Near You: Heating System Installation, Repair and Maintenance Cooling System Installation, Repair and Maintenance 24/7 Emergency Service Indoor Air Quality Solutions ( humidifiers , air purifiers ) Geothermal Systems Preventive Maintenance Plans Experience the Westerhouse Difference! Nearby Air Conditioning Services with Westerhouse that Beat the Heat Northeast Kansas summers are hot and humid, with temperatures regularly climbing into the 90s and sometimes reaching 100 degrees or higher. When the heat hits, your air conditioner becomes absolutely essential. Westerhouse provides fast, reliable air conditioning repair to keep your family cool and comfortable all summer long. Our cooling services cover everything from quick repairs and refrige", "service_type": "residential", "ai_reasoning": "The website content consistently emphasizes residential services throughout. Language includes phrases like 'families throughout Eudora, Lawrence, DeSoto, Baldwin City,' 'your home,' 'family-owned business,' and references to home heating/cooling needs. The services listed (furnace repair, AC repair, humidifiers, geothermal systems) are framed in residential context. No mention is made of commercial, industrial, or business customers. The marketing emphasizes being 'your neighbors' and treating homes with personal care, further reinforcing a residential focus.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.876950", "last_updated_at": "2026-04-05T04:04:19.876950"}, {"id": 7, "zoominfo_id": "5428412", "name": "AirTek Services", "domain": "airtekserviceshvac.com", "city": null, "state": null, "phone": null, "revenue": 4500000.0, "employees": 9, "google_review_count": 140, "google_rating": 4.9, "detected_platforms": "", "website_text": "HVAC | Heating & Cooling Repair Service - Greenville, Spartanburg SC Services Air Conditioning Services Heating Services Thermostats Indoor Air Quality Preventive Maintenance Service area Homeowner Tips FAQs About Heating and Cooling Repairs in Greenville and Spartanburg 864-381-9683 Air Conditioning Keep your home cool all summer without breaking a sweat. When it starts to get hot, call AirTek Services Heating Repair If you need help maintaining your warm, cozy home, turn to the local heating experts at AirTek Services Indoor AirQuality You will benefit from IAQ equipment if you notice that you experience more allergy attacks when indoors. What We Do We specialize in the repair, replacement and maintenance of HVAC comfort systems for your home including: HVAC systems Air Conditioner Repair/Service Furnace Repair/Service Heat Pump Repair / Service Humidifiers Indoor Air Quality Air Cleaning and Purification Programmable Thermostats Duct Work & Ventilation HVAC Preventive Maintenance We are your proven trusted advisors You can expect a customer experience that goes beyond the ordinary and expected The cleanliness of your home is protected while we are onsite; our technicians wear shoe covers, use drop cloths and always leave the work area cleaner than we found it We are fully licensed and insured for your protection. Quality of work is assured because we use only the most reliable equipment, parts and materials. CALL US, WE CAN HELP! Does your furnace or air conditioner need to be replaced? Does your heating or cooling system need tuning or repair? Do you have hot or cold spots in your home? Do you have high energy bills? Do you suffer from sinusitis, nose bleeds or dry, itchy skin? Do you have allergies, hay fever or upper respiratory ailments? We are specialists in these areas and have a solution for you. Don\u2019t suffer another moment, call AirTek Services today 864-381-9683 Honesty and Integrity With our professional HVAC team, honesty and integrity are at the core of everything we do. Our customers are our top priority; we make sure to give you good advice and not charge you for it. We will not sell anything that our customers will not need because we are interested in a long-term relationship rather than the quick buck. Mission and Values Your health, comfort, safety, and satisfaction are our top priorities at AirTek Services. Our expertly trained technicians value the time they spend learning about your HVAC needs and concerns. Using the information that you provide, we\u2019ll happily create a custom solution that\u2019s tailored to your expectations and budget. Airtek Services is one of the few in the state of South Carolina that requires all of their Technicians to be NATE certified. NATE-certified technicians are skilled professionals who have proven their knowledge in the HVAC industry by passing specialized NATE certification tests. Simply said, a certified NATE technician is the Best in the Business. WHY CHOOSE US\u2026 From winter\u2019s chill through the dog days of summer, our primary goal at AirTek Services is to keep your home comfortable for you and your family. But, that\u2019s just the beginning. We also offer you peace of mind, ensuring your equipment operates safely. We help you save money on your fuel bills. We help deliver relief to those with allergies and others concerned with the quality of the air they breathe. Integrity Fair pricing 24/7 emergency repairs Flat Rate pricing Same-day appointments Discounts for veterans Accurate estimates with no hidden fees A 100% satisfaction guarantee on all work Fully-stocked trucks for faster repairs Parts and labor warranties We are also fully licensed and insured. We make sure to provide our customers with all the information they need to make the right choice for their home or business. We also believe in providing options, so our valued clients never feel forced into any decision. mobile desktop About - AirTek Services Skip to content About MISSION & VALUES We are committed to earning ", "service_type": "residential", "ai_reasoning": "Website content exclusively focuses on residential HVAC services for homeowners. All language uses 'your home,' 'homeowner tips,' and residential service examples. No mention of commercial or business services. The only reference to 'business' appears incomplete in the cut-off final sentence and doesn't establish commercial service offerings.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.862343", "last_updated_at": "2026-04-05T04:04:19.862343"}, {"id": 14, "zoominfo_id": "411299113", "name": "Fisher Plumbing and Heating", "domain": "fisherplumbingandheating.com", "city": "White Plains", "state": "New York", "phone": "(914) 821-2403", "revenue": 5900000.0, "employees": 13, "google_review_count": 85, "google_rating": 4.8, "detected_platforms": "", "website_text": "FISHER PLUMBING AND HEATING are here to help unclug and install your drains! FISHER PLUMBING AND HEATING FISHER PLUMBING AND HEATING are here to help unclug and install your drains! - 914-821-2403 Home About Us Contact Us Emergency Plumbing Plumbing Services Toilet Faucet & Fixture Air Heating and Cooling New Construction Residential Remodeling Drain Cleaning Leak Detection and Repair Water Circulator Sewer Line Repair and Installation Plumbing Installation & Repair Water Heater FISHER PLUMBING AND HEATING - 914-821-2403 At FISHER PLUMBING AND HEATING , started with the philosophy \u201cWork Hard, Be Honest and Stand Behind Your Work\u201d. These basic principles have allowed us to grow into a very well respected plumbing company. We employ qualified plumbers with a minimum of 4 years experience and they are all fully trained to the latest requirements and regulations and also comply with the health and safety standards. Our plumbers carry out plumbing, heating drainage, electrical and air conditioning work. The quality and service that we provide does not mean higher charges. In a recent survey the company's transparent pricing structure was very much \u2018middle of the road', and when combined with our comprehensive back up service and guarantee, our charges are very competitive and value for money. Our work is carried out on an hourly rate, or a fixed price can be given for larger jobs. Our rates are completely transparent, and all invoices show a full breakdown on how your job has been priced. Whenever you call us our 24hr manned call center, our helpful staff will be able to deal with your enquiry quickly and efficiently. An plumber can usually be with you within the hour if required alternatively a booking will be made to suit the customers' time schedule. \u00a9 - FISHER PLUMBING AND HEATING - 33 FISHER CT WHITE PLAINS NY 10601 914-821-2403 | CSS | XHTML | Home | Contact Us", "service_type": "both", "ai_reasoning": "The website mentions 'New Construction' and 'Residential Remodeling' services, and describes themselves as a 'well respected plumbing company' serving general customers. While the content emphasizes residential services (drain cleaning, water heaters, faucets, etc.), the inclusion of 'New Construction' suggests they also handle commercial/larger building projects. The language used is inclusive of both residential and commercial work without explicit limitation to either segment.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.874938", "last_updated_at": "2026-04-05T04:04:19.874938"}, {"id": 12, "zoominfo_id": "98140910", "name": "Ready Rooter", "domain": "readyrooter.com", "city": "Sandwich", "state": "Massachusetts", "phone": "(508) 888-6055", "revenue": 6000000.0, "employees": 14, "google_review_count": 44, "google_rating": 4.5, "detected_platforms": "", "website_text": "Home - Ready Rooter 508-888-6055 custsvc@readyrooter.com Facebook Twitter Instagram Facebook Twitter Instagram Request Service Providing Outstanding Plumbing and Septic Service on Cape Cod and the South Shore Since 1999. Request Service If you have any questions or need assistance, please call us at 508-888-6055 . Ready Rooter Offers Friendly, Reliable and Courteous Plumbing and Septic Service for all Cape Cod, South Shore Residential and Commercial Needs. Our Plumbing service is available 24/7 and we maintain a skilled staff to answer your questions. Our commitment to providing quality service has earned us many valuable customers. Please take a moment to browse through our site to learn more about our company and the plumbing , heating , drain cleaning and septic services we provide. Choose Ready Rooter as your Cape Cod plumbers. We look forward to hearing from you, we are \u201cReady When You Are!\u201d Ready Rooter Services Plumbing Repairs, Maintenance & Install. Natural gas and electric heaters. Gas piping, new construction and additions. Learn more about our Cape Cod plumbing services\u2026 Heating Radiant heat, forced hot water and high efficiency heating systems. Save money on your home or commercial heating project! 2019 Mass Save Rebate information available through Ready Rooter. Learn more about our Cape Cod heating services\u2026 Septic Septic pumping, cleaning, Title V inspections, replacement, line location and more. Learn more about our Cape Cod septic services\u2026 Drain Cleaning Residential and commercial. Learn more about our Cape Cod drain cleaning services. Septic Pumping and Cleaning Your septic system needs to be emptied and cleaned every two years for optimal performance and to maximize its lifespan. Learn More Thank You Ready Rooter Doug was extremely helpful and professional! Thank you Ready Rooter for putting our minds at ease! We are truly grateful. P. Oliver, Texas Ready Rooter 5 2018-09-12T14:48:34+00:00 P. Oliver, Texas Doug was extremely helpful and professional! Thank you Ready Rooter for putting our minds at ease! We are truly grateful. https://readyrooter.com/testimonials/thank-you-ready-rooter/ Always Prompt Service Always prompt service, even at the worst of times, like right now at 10PM on Friday. They were quick and took great care to be gentle with my aging septic system and plumbing. P. Salenius, Mashpee Ready Rooter 5 2018-09-12T14:45:51+00:00 P. Salenius, Mashpee Always prompt service, even at the worst of times, like right now at 10PM on Friday. They were quick and took great care to be gentle with my aging septic system and plumbing. https://readyrooter.com/testimonials/always-prompt-service/ Best Company Around Ready Rooter is the Best company around, hands down!! Ready Rooter has out of this world customer service!! They treat their customers and employees like family! Kevin(Owner),his family,and his team are the most caring, professional, and amazing group of people you'll ever meet!! K. Emily, Yarmouth Ready Rooter 5 2018-09-12T14:46:37+00:00 K. Emily, Yarmouth Ready Rooter is the Best company around, hands down!! Ready Rooter has out of this world customer service!! They treat their customers and employees like family! Kevin(Owner),his family,and his team are the most caring, professional, and amazing group of people you'll ever meet!! https://readyrooter.com/testimonials/best-company-around/ Always Professional Love love love Ready Rooter. Came out early Christmas Eve morning to fix our heat!! Always professional and available when needed. Highly recommend them. B. Carey, East Sandwich Ready Rooter 5 2018-09-12T14:47:41+00:00 B. Carey, East Sandwich Love love love Ready Rooter. Came out early Christmas Eve morning to fix our heat!! Always professional and available when needed. Highly recommend them. https://readyrooter.com/testimonials/always-professional/ 5 4 Ready Rooter About Pricing Coupons Request Service Ready Rooter, Inc. Cape Cod Plumbers providing outstanding plumbing and septic service on ", "service_type": "both", "ai_reasoning": "The website explicitly states they provide service for 'all Cape Cod, South Shore Residential and Commercial Needs' and mentions both 'residential and commercial' capabilities in their drain cleaning and septic services sections. Multiple service descriptions reference both residential and commercial applications.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.871371", "last_updated_at": "2026-04-05T04:04:19.871371"}, {"id": 3, "zoominfo_id": "1123196555", "name": "Ron's Irving Service", "domain": "ronshape.com", "city": "Irving", "state": "Texas", "phone": "(972) 438-8838", "revenue": 6200000.0, "employees": 26, "google_review_count": 33, "google_rating": 4.2, "detected_platforms": "", "website_text": "Rons Irving Service Company - Ron's Irving Service Company Plumbing Heat Air Conditioning Electric Go to content Title Skip menu Skip menu For Service Call 972-438-4383 Metro 972-399-2022 2126 Parkside Irving, Texas 75061 Business Hours Mon.-Fri. 7:00 a.m.-6:00 p.m. Plumbing Heat AIR Conditioning Electrical Ron's Irving Service Company, is your one stop source, for Plumbing, Heating, Air Conditioning and Electrical needs. Since we can perform Plumbing, Heating, Air Conditioning and Electrical work, you benefit. Less need for multiple contractors Save Time Save Money We can perform full project One Stop Project Management Less need to worry about Scheduling multiple contractors Less disputes between contractors Less Material short fall, or delays City Permits Less contractors to delay your job One Stop, in house time line management One company to call for repair or warranty Eliminates finger pointing Fully Insured and Licensed A FAMILY NAME YOU CAN TRUST Ron's Irving Service Company, is your one stop source, for Plumbing, Heating, Air Conditioning and Electrical needs. Based in Irving, Texas, and serving the Dallas, Fort Worth area with over 50 years experience. Residential \u00e2\u0097\u008f Commercial \u00e2\u0097\u008f Industrial Sales \u00e2\u0097\u008f Service \u00e2\u0097\u008f Repair \u00e2\u0097\u008f Replacement Remember, RONSHAPE .com - RONS H eating A ir P lumbing E lectric Back to content To use this website you must enable JavaScript.", "service_type": "both", "ai_reasoning": "The website explicitly states 'Residential \u2022 Commercial \u2022 Industrial' and describes itself as a 'one stop source' for plumbing, heating, air conditioning and electrical needs serving both residential and commercial customers in the Dallas-Fort Worth area.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.853656", "last_updated_at": "2026-04-05T04:04:19.853656"}, {"id": 6, "zoominfo_id": "411119125", "name": "RP Carder Mechanical", "domain": "rpcardermechanical.com", "city": "Midland", "state": "Michigan", "phone": "(989) 486-3436", "revenue": 5400000.0, "employees": 19, "google_review_count": 24, "google_rating": 5.0, "detected_platforms": "", "website_text": "RP Carder Mechanic Residential and Commercial Heating & Cooling Serving Midland, Bay City, Saginaw, Auburn, Freeland, Sanford, and commercial clients across Michigan. Have A Room that is Hard to Heat or Cool? A Mitsubishi Mini-Split Ductless may be the perfect solution. Call us for a free consultation today. The Luxury of Warm Floors We specialize in Radiant Floor Heating Systems. It might be just what you need. Click to learn more. RP Carder Mechanical Heating, Cooling, Boilers, Air Purification HVAC Contractors \u2013 #1 in Reader\u2019s Choice Awards 6 Yrs in a Row! RP Carder Mechanical Promise We value customer care and safety. As such, we do not hire contractors for residential work. Rest-assured we will only send a competent RP Carder Mechanical employee to your home. Furnaces and Air Conditioners Ductless Systems Residential and Commercial Boilers Mitsubishi Diamond Contractor serving Midland, Bay, Saginaw and surrounding counties. Diamond Contractors offer customers offer 2 additional years of warranty. That\u2019s 12 years of parts and compressor warranty. Exclusive Viessman \u2013 ViPro PROfessional contractor in the Great Lakes Bay Region offering tailor-made system solutions for use in residential homes and commercial buildings as well as extended warranties up to 10 years. Menu About RP Carder \u2013 RP Carder Mechanic Hi, I\u2019m Ryan Carder I\u2019m the owner and operator of RP Carder Mechanical LLC. I\u2019ve been doing heating and air conditioning work for over 15 years, and formed my company in 2004. We specialize in designing, engineering, installing and maintaining complete comfort systems for new and existing buildings, both residential and commercial. RP Carder Mechanical is built on my values of professional customer care, technical expertise and practical experience. I\u2019m often asked how I got into this business, and the simple answer is that I love what I do. Each job, whether big or small, is an enjoyable challenge for me and my team to do the right way and in a manner that best suits the needs of our clients. Certifications & Affiliations Licensed Mechanical Contractor, State of Michigan Licensed Boiler Installer, State of Michigan Member, Midland Area Chamber of Commerce Certified Viessman ViPro Contractor American Standard \u2013 Independent, Authorized Dealer & Repair Mitsubishi Electric Diamond Contractor \u2013 M&P, Residential, Commercial, City Multi Viega \u2013 Authorized Dealer, Radiant Floor Heating Systems Honeywell \u2013 Authorized Dealer RGF Technologies \u2013 Authorized Dealer Values At RP Carder Mechanical, we value comfort, control, efficiency, and long-lasting service when it comes to heating and cooling your home or work space. As such, we have affiliated with the two companies we feel are best in the business at aligning with our standards: Mitsubishi and American Standard. Distinguished Service As the owner of RP Carder Mechanical, I am trained and certified at the highest levels offered by both Mitsubishi and American Standard. This requires an ongoing commitment and investment in training and industry networking each year. Most HVAC service contractors do not make these a priority in their businesses \u2014 my qualifications are second to none in Mid-Michigan. I am also a Mitsubishi Electric Diamond Contractor, which allows RP Carder Mechanical to offer distinguished services and better warranties than other contractors. You can learn more about Diamond Contractors here . Client Relationships Many people think heating and air conditioning work is a standardized process and that contractor services don\u2019t differ. While this is true for a lot of contractors, we approach each client and project as an opportunity to build a trusting relationship, creatively identify options available, and install or retrofit with optimal quality and efficiency in mind. No project or service call is too big or too small. Whether we are working on a large commercial project, installing new equipment in a home, or troubleshooting a service call, each client is valued, a", "service_type": "both", "ai_reasoning": "The website explicitly states they serve 'Residential and Commercial' customers multiple times. They mention serving residential homes with furnaces, air conditioners, ductless systems, boilers, and radiant floor heating, while also serving commercial clients across Michigan with commercial boilers and City Multi systems. The owner emphasizes handling projects of all sizes, from residential to large commercial projects.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.860341", "last_updated_at": "2026-04-05T04:04:19.860341"}, {"id": 8, "zoominfo_id": "442415932", "name": "Jay's Plumbing and Heating", "domain": "jaysplumbingandheating.com", "city": "Dunbarton", "state": "New Hampshire", "phone": "(603) 774-8175", "revenue": 4600000.0, "employees": 16, "google_review_count": 16, "google_rating": 4.5, "detected_platforms": "", "website_text": "Jay's Plumbing & Heating | Concord, Hooksett & Bedford, NH | Plumbing and Heating Company Contact Us Today! Early morning and evening phone: (603) 774-8175 Daytime phone: (603) 496-8651 Contact Us Today! Early morning and evening phone: (603) 774-8175 Daytime phone: (603) 496-8651 Full-Service Plumbing & Heating Company CALL EARLY MORNING AND EVENING CALL DAYTIME CONTACT US PLUMBING AND HEATING COMPANY SERVING CONCORD, NH & BEYOND Welcome to Jay's Plumbing & Heating of Dunbarton, New Hampshire. We are a full-service plumbing and heating company dedicated to quality, reliability, and customer satisfaction. Our service area includes Concord , Manchester, Bedford , Goffstown, Dunbarton, New Boston, Weare, Bow, Hopkinton, Hooksett , NH, and the surrounding areas. We have traveled as far as Sunapee, NH; Salem, NH; and the Lakes Region. Jay's Plumbing & Heating has been a registered business in the State of New Hampshire since February 1993. If you are interested in our residential or commercial plumbing and heating services, we encourage you to contact us today to schedule an appointment! Fully Insured: Liability and Workers\u2019 Comp. Licenses: New Hampshire Master Plumber License # M3275 New Hampshire Gas Fitters License # GFE0801325 Maine Master License # MS90012343 READ MORE RESIDENTIAL COMMERCIAL HEATING TESTIMONIALS GET IN TOUCH WITH US TODAY! Schedule an Appointment Today Whether your kitchen sink is badly clogged or your furnace isn\u2019t working quite as well as it should, the team at Jay\u2019s Plumbing & Heating is here to help. We serve the local community through high-quality work that lasts along with responsive customer service. We help both residential and commercial customers. Contact us today to get started! CONTACT US Title Button Title Button Title Button Title Button CONTACT JAY'S PLUMBING & HEATING TODAY TO KNOW MORE ABOUT US. Contact Us Name: Email: Phone: Message: Thank you for contacting us. We will get back to you as soon as possible. Oops, there was an error sending your message. Please try again later. Concord, NH | Hooksett, NH | Bedford, NH MAILING ADDRESS 8 Jacqueline Drive Dunbarton, NH 03046 Sitemap CONTACT INFO Early morning and evening phone: (603) 774-8175 Daytime phone: (603) 496-8651 QUICK LINKS Residential Commercial Heating Testimonials Share by: Residential Services | Concord, Hooksett & Bedford, NH | Jay's Plumbing & Heating Contact Us Today! Early morning and evening phone: (603) 774-8175 Daytime phone: (603) 496-8651 Contact Us Today! Early morning and evening phone: (603) 774-8175 Daytime phone: (603) 496-8651 RESIDENTIAL RESIDENTIAL PLUMBING AND HEATING SERVICES FOR CONCORD, NH & BEYOND Is there a problem with your home\u2019s plumbing or heating system? Do you live in Concord, Hooksett, Bedford, NH, or any of the surrounding areas? Then all you have to do is get in touch with Jay\u2019s Plumbing & Heating to make those problems go away! We are a full-service plumbing and heating company serving the local region with quality, reliability, and customer satisfaction. No matter what plumbing services you may need, you can always expect us to provide a job well done by a friendly and skilled group of professionals. Contact us today to discuss your plumbing repair and replacement project or to schedule an appointment! A Complete Slate of Residential Heating & Plumbing Services Kitchen Remodels Bathroom Remodels New Homes and Additions Gas Boiler Installations and Replacements Water Heater Service, Installations, and Replacements Gas Piping Service and Repair Fixture Upgrades Bathroom Installations Where Pump Systems Are Required Irrigation Backflow Connections Frozen Pipes/Thawing Frozen Pipes\u200b Faucet Replacements and Repairs Please let us know if you have any questions about our residential plumbing and heating services. We are always more than happy to answer them. When you call us, you\u2019ll never have to worry about being sold something you don\u2019t need. Honesty is a cornerstone of our business, and it\u2019s allowed us", "service_type": "both", "ai_reasoning": "The website explicitly states they are a 'full-service plumbing and heating company' serving 'both residential and commercial customers.' The content includes dedicated sections for 'RESIDENTIAL' and 'COMMERCIAL' services, and the homepage mentions serving residential or commercial clients.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.863341", "last_updated_at": "2026-04-05T04:04:19.863341"}, {"id": 1, "zoominfo_id": "410256284", "name": "Trini's Plumbing Service", "domain": "trinisplumbing.com", "city": "Del Rio", "state": "Texas", "phone": "(830) 775-1071", "revenue": 5700000.0, "employees": 23, "google_review_count": 15, "google_rating": 4.3, "detected_platforms": "", "website_text": "Trini's Plumbing Service Welcome Welcome to Trini's Plumbing Service Welcome to Trini's Plumbing Service Welcome to Trini's Plumbing Service Welcome to Trini's Plumbing Service Since 1975, we have been providing our customers with residential and commercial plumbing services that they can depend on. Request A Quote Location & Hours 401 E 4th St., Del Rio, TX 78840 (830) 775-1071 Hours Monday-Thursday 8:30 a.m.- 5:00 p.m. Friday 8:30-4:00 p.m. CALL or EMAIL US TODAY! 830-775-1071 or service@trinisplumbing.com Get directions Subscribe Sign up to hear from us about specials, sales, and events. Email Address Sign up Trini's Plumbing Service 401 E 4th St., Del Rio, TX 78840 (830) 775-1071 Copyright \u00a9 2020 Trini's Plumbing Service - All Rights Reserved. Services Fair Rates! Outstanding Service! Whether you are a business owner or a residential client, we offer our general plumbing services with high-quality work and exceptional customer service. Utilizing years of experience, state-of-the-art tools, and the best methods, we can change out your broken sewer and gas pipelines perfectly. If you need an experienced and reliable plumber in and around Del Rio, give us a call, we will be there in no time! Request A Quote Sales & Services Include: Repairs Backflow Installations & Repairs Water, Sewer & Gas Lines Sewer & Drain Service Water Heaters Fixtures & Supplies of All Kinds Subscribe Sign up to hear from us about specials, sales, and events. Email Address Sign up Trini's Plumbing Service 401 E 4th St., Del Rio, TX 78840 (830) 775-1071 Copyright \u00a9 2020 Trini's Plumbing Service - All Rights Reserved. Trini's Plumbing Service About Us Since 1975, Trini's Plumbing Service has been the team that the members of the Del Rio community and surrounding areas depended on when they needed to fulfill their plumbing needs and wants. Whether you\u2019re a commercial or a residential customer, we will provide you with great customer service and then we\u2019ll leave you with results that exceed your expectations. But most importantly, when you contact us for a service, we\u2019ll use our over 45 years of experience to treat your property as if it\u2019s ours. Location & Hours 401 E 4th St., Del Rio, TX 78840 (830) 775-1071 Hours Open today 08:30 am \u2013 05:00 pm Call or email us today: 830-775-1071 service@trinisplumbing.com Get directions Subscribe Sign up to hear from us about specials, sales, and events. Email Address Sign up Trini's Plumbing Service 401 E 4th St., Del Rio, TX 78840 (830) 775-1071 Copyright \u00a9 2020 Trini's Plumbing Service - All Rights Reserved.", "service_type": "both", "ai_reasoning": "The website explicitly states they provide services to 'residential and commercial plumbing services' and mentions serving 'business owner or a residential client' multiple times throughout the content. Their service offerings and messaging clearly indicate they serve both customer types.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.839049", "last_updated_at": "2026-04-05T04:04:19.839049"}, {"id": 11, "zoominfo_id": "442555057", "name": "Kelley's Plumbing Service", "domain": "kelleysplumbing.net", "city": "Kenner", "state": "Louisiana", "phone": "(504) 466-9298", "revenue": 5300000.0, "employees": 6, "google_review_count": 15, "google_rating": 4.7, "detected_platforms": "", "website_text": "New Orleans Plumber, NOLA, Metairie, Kenner | Residential, Commercial \u2014 Kelley's Plumbing Service NOLA, Kenner, Metairie Residential & Commercial Dependable Service Over 40 years of experience On-Time & On-Budget We save customers money Kelley's Plumbing (504) 466-9298 NOLA, Kenner & Metairie Kelley's Plumbing Service serves the Greater New Orleans area with residential and commercial plumbing service. read more ... Dependable Service Kelley's Plumbing Service highly-qualified plumbers provide service that is dependable, fast and affordable. read more ... On-Time & On-Budget Kelley's Plumbing Service also provides tunneling, video inspections, and is a licensed gas contractor. read more ... Kelley's Plumbing Service, Inc. is a Licenced Master Plumber. LMP# 1594 Connect with Us Facebook Twitter LinkedIn Google+ Louisiana on Zillow Recent blog posts Vestibulum viverra luctus sapien eget laoreet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris fringilla et magnis dis parturient read more . 2 comments 1 hour ago Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris fringilla et magnis dis parturient read more . 4 comments 5 hour ago Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris fringilla et magnis dis parturient read more . 9 comments 12 hour ago Sign up for our newsletter Vestibulum viverra luctus sapien eget laoreet. Name Email Subscribe What people are saying Vestibulum viverra luctus sapien eget laoreet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris fringilla et magnis dis parturient read more . #themewish 1 hour ago Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris fringilla et magnis dis parturient read more . #themeforest 1 hour ago Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris fringilla et magnis dis parturient read more . #envato 1 hour ago", "service_type": "both", "ai_reasoning": "The website explicitly states 'Residential, Commercial' in the title and mentions 'Kelley's Plumbing Service serves the Greater New Orleans area with residential and commercial plumbing service.' The company clearly markets to and serves both customer types.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.869363", "last_updated_at": "2026-04-05T04:04:19.869363"}, {"id": 10, "zoominfo_id": "368177112", "name": "Controlled Hydronics", "domain": "controlledhydronics.com", "city": "Montrose", "state": "Colorado", "phone": null, "revenue": 4400000.0, "employees": 21, "google_review_count": 9, "google_rating": 4.4, "detected_platforms": "", "website_text": "Controlled Plumbing Services | Expert Hydronics Solutions Now hiring at Don Jones Plumbing! We're looking for skilled professionals in hydronics plumbing to join our team. If you have experience with pro hydronics or provide exceptional Telluride plumbing services, we want to hear from you! Home Services Portfolio Recruitment Controlled Plumbing Solutions for Your Home and Business Controlled Plumbing Solutions for Your Home and Business Controlled Plumbing Solutions for Your Home and Business Controlled Plumbing Solutions for Your Home and Business For reliable plumbing services, including A/C and heating solutions, your expert in hydronics plumbing and pro hydronics systems for all your Telluride and Crested Butte plumbing needs. 9707284801 Hello Welcome to Controlled Hydronics Plumbing Services At Controlled Hydronics, we are your trusted plumbing experts with over 30 years of experience in hydronics plumbing. Our services include emergency repairs, installations, and maintenance for both residential and commercial properties, ensuring you receive the best. Contact us today for fast and reliable Telluride and Crested Butte plumbing service! Find out more About Controlled Hydronics Expert Plumbing/Hvac Solutions At Controlled Hydronics, we specialize in both residential and commercial plumbing services, including expert hydronics plumbing. Our team, featuring experienced plumbers and HVAC techs, is committed to delivering reliable and efficient solutions for all your plumbing needs, from Don Jones plumbing to Pro Hydronics and beyond. For those in the area, our Telluride plumbing services ensure that we can meet your specific requirements. COMPANY HISTORY Don Jones CEO At Controlled Hydronics, we specialize in both residential and commercial plumbing services, including expert hydronics plumbing. Our team, featuring experienced plumbers and HVAC techs, is committed to delivering reliable and efficient solutions for all your plumbing needs, from Don Jones plumbing to Pro Hydronics and beyond. For those in the area, our Telluride plumbing services ensure that we can meet your specific requirements. Testimonials Mark Shambaugh , PE, CEM,DBIA Werner Catsman President-Finbro Construction Werner Catsman President-Finbro Construction After being a mechanical/service contractor for 40 years, I know what great service looks like. Don Jones Plumbing and his team are technically strong in hydronics plumbing but also take a personal interest in each client, proactively communicating the status of every project. That is the hallmark of great service, especially when it comes to Pro Hydronics and Telluride plumbing! Werner Catsman President-Finbro Construction Werner Catsman President-Finbro Construction Werner Catsman President-Finbro Construction Over the past decade, we have collaborated with Don Jones Plumbing and the team at Controlled Hydronics on a variety of projects, ranging from large multi-unit condominiums and commercial ventures like the Hotel Madeline Sky Terrace to new custom homes, smaller remodels, and various service calls. Their diverse expertise in hydronics plumbing, attention to detail, and extensive knowledge make them an ideal choice for any plumbing, heating, or mechanical needs. With their professional approach, they provide a flawless installation package that is maintenance-free, clean, effective, and efficient. We wholeheartedly recommend Controlled Hydronics for any project, big or small, regardless of complexity, especially for those seeking pro hydronics solutions in Telluride plumbing. Bob and Jane Trenary Bob and Jane Trenary Bob and Jane Trenary In the 22 years Jane and I have lived in Telluride, Don Jones Plumbing and his team at Controlled Hydronics have completed two major projects and many service calls during this time. Their pricing, quality, and service in hydronics plumbing have been exceptional. I would not hesitate to recommend Pro Hydronics to any of our friends looking for reliable Telluride ", "service_type": "both", "ai_reasoning": "The website explicitly states they provide services for 'both residential and commercial properties' and mentions projects ranging from 'large multi-unit condominiums and commercial ventures like the Hotel Madeline Sky Terrace to new custom homes, smaller remodels, and various service calls.' Testimonials reference both commercial projects and residential clients.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.866850", "last_updated_at": "2026-04-05T04:04:19.866850"}, {"id": 2, "zoominfo_id": "409881019", "name": "Delta Temp Services", "domain": "deltatempservices.com", "city": "Harlingen", "state": "Texas", "phone": "(956) 440-8277", "revenue": 5000000.0, "employees": 21, "google_review_count": 8, "google_rating": 4.9, "detected_platforms": "", "website_text": "Delta Temp Services LLC Contact us for a quote! About Us Reliable HVAC Professionals Whether you need a maintenance check or an emergency repair on a heating or cooling unit, we are available to handle all of your all of your heating, cooling, and ventilation needs. We strive to exceed your expectations by ensuring that each of our customers receives individualized service. Individualized HVAC Options We will work with you to find HVAC solutions that fit your heating and cooling needs. We will provide you with a full consultation to explain all of your available options so that you can choose the system that\u2019s right for your home or business. Customer Satisfaction Guaranteed We serve both residential and commercial clients and offer a variety of money-saving solutions. Established in 2011, we combine our use of the highest quality parts, equipment, knowledge, and our dedication to delivering exceptional service to provide you with top quality service. Warranty included with all services. Reviews Copyright \u00a9 2022 Delta Temp Services LLC - All Rights Reserved. Powered by GoDaddy This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept Delta Temp Services LLC Contact us for a quote! Now Servicing the RGV, Corpus, San Antonio, & Austin Installation/Replacement Repair/Preventative Maintenance Repair/Preventative Maintenance We will provide a thorough exam before deciding to replace your unit. If needed, our skilled technicians have been trained to install the highest rated appliances. Repair/Preventative Maintenance Repair/Preventative Maintenance Repair/Preventative Maintenance Not only will we keep everything running at full capacity but we will offer insight on what you can do to keep your unit maintained between visits. Air Quality Other Services Other Services Avoid common household allergens with a scheduled duct cleaning, damper adjustments and filter replacements. We offer same day in house filter fabrication for custom Merv 8 & Merv 13 filters; 1, 2 & 4 inch and installation. Other Services Other Services Other Services DDC Controls Plan & Specs Spot Cooler Rentals Sheet Metal Photo Gallery Frequently Asked Questions Please contact us if you cannot find an answer to your question. What is included in my free estimate? You will receive a written scope of your project, including what permits will be required, a basic timeline, and whatever open questions remain for you to decide on before we can begin. How often should my systems be serviced? You should have your systems serviced every 3 to 6 months to maintain maximum efficiency. Copyright \u00a9 2022 Delta Temp Services LLC - All Rights Reserved. Powered by GoDaddy This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data. Accept", "service_type": "both", "ai_reasoning": "The website explicitly states 'We serve both residential and commercial clients' and mentions serving 'your home or business.' Services are described for both residential and commercial applications, including residential HVAC systems and commercial options like DDC Controls and spot cooler rentals.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.851618", "last_updated_at": "2026-04-05T04:04:19.851618"}, {"id": 5, "zoominfo_id": "354932664", "name": "Spring Plumbing", "domain": "springplumbing.net", "city": "Rockford", "state": "Minnesota", "phone": "(763) 614-7963", "revenue": 3100000.0, "employees": 9, "google_review_count": 7, "google_rating": 4.3, "detected_platforms": "", "website_text": "Spring Plumbing | Plumbing Contractors | Blaine, MN Welcome Welcome to Spring Plumbing and thank you for stopping by. Whether you found us by choice or by chance, we invite you to look at our site. We could be that plumbing contractor you have wished for since you were a kid. You know the one, ultra reliable, exceptionally resourceful, remarkably responsive\u2026 able to leap over tall buildings in a single bound. Spring Plumbing is a small but accomplished team with a track record of big results. We focus on the unique needs of homebuilders and remodelers, and have the experience and expertise to get things done on time and on budget. Our builders take comfort in knowing their projects are being handled by some of the best in the business. In addition to our award-winning installations we provide prompt and person service to impress your homeowners\u2026 which is a nice reflection on you. Our reliability lets you do \u201cwhat you do best.\u201d If you need a partner who knows how to get things done with the same passion for excellence that you have, call Spring Plumbing today! Spring Plumbing provides innovative plumbing systems for the Twin Cities finest home builders who define us as: RELIABLE Trustworthy, honest, \u201cwe do what we say we\u2019ll do\u201d RESOURCEFUL Clever, ingenious, \u201cskilled in improvising\u201d RESPONSIVE Able, ready, inclined to \u201ccall back fast\u201d \u201cThe society which scorns \u2018 excellence in plumbin g \u2018 as a humble activity and tolerates shoddiness in philosphy, because it is an exalted activity, will have neither good plumbing nor good philosophy\u2026 neither it\u2019s pipes nor it\u2019s theories will hold water.\u201d John William Gardner 1912-2002 For over 30 years, Lecy Bros. Homes & Remodeling has used Randy Hallstrom as our plumbing sales representative and now as the owner of Spring Plumbing. As Randy\u2019s career progressed and he moved to new plumbing contractors, we moved our business along with him. Why, he gives us competitive pricing, he does what he says and if there is a problem he goes out his way to keep our customers satisfied. No finger pointing, he just gets the job done, which is not always an easy task. We always use Spring Plumbing as our plumbing contractor. It is very rare to get competitive pricing, great work completed on schedule and someone who keeps our customers satisfied 100% of the time. Randy has helped us build over 700 custom upper-bracket homes. You can not select a better company. Roy Lecy Owner , Lecy Brothers We\u2019ve worked with Spring Plumbing for years and they consistently provide top quality, professional service to our projects and our clients. They have always responded in a timely manner, provided accurate budgeting and performed the work professionally. Their men in the field are professional and experts in their field. Our staff prefers to work with Spring over others because they assist in making our projects run smoothly, with few issues, and complete their work on time. I have no reservations about recommending Spring. J. Sven Gustafson President/CEO , Stonewood, LLC What If I Already Have A Plumber (I\u2019m Semi-Happy With)? Consider Spring Plumbing for overflow on those New Homes or Projects your plumbing contractor won\u2019t or can\u2019t handle. In this day and age, every job seems difficult, every customer seems challenging. We want to make your life easier, and make your plumbing one less thing to worry about. Call us \u201cfirst violin,\u201d \u201csecond fiddle,\u201d call us what you like\u2026 but definitely call us! Builders Club Spring Plumbing is excited and proud to be a sponsor in the Twin Cities Builder\u2019s Club. Get a great plumbing system at a great price and earn Builder\u2019s Club points! Call Spring Plumbing for details. Contact Us Today Call Spring Plumbing for details. Learn More Spring Plumbing | Experienced Plumbers | Blaine, MN About Us The People Spring Plumbing is known for the high quality of work we do, our creative problem-solving, and the innovative ways we get things done. Our goal is to earn our client\u2019s trust by repeatedly d", "service_type": "residential", "ai_reasoning": "The website explicitly states their focus is on 'the unique needs of homebuilders and remodelers' and serving 'home builders.' Multiple testimonials reference custom home construction projects. While they mention being a 'partner' to builders and remodelers, their target market is clearly residential new construction and renovation projects, not commercial/industrial applications.", "status": "QUALIFIED", "rejection_reason": null, "first_seen_run_id": 1, "last_updated_run_id": 1, "first_seen_at": "2026-04-05T04:04:19.858341", "last_updated_at": "2026-04-05T04:04:19.858341"}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('dashboard-data').textContent);
+const PAGE_SIZE = 25;
 
-    // --- Pipeline Over Time ---
-    (function() {
-        const runs = DATA.run_history || [];
-        if (runs.length === 0) return;
+// ── Helpers ──────────────────────────────────────────────────────────────────
 
-        const labels = runs.map(r => (r.started_at || '').substring(0, 10));
-        new Chart(document.getElementById('pipeline-chart'), {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    { label: 'Total Processed', data: runs.map(r => r.total_in_csv || 0), borderColor: '#4472C4', tension: 0.3, fill: false },
-                    { label: 'Qualified', data: runs.map(r => r.total_qualified || 0), borderColor: '#27ae60', tension: 0.3, fill: false },
-                    { label: 'Rejected', data: runs.map(r => r.total_rejected || 0), borderColor: '#e74c3c', tension: 0.3, fill: false },
-                    { label: 'Manual Review', data: runs.map(r => r.total_manual_review || 0), borderColor: '#f39c12', tension: 0.3, fill: false },
-                ],
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'bottom' } },
-                scales: { y: { beginAtZero: true } },
-            },
-        });
-    })();
+function fmtRevenue(v) {
+    if (!v) return '—';
+    if (v >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B';
+    if (v >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
+    if (v >= 1e3) return '$' + (v / 1e3).toFixed(0) + 'K';
+    return '$' + v;
+}
+function fmtNum(v) { return (v || 0).toLocaleString(); }
+function fmtDate(s) { return (s || '').substring(0, 19); }
 
-    // --- Platform Breakdown ---
-    (function() {
-        const platforms = DATA.platform_breakdown || {};
-        const labels = Object.keys(platforms);
-        const values = Object.values(platforms);
-        if (labels.length === 0) {
-            document.getElementById('platform-chart').parentElement.innerHTML +=
-                '<p class="empty-state">No platform data yet.</p>';
-            return;
-        }
+// ── Last Updated ──────────────────────────────────────────────────────────────
+(function() {
+    const run = DATA.latest_run;
+    const el = document.getElementById('last-updated');
+    if (run && run.completed_at) {
+        el.textContent = fmtDate(run.completed_at);
+    } else if (run && run.started_at) {
+        el.textContent = fmtDate(run.started_at);
+    }
+})();
 
-        const colors = [
-            '#4472C4','#ED7D31','#A5A5A5','#FFC000','#5B9BD5',
-            '#70AD47','#264478','#9B59B6','#1ABC9C','#E74C3C',
-            '#3498DB','#2ECC71','#F39C12','#8E44AD','#D35400',
-        ];
-        new Chart(document.getElementById('platform-chart'), {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length) }],
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'bottom' } },
-            },
-        });
-    })();
+// ── Cumulative Metric Cards ───────────────────────────────────────────────────
+(function() {
+    const s = DATA.cumulative_stats || {};
+    const qualified = s.total_qualified || 0;
+    const cost = s.total_cost || 0;
+    const costPerLead = qualified > 0 ? (cost / qualified).toFixed(3) : '—';
+    const grid = document.getElementById('metrics-grid');
+    const metrics = [
+        { value: fmtNum(s.total_companies), label: 'Total Companies', cls: 'blue' },
+        { value: fmtNum(s.total_qualified), label: 'Qualified Leads', cls: 'green' },
+        { value: s.total_runs || 0, label: 'Runs Completed', cls: 'sky' },
+        { value: (s.avg_qualification_rate || 0) + '%', label: 'Qualification Rate', cls: 'violet' },
+        { value: '$' + cost.toFixed(2), label: 'Total API Cost', cls: 'amber' },
+        { value: costPerLead === '—' ? '—' : '$' + costPerLead, label: 'Cost per Lead', cls: 'rose' },
+    ];
+    metrics.forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'metric-card ' + m.cls;
+        card.innerHTML = `<div class="value">${m.value}</div><div class="label">${m.label}</div>`;
+        grid.appendChild(card);
+    });
+})();
 
-    // --- Review Distribution ---
-    (function() {
-        const reviews = DATA.review_distribution || [];
-        if (reviews.length === 0) {
-            document.getElementById('review-chart').parentElement.innerHTML +=
-                '<p class="empty-state">No review data yet.</p>';
-            return;
-        }
+// ── Latest Run ────────────────────────────────────────────────────────────────
+(function() {
+    const run = DATA.latest_run;
+    const el = document.getElementById('latest-run-content');
+    if (!run) { el.innerHTML = '<p class="empty-state">No runs yet.</p>'; return; }
+    let settings = {};
+    try { settings = JSON.parse(run.settings_json || '{}'); } catch(e) {}
+    const rate = run.total_in_csv > 0 ? ((run.total_qualified / run.total_in_csv) * 100).toFixed(1) : 0;
+    el.innerHTML = `
+        <div class="run-meta">
+            Run #${run.id} &mdash; ${fmtDate(run.started_at)} &mdash;
+            <strong>${run.status || 'unknown'}</strong>
+            &mdash; File: ${run.input_file || 'N/A'}
+            &mdash; Settings: rev&ge;$${((settings.min_revenue||0)/1e6).toFixed(1)}M,
+            emp&ge;${settings.min_employees||'?'},
+            reviews&ge;${settings.min_reviews||'?'},
+            type=${settings.service_type||'?'}
+        </div>
+        <div class="run-summary">
+            <div class="run-stat"><div class="num">${fmtNum(run.total_in_csv)}</div><div class="lbl">In CSV</div></div>
+            <div class="run-stat"><div class="num">${fmtNum(run.new_companies)}</div><div class="lbl">New</div></div>
+            <div class="run-stat"><div class="num">${fmtNum(run.skipped_duplicates)}</div><div class="lbl">Skipped</div></div>
+            <div class="run-stat"><div class="num">${fmtNum(run.passed_gate1)}</div><div class="lbl">Gate 1</div></div>
+            <div class="run-stat"><div class="num">${fmtNum(run.passed_gate2)}</div><div class="lbl">Gate 2</div></div>
+            <div class="run-stat"><div class="num">${fmtNum(run.passed_gate3)}</div><div class="lbl">Gate 3</div></div>
+            <div class="run-stat"><div class="num qualified">${fmtNum(run.total_qualified)}</div><div class="lbl">Qualified</div></div>
+            <div class="run-stat"><div class="num">${rate}%</div><div class="lbl">Rate</div></div>
+            <div class="run-stat"><div class="num">$${(run.estimated_cost||0).toFixed(3)}</div><div class="lbl">Cost</div></div>
+        </div>
+    `;
+})();
 
-        // Build histogram buckets
-        const buckets = [0, 50, 100, 150, 200, 300, 500, 1000, 2000, 5000];
-        const counts = new Array(buckets.length).fill(0);
-        reviews.forEach(r => {
-            for (let i = buckets.length - 1; i >= 0; i--) {
-                if (r >= buckets[i]) { counts[i]++; break; }
+// ── SVG Funnel ────────────────────────────────────────────────────────────────
+(function() {
+    const f = DATA.funnel_data || {};
+    const steps = [
+        { label: 'CSV Input', value: f.total_input  || 0, color: '#6366f1' },
+        { label: 'Gate 1',    value: f.passed_gate1 || 0, color: '#0ea5e9' },
+        { label: 'Gate 2',    value: f.passed_gate2 || 0, color: '#14b8a6' },
+        { label: 'Gate 3',    value: f.passed_gate3 || 0, color: '#22c55e' },
+        { label: 'Qualified', value: f.total_qualified || 0, color: '#10b981' },
+    ];
+    const maxVal = Math.max(...steps.map(s => s.value), 1);
+    const container = document.getElementById('funnel-chart');
+    const SVG_W = 400, STEP_H = 44, GAP = 4;
+
+    steps.forEach((step, i) => {
+        const pct = step.value / maxVal;
+        const barW = Math.max(pct * SVG_W, 30);
+        const xOff = (SVG_W - barW) / 2;
+        const inputPct = steps[0].value > 0 ? (step.value / steps[0].value * 100).toFixed(0) : 0;
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', `0 0 ${SVG_W} ${STEP_H}`);
+        svg.setAttribute('width', '100%');
+        svg.style.display = 'block';
+
+        // Next step width for trapezoid bottom
+        const nextPct = i < steps.length - 1 ? steps[i+1].value / maxVal : pct;
+        const nextW = Math.max(nextPct * SVG_W, 30);
+        const nextXOff = (SVG_W - nextW) / 2;
+
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        rect.setAttribute('points', `${xOff},0 ${xOff+barW},0 ${nextXOff+nextW},${STEP_H} ${nextXOff},${STEP_H}`);
+        rect.setAttribute('fill', step.color);
+        rect.setAttribute('rx', '4');
+        svg.appendChild(rect);
+
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', SVG_W / 2);
+        text.setAttribute('y', STEP_H / 2 + 5);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('fill', 'white');
+        text.setAttribute('font-size', '12');
+        text.setAttribute('font-weight', '700');
+        text.setAttribute('font-family', 'system-ui, sans-serif');
+        text.textContent = `${step.label}: ${step.value.toLocaleString()} (${inputPct}%)`;
+        svg.appendChild(text);
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'funnel-step';
+        wrapper.appendChild(svg);
+        container.appendChild(wrapper);
+
+        // Drop-off label between steps
+        if (i < steps.length - 1) {
+            const dropped = step.value - steps[i+1].value;
+            if (dropped > 0) {
+                const drop = document.createElement('div');
+                drop.className = 'funnel-drop';
+                drop.textContent = `▼ ${dropped.toLocaleString()} dropped`;
+                container.appendChild(drop);
             }
-        });
-        const labels = buckets.map((b, i) =>
-            i < buckets.length - 1 ? `${b}-${buckets[i+1]-1}` : `${b}+`
-        );
-        new Chart(document.getElementById('review-chart'), {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{ label: 'Companies', data: counts, backgroundColor: '#5B9BD5' }],
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, title: { display: true, text: 'Companies' } },
-                    x: { title: { display: true, text: 'Google Reviews' } },
-                },
-            },
-        });
-    })();
-
-    // --- Runs Table ---
-    (function() {
-        const runs = (DATA.run_history || []).slice(-20).reverse();
-        const tbody = document.getElementById('runs-tbody');
-        if (runs.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No runs yet.</td></tr>';
-            return;
         }
-        runs.forEach(r => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${r.id}</td>
-                <td>${(r.started_at||'').substring(0,19)}</td>
-                <td>${r.input_file || 'N/A'}</td>
-                <td>${(r.new_companies||0).toLocaleString()}</td>
-                <td>${(r.total_qualified||0).toLocaleString()}</td>
-                <td>$${(r.estimated_cost||0).toFixed(2)}</td>
-            `;
-            tbody.appendChild(tr);
-        });
-    })();
+    });
+})();
 
-    // --- Status Changes ---
-    (function() {
-        const changes = DATA.status_changes || [];
-        const container = document.getElementById('status-changes-content');
-        if (changes.length === 0) {
-            container.innerHTML = '<p class="empty-state">No status changes between runs yet.</p>';
-            return;
+// ── Pipeline Over Time (with conversion rate) ─────────────────────────────────
+(function() {
+    const runs = DATA.run_history || [];
+    if (runs.length === 0) return;
+    const labels = runs.map(r => (r.started_at || '').substring(0, 10));
+    const rates = runs.map(r => {
+        const total = r.total_in_csv || 0;
+        return total > 0 ? +((r.total_qualified / total) * 100).toFixed(1) : 0;
+    });
+    new Chart(document.getElementById('pipeline-chart'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                { label: 'Total Processed', data: runs.map(r => r.total_in_csv || 0), backgroundColor: 'rgba(99,102,241,0.25)', borderColor: '#6366f1', borderWidth: 2, borderRadius: 4, yAxisID: 'y' },
+                { label: 'Qualified', data: runs.map(r => r.total_qualified || 0), backgroundColor: 'rgba(16,185,129,0.7)', borderColor: '#10b981', borderWidth: 2, borderRadius: 4, yAxisID: 'y' },
+                { label: 'Qual. Rate %', data: rates, type: 'line', borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', tension: 0.4, fill: false, pointRadius: 5, yAxisID: 'y2' },
+            ],
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+            scales: {
+                y:  { beginAtZero: true, title: { display: true, text: 'Companies', font: { size: 10 } }, ticks: { font: { size: 10 } } },
+                y2: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Rate (%)', font: { size: 10 } }, ticks: { font: { size: 10 } } },
+            },
+        },
+    });
+})();
+
+// ── Platform Breakdown ─────────────────────────────────────────────────────────
+(function() {
+    const platforms = DATA.platform_breakdown || {};
+    const labels = Object.keys(platforms);
+    const values = Object.values(platforms);
+    if (labels.length === 0) {
+        document.getElementById('platform-chart').parentElement.innerHTML += '<p class="empty-state">No platform data yet.</p>';
+        return;
+    }
+    const colors = ['#6366f1','#0ea5e9','#10b981','#f59e0b','#f43f5e','#8b5cf6','#14b8a6','#22c55e','#e879f9','#fb923c'];
+    new Chart(document.getElementById('platform-chart'), {
+        type: 'doughnut',
+        data: { labels, datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length), borderWidth: 2, borderColor: '#fff' }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } }, cutout: '55%' },
+    });
+})();
+
+// ── Review Distribution ────────────────────────────────────────────────────────
+(function() {
+    const reviews = DATA.review_distribution || [];
+    if (reviews.length === 0) {
+        document.getElementById('review-chart').parentElement.innerHTML += '<p class="empty-state">No review data yet.</p>';
+        return;
+    }
+    const buckets = [0, 25, 50, 100, 150, 200, 300, 500, 1000, 2000, 5000];
+    const counts = new Array(buckets.length).fill(0);
+    reviews.forEach(r => {
+        for (let i = buckets.length - 1; i >= 0; i--) {
+            if (r >= buckets[i]) { counts[i]++; break; }
         }
-        let html = '<table><thead><tr><th>Company</th><th>Domain</th><th>Old Status</th><th>New Status</th><th>Gate</th><th>Details</th><th>Date</th></tr></thead><tbody>';
-        changes.forEach(c => {
-            const oldClass = c.old_status === 'QUALIFIED' ? 'status-qualified' : c.old_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
-            const newClass = c.new_status === 'QUALIFIED' ? 'status-qualified' : c.new_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
-            html += `<tr>
-                <td>${c.company_name || ''}</td>
-                <td>${c.domain || ''}</td>
-                <td class="${oldClass}">${c.old_status || ''}</td>
-                <td class="${newClass}">${c.new_status || ''}</td>
-                <td>${c.gate_reached || ''}</td>
-                <td>${c.details || ''}</td>
-                <td>${(c.created_at||'').substring(0,19)}</td>
-            </tr>`;
+    });
+    const labels = buckets.map((b, i) => i < buckets.length - 1 ? `${b}-${buckets[i+1]-1}` : `${b}+`);
+    new Chart(document.getElementById('review-chart'), {
+        type: 'bar',
+        data: { labels, datasets: [{ label: 'Companies', data: counts, backgroundColor: 'rgba(14,165,233,0.7)', borderColor: '#0ea5e9', borderWidth: 1, borderRadius: 4 }] },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, title: { display: true, text: 'Companies', font: { size: 10 } }, ticks: { font: { size: 10 } } },
+                x: { title: { display: true, text: 'Google Reviews', font: { size: 10 } }, ticks: { font: { size: 10 } } },
+            },
+        },
+    });
+})();
+
+// ── Recent Runs Table ──────────────────────────────────────────────────────────
+(function() {
+    const runs = (DATA.run_history || []).slice(-20).reverse();
+    const tbody = document.getElementById('runs-tbody');
+    if (runs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" class="empty-state">No runs yet.</td></tr>';
+        return;
+    }
+    runs.forEach(r => {
+        const total = r.total_in_csv || 0;
+        const rate = total > 0 ? ((r.total_qualified / total) * 100).toFixed(1) + '%' : '—';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${r.id}</td>
+            <td>${fmtDate(r.started_at)}</td>
+            <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.input_file||''}">${r.input_file||'N/A'}</td>
+            <td>${fmtNum(r.new_companies)}</td>
+            <td>${fmtNum(r.passed_gate1)}</td>
+            <td>${fmtNum(r.passed_gate2)}</td>
+            <td>${fmtNum(r.passed_gate3)}</td>
+            <td><strong style="color:#10b981">${fmtNum(r.total_qualified)}</strong></td>
+            <td>${rate}</td>
+            <td>$${(r.estimated_cost||0).toFixed(3)}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+})();
+
+// ── Qualified Leads Table (sortable, paginated) ────────────────────────────────
+(function() {
+    let leads = (DATA.qualified_leads || []).slice(0, 500); // cap at 500
+    let sortCol = 'google_review_count';
+    let sortAsc = false;
+    let page = 0;
+
+    function platformBadge(p) {
+        if (!p) return '<span class="badge badge-gray">None</span>';
+        return p.split(',').map(x => x.trim()).filter(Boolean).map(x => {
+            const cls = x.toLowerCase().includes('servicetitan') ? 'badge-indigo'
+                      : x.toLowerCase().includes('housecall') ? 'badge-sky'
+                      : x.toLowerCase().includes('jobber') ? 'badge-amber'
+                      : 'badge-green';
+            return `<span class="badge ${cls}">${x}</span>`;
+        }).join(' ');
+    }
+
+    function serviceBadge(s) {
+        if (!s) return '<span class="badge badge-gray">Unknown</span>';
+        const cls = s.toLowerCase() === 'residential' ? 'badge-green' : s.toLowerCase() === 'commercial' ? 'badge-indigo' : 'badge-amber';
+        return `<span class="badge ${cls}">${s}</span>`;
+    }
+
+    function sortLeads() {
+        leads.sort((a, b) => {
+            let av = a[sortCol], bv = b[sortCol];
+            if (av == null) av = sortAsc ? Infinity : -Infinity;
+            if (bv == null) bv = sortAsc ? Infinity : -Infinity;
+            if (typeof av === 'string') av = av.toLowerCase();
+            if (typeof bv === 'string') bv = bv.toLowerCase();
+            if (av < bv) return sortAsc ? -1 : 1;
+            if (av > bv) return sortAsc ? 1 : -1;
+            return 0;
         });
-        html += '</tbody></table>';
-        container.innerHTML = html;
-    })();
-    </script>
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById('leads-tbody');
+        tbody.innerHTML = '';
+        const slice = leads.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+        if (leads.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No qualified leads yet.</td></tr>';
+        } else {
+            slice.forEach(c => {
+                const loc = [c.city, c.state].filter(Boolean).join(', ') || '—';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${c.name||'—'}</strong></td>
+                    <td><a href="https://${c.domain||''}" target="_blank" style="color:#6366f1;text-decoration:none">${c.domain||'—'}</a></td>
+                    <td>${loc}</td>
+                    <td>${fmtRevenue(c.revenue)}</td>
+                    <td>${fmtNum(c.employees)}</td>
+                    <td>${fmtNum(c.google_review_count)}</td>
+                    <td>${platformBadge(c.detected_platforms)}</td>
+                    <td>${serviceBadge(c.service_type)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        renderPagination();
+    }
+
+    function renderPagination() {
+        const totalPages = Math.ceil(leads.length / PAGE_SIZE);
+        const el = document.getElementById('leads-pagination');
+        el.innerHTML = '';
+        if (totalPages <= 1) return;
+        const info = document.createElement('span');
+        info.textContent = `Showing ${page * PAGE_SIZE + 1}–${Math.min((page+1) * PAGE_SIZE, leads.length)} of ${leads.length} qualified leads`;
+        el.appendChild(info);
+        const prev = document.createElement('button');
+        prev.textContent = '← Prev';
+        prev.disabled = page === 0;
+        prev.onclick = () => { page--; renderTable(); };
+        el.appendChild(prev);
+        const next = document.createElement('button');
+        next.textContent = 'Next →';
+        next.disabled = page >= totalPages - 1;
+        next.onclick = () => { page++; renderTable(); };
+        el.appendChild(next);
+    }
+
+    // Sort header clicks
+    document.querySelectorAll('#leads-table th.sortable').forEach(th => {
+        th.addEventListener('click', () => {
+            const col = th.dataset.col;
+            if (sortCol === col) { sortAsc = !sortAsc; }
+            else { sortCol = col; sortAsc = col === 'name' || col === 'domain' || col === 'state'; }
+            document.querySelectorAll('#leads-table th').forEach(h => h.classList.remove('sort-asc','sort-desc'));
+            th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
+            sortLeads();
+            page = 0;
+            renderTable();
+        });
+    });
+
+    // Initial render
+    sortLeads();
+    // Mark default sort header
+    document.querySelectorAll('#leads-table th.sortable').forEach(th => {
+        if (th.dataset.col === sortCol) th.classList.add('sort-desc');
+    });
+    renderTable();
+})();
+
+// ── Status Changes ─────────────────────────────────────────────────────────────
+(function() {
+    const changes = DATA.status_changes || [];
+    const container = document.getElementById('status-changes-content');
+    if (changes.length === 0) {
+        container.innerHTML = '<p class="empty-state">No status changes between runs yet.</p>';
+        return;
+    }
+    let html = '<div class="table-wrap"><table><thead><tr><th>Company</th><th>Domain</th><th>Old Status</th><th>New Status</th><th>Gate</th><th>Details</th><th>Date</th></tr></thead><tbody>';
+    changes.forEach(c => {
+        const oldCls = c.old_status === 'QUALIFIED' ? 'status-qualified' : c.old_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
+        const newCls = c.new_status === 'QUALIFIED' ? 'status-qualified' : c.new_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
+        html += `<tr>
+            <td>${c.company_name||''}</td>
+            <td>${c.domain||''}</td>
+            <td class="${oldCls}">${c.old_status||''}</td>
+            <td class="${newCls}">${c.new_status||''}</td>
+            <td>${c.gate_reached||''}</td>
+            <td>${c.details||''}</td>
+            <td>${fmtDate(c.created_at)}</td>
+        </tr>`;
+    });
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+})();
+</script>
 </body>
 </html>

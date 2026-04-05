@@ -9,446 +9,741 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f0f2f5;
-            color: #1a1a2e;
+            background: #f1f5f9;
+            color: #1e293b;
             line-height: 1.6;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1 {
-            text-align: center;
-            padding: 30px 0 10px;
-            color: #1a1a2e;
-            font-size: 2em;
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #164e63 100%);
+            color: white;
+            padding: 32px 0 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
         }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 0.95em;
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header-left h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #fff;
+        }
+        .header-left .subtitle {
+            color: #94a3b8;
+            font-size: 0.9em;
+            margin-top: 2px;
+        }
+        .header-right {
+            text-align: right;
+            font-size: 0.8em;
+            color: #64748b;
+        }
+        .header-right strong { color: #94a3b8; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+        /* Section */
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+        }
+        .section h2 {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
         }
 
         /* Metric cards */
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
             gap: 16px;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
         .metric-card {
             background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            text-align: center;
+            border-radius: 16px;
+            padding: 22px 20px 18px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+            border-left: 4px solid #e2e8f0;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .metric-card.blue  { border-left-color: #6366f1; }
+        .metric-card.green { border-left-color: #10b981; }
+        .metric-card.sky   { border-left-color: #0ea5e9; }
+        .metric-card.amber { border-left-color: #f59e0b; }
+        .metric-card.violet{ border-left-color: #8b5cf6; }
+        .metric-card.rose  { border-left-color: #f43f5e; }
         .metric-card .value {
             font-size: 2em;
-            font-weight: 700;
-            color: #4472C4;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.1;
         }
         .metric-card .label {
-            color: #666;
-            font-size: 0.9em;
-            margin-top: 4px;
+            color: #64748b;
+            font-size: 0.82em;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
         }
 
-        /* Section */
-        .section {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .section h2 {
+        /* Run summary */
+        .run-meta {
+            font-size: 0.88em;
+            color: #64748b;
             margin-bottom: 16px;
-            color: #1a1a2e;
-            font-size: 1.3em;
-            border-bottom: 2px solid #4472C4;
-            padding-bottom: 8px;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
         }
+        .run-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+        .run-stat {
+            padding: 14px 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .run-stat .num { font-size: 1.6em; font-weight: 800; color: #0f172a; }
+        .run-stat .num.qualified { color: #10b981; }
+        .run-stat .lbl { font-size: 0.78em; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
 
-        /* Chart containers */
+        /* Charts row */
         .chart-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 24px;
+            gap: 20px;
             margin-bottom: 24px;
         }
-        @media (max-width: 768px) {
-            .chart-row { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 800px) { .chart-row { grid-template-columns: 1fr; } }
         .chart-container {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
         }
         .chart-container h2 {
-            margin-bottom: 16px;
-            color: #1a1a2e;
-            font-size: 1.2em;
+            font-size: 1.05em;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 18px;
         }
 
-        /* Latest run summary */
-        .run-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-            margin-top: 12px;
+        /* SVG Funnel */
+        .funnel-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            padding: 8px 0;
         }
-        .run-stat {
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
+        .funnel-step { width: 100%; max-width: 640px; }
+        .funnel-drop {
             text-align: center;
+            font-size: 0.78em;
+            color: #94a3b8;
+            padding: 3px 0;
+            letter-spacing: 0.02em;
         }
-        .run-stat .num { font-size: 1.5em; font-weight: 700; color: #333; }
-        .run-stat .lbl { font-size: 0.85em; color: #666; }
 
         /* Tables */
+        .table-wrap { overflow-x: auto; }
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9em;
-        }
-        th, td {
-            padding: 10px 12px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
+            font-size: 0.88em;
         }
         th {
-            background: #f8f9fa;
+            padding: 10px 14px;
+            background: #f8fafc;
             font-weight: 600;
-            color: #555;
+            color: #475569;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
         }
-        tr:hover { background: #f8f9fa; }
+        th.sortable { cursor: pointer; user-select: none; }
+        th.sortable:hover { background: #f1f5f9; color: #0f172a; }
+        th.sort-asc::after  { content: ' ▲'; font-size: 0.8em; color: #6366f1; }
+        th.sort-desc::after { content: ' ▼'; font-size: 0.8em; color: #6366f1; }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f8fafc; }
 
-        .status-qualified { color: #27ae60; font-weight: 600; }
-        .status-rejected { color: #e74c3c; font-weight: 600; }
-        .status-manual { color: #f39c12; font-weight: 600; }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-size: 0.78em;
+            font-weight: 600;
+        }
+        .badge-green  { background: #d1fae5; color: #065f46; }
+        .badge-gray   { background: #f1f5f9; color: #64748b; }
+        .badge-amber  { background: #fef3c7; color: #92400e; }
+        .badge-indigo { background: #e0e7ff; color: #3730a3; }
+        .badge-sky    { background: #e0f2fe; color: #075985; }
 
-        .funnel-bar {
-            display: flex;
-            align-items: center;
-            margin: 8px 0;
-        }
-        .funnel-label {
-            width: 120px;
-            font-weight: 600;
-            font-size: 0.9em;
-        }
-        .funnel-track {
-            flex: 1;
-            height: 28px;
-            background: #f0f2f5;
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-        .funnel-fill {
-            height: 100%;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            padding-left: 8px;
-            color: white;
-            font-size: 0.85em;
-            font-weight: 600;
-            min-width: 40px;
-        }
+        .status-qualified { color: #10b981; font-weight: 700; }
+        .status-rejected  { color: #ef4444; font-weight: 700; }
+        .status-manual    { color: #f59e0b; font-weight: 700; }
+
         .empty-state {
             text-align: center;
-            padding: 40px;
-            color: #999;
+            padding: 48px;
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+
+        /* Leads table pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 0 4px;
+            font-size: 0.88em;
+            color: #64748b;
+        }
+        .pagination button {
+            padding: 6px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #334155;
+            transition: background 0.1s;
+        }
+        .pagination button:hover:not(:disabled) { background: #f8fafc; border-color: #6366f1; color: #6366f1; }
+        .pagination button:disabled { opacity: 0.4; cursor: default; }
+
+        @media (max-width: 600px) {
+            .metrics-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
+
+<div class="header">
     <div class="container">
-        <h1>Lead Qualifier Dashboard</h1>
-        <p class="subtitle">Nuve HVAC/Plumbing Lead Qualification Pipeline</p>
-
-        <!-- Cumulative Stats -->
-        <div class="metrics-grid" id="metrics-grid"></div>
-
-        <!-- Latest Run Summary -->
-        <div class="section" id="latest-run-section">
-            <h2>Latest Run Summary</h2>
-            <div id="latest-run-content"></div>
+        <div class="header-left">
+            <h1>Lead Qualifier Dashboard</h1>
+            <div class="subtitle">Nuve HVAC / Plumbing Lead Qualification Pipeline</div>
         </div>
-
-        <!-- Funnel -->
-        <div class="section">
-            <h2>Qualification Funnel (All Time)</h2>
-            <div id="funnel-chart"></div>
+        <div class="header-right">
+            <strong>Last updated</strong><br>
+            <span id="last-updated">—</span>
         </div>
+    </div>
+</div>
 
-        <!-- Charts Row -->
-        <div class="chart-row">
-            <div class="chart-container">
-                <h2>Pipeline Over Time</h2>
-                <canvas id="pipeline-chart"></canvas>
-            </div>
-            <div class="chart-container">
-                <h2>Platform Breakdown</h2>
-                <canvas id="platform-chart"></canvas>
-            </div>
+<div class="container">
+
+    <!-- Cumulative metric cards -->
+    <div class="metrics-grid" id="metrics-grid"></div>
+
+    <!-- Latest Run Summary -->
+    <div class="section" id="latest-run-section">
+        <h2>Latest Run Summary</h2>
+        <div id="latest-run-content"></div>
+    </div>
+
+    <!-- Funnel + Platform side by side -->
+    <div class="chart-row">
+        <div class="chart-container">
+            <h2>Qualification Funnel</h2>
+            <div class="funnel-wrap" id="funnel-chart"></div>
         </div>
-
-        <div class="chart-row">
-            <div class="chart-container">
-                <h2>Review Distribution</h2>
-                <canvas id="review-chart"></canvas>
-            </div>
-            <div class="chart-container" style="overflow-x: auto;">
-                <h2>Recent Runs</h2>
-                <table id="runs-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Date</th>
-                            <th>File</th>
-                            <th>New</th>
-                            <th>Qualified</th>
-                            <th>Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody id="runs-tbody"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Status Changes -->
-        <div class="section">
-            <h2>Status Changes Between Runs</h2>
-            <div id="status-changes-content"></div>
+        <div class="chart-container">
+            <h2>Platform Breakdown</h2>
+            <canvas id="platform-chart"></canvas>
         </div>
     </div>
 
-    <script>
-    const DATA = {{DATA}};
+    <!-- Pipeline over time + Review distribution -->
+    <div class="chart-row">
+        <div class="chart-container">
+            <h2>Pipeline Over Time</h2>
+            <canvas id="pipeline-chart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h2>Review Distribution</h2>
+            <canvas id="review-chart"></canvas>
+        </div>
+    </div>
 
-    // --- Cumulative Stats ---
-    (function() {
-        const stats = DATA.cumulative_stats || {};
-        const grid = document.getElementById('metrics-grid');
-        const metrics = [
-            { value: (stats.total_companies || 0).toLocaleString(), label: 'Total Companies' },
-            { value: (stats.total_qualified || 0).toLocaleString(), label: 'Qualified Leads' },
-            { value: stats.total_runs || 0, label: 'Runs Completed' },
-            { value: (stats.avg_qualification_rate || 0) + '%', label: 'Qualification Rate' },
-            { value: '$' + (stats.total_cost || 0).toFixed(2), label: 'Total API Cost' },
-        ];
-        metrics.forEach(m => {
-            const card = document.createElement('div');
-            card.className = 'metric-card';
-            card.innerHTML = `<div class="value">${m.value}</div><div class="label">${m.label}</div>`;
-            grid.appendChild(card);
-        });
-    })();
+    <!-- Recent Runs table -->
+    <div class="section">
+        <h2>Recent Runs</h2>
+        <div class="table-wrap">
+            <table id="runs-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>File</th>
+                        <th>New</th>
+                        <th>Gate 1</th>
+                        <th>Gate 2</th>
+                        <th>Gate 3</th>
+                        <th>Qualified</th>
+                        <th>Rate</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody id="runs-tbody"></tbody>
+            </table>
+        </div>
+    </div>
 
-    // --- Latest Run ---
-    (function() {
-        const run = DATA.latest_run;
-        const content = document.getElementById('latest-run-content');
-        if (!run) {
-            content.innerHTML = '<p class="empty-state">No runs yet.</p>';
-            return;
-        }
-        let settings = {};
-        try { settings = JSON.parse(run.settings_json || '{}'); } catch(e) {}
+    <!-- Qualified Leads Table -->
+    <div class="section">
+        <h2>Qualified Leads</h2>
+        <div class="table-wrap">
+            <table id="leads-table">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-col="name">Company</th>
+                        <th class="sortable" data-col="domain">Domain</th>
+                        <th class="sortable" data-col="state">Location</th>
+                        <th class="sortable" data-col="revenue">Revenue</th>
+                        <th class="sortable" data-col="employees">Employees</th>
+                        <th class="sortable" data-col="google_review_count">Reviews</th>
+                        <th data-col="detected_platforms">Platform</th>
+                        <th class="sortable" data-col="service_type">Service Type</th>
+                    </tr>
+                </thead>
+                <tbody id="leads-tbody"></tbody>
+            </table>
+        </div>
+        <div class="pagination" id="leads-pagination"></div>
+    </div>
 
-        content.innerHTML = `
-            <p style="color:#666; margin-bottom:12px;">
-                Run #${run.id} &mdash; ${run.started_at || 'N/A'} &mdash;
-                <strong>${run.status || 'unknown'}</strong>
-                &mdash; File: ${run.input_file || 'N/A'}
-                &mdash; Settings: rev&ge;$${((settings.min_revenue||0)/1e6).toFixed(1)}M,
-                emp&ge;${settings.min_employees||'?'},
-                reviews&ge;${settings.min_reviews||'?'},
-                type=${settings.service_type||'?'}
-            </p>
-            <div class="run-summary">
-                <div class="run-stat"><div class="num">${(run.total_in_csv||0).toLocaleString()}</div><div class="lbl">In CSV</div></div>
-                <div class="run-stat"><div class="num">${(run.new_companies||0).toLocaleString()}</div><div class="lbl">New</div></div>
-                <div class="run-stat"><div class="num">${(run.skipped_duplicates||0).toLocaleString()}</div><div class="lbl">Skipped</div></div>
-                <div class="run-stat"><div class="num">${(run.passed_gate1||0).toLocaleString()}</div><div class="lbl">Gate 1</div></div>
-                <div class="run-stat"><div class="num">${(run.passed_gate2||0).toLocaleString()}</div><div class="lbl">Gate 2</div></div>
-                <div class="run-stat"><div class="num">${(run.passed_gate3||0).toLocaleString()}</div><div class="lbl">Gate 3</div></div>
-                <div class="run-stat"><div class="num" style="color:#27ae60">${(run.total_qualified||0).toLocaleString()}</div><div class="lbl">Qualified</div></div>
-                <div class="run-stat"><div class="num">$${(run.estimated_cost||0).toFixed(2)}</div><div class="lbl">Cost</div></div>
-            </div>
-        `;
-    })();
+    <!-- Status Changes -->
+    <div class="section">
+        <h2>Status Changes Between Runs</h2>
+        <div id="status-changes-content"></div>
+    </div>
 
-    // --- Funnel ---
-    (function() {
-        const f = DATA.funnel_data || {};
-        const container = document.getElementById('funnel-chart');
-        const steps = [
-            { label: 'CSV Input', value: f.total_input || 0, color: '#4472C4' },
-            { label: 'Gate 1', value: f.passed_gate1 || 0, color: '#5B9BD5' },
-            { label: 'Gate 2', value: f.passed_gate2 || 0, color: '#70AD47' },
-            { label: 'Gate 3', value: f.passed_gate3 || 0, color: '#FFC000' },
-            { label: 'Qualified', value: f.total_qualified || 0, color: '#27ae60' },
-        ];
-        const maxVal = Math.max(...steps.map(s => s.value), 1);
+</div>
 
-        steps.forEach(step => {
-            const pct = Math.max((step.value / maxVal) * 100, 5);
-            const bar = document.createElement('div');
-            bar.className = 'funnel-bar';
-            bar.innerHTML = `
-                <div class="funnel-label">${step.label}</div>
-                <div class="funnel-track">
-                    <div class="funnel-fill" style="width:${pct}%; background:${step.color}">
-                        ${step.value.toLocaleString()}
-                    </div>
-                </div>
-            `;
-            container.appendChild(bar);
-        });
-    })();
+<script type="application/json" id="dashboard-data">{{DATA}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('dashboard-data').textContent);
+const PAGE_SIZE = 25;
 
-    // --- Pipeline Over Time ---
-    (function() {
-        const runs = DATA.run_history || [];
-        if (runs.length === 0) return;
+// ── Helpers ──────────────────────────────────────────────────────────────────
 
-        const labels = runs.map(r => (r.started_at || '').substring(0, 10));
-        new Chart(document.getElementById('pipeline-chart'), {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    { label: 'Total Processed', data: runs.map(r => r.total_in_csv || 0), borderColor: '#4472C4', tension: 0.3, fill: false },
-                    { label: 'Qualified', data: runs.map(r => r.total_qualified || 0), borderColor: '#27ae60', tension: 0.3, fill: false },
-                    { label: 'Rejected', data: runs.map(r => r.total_rejected || 0), borderColor: '#e74c3c', tension: 0.3, fill: false },
-                    { label: 'Manual Review', data: runs.map(r => r.total_manual_review || 0), borderColor: '#f39c12', tension: 0.3, fill: false },
-                ],
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'bottom' } },
-                scales: { y: { beginAtZero: true } },
-            },
-        });
-    })();
+function fmtRevenue(v) {
+    if (!v) return '—';
+    if (v >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B';
+    if (v >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
+    if (v >= 1e3) return '$' + (v / 1e3).toFixed(0) + 'K';
+    return '$' + v;
+}
+function fmtNum(v) { return (v || 0).toLocaleString(); }
+function fmtDate(s) { return (s || '').substring(0, 19); }
 
-    // --- Platform Breakdown ---
-    (function() {
-        const platforms = DATA.platform_breakdown || {};
-        const labels = Object.keys(platforms);
-        const values = Object.values(platforms);
-        if (labels.length === 0) {
-            document.getElementById('platform-chart').parentElement.innerHTML +=
-                '<p class="empty-state">No platform data yet.</p>';
-            return;
-        }
+// ── Last Updated ──────────────────────────────────────────────────────────────
+(function() {
+    const run = DATA.latest_run;
+    const el = document.getElementById('last-updated');
+    if (run && run.completed_at) {
+        el.textContent = fmtDate(run.completed_at);
+    } else if (run && run.started_at) {
+        el.textContent = fmtDate(run.started_at);
+    }
+})();
 
-        const colors = [
-            '#4472C4','#ED7D31','#A5A5A5','#FFC000','#5B9BD5',
-            '#70AD47','#264478','#9B59B6','#1ABC9C','#E74C3C',
-            '#3498DB','#2ECC71','#F39C12','#8E44AD','#D35400',
-        ];
-        new Chart(document.getElementById('platform-chart'), {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length) }],
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'bottom' } },
-            },
-        });
-    })();
+// ── Cumulative Metric Cards ───────────────────────────────────────────────────
+(function() {
+    const s = DATA.cumulative_stats || {};
+    const qualified = s.total_qualified || 0;
+    const cost = s.total_cost || 0;
+    const costPerLead = qualified > 0 ? (cost / qualified).toFixed(3) : '—';
+    const grid = document.getElementById('metrics-grid');
+    const metrics = [
+        { value: fmtNum(s.total_companies), label: 'Total Companies', cls: 'blue' },
+        { value: fmtNum(s.total_qualified), label: 'Qualified Leads', cls: 'green' },
+        { value: s.total_runs || 0, label: 'Runs Completed', cls: 'sky' },
+        { value: (s.avg_qualification_rate || 0) + '%', label: 'Qualification Rate', cls: 'violet' },
+        { value: '$' + cost.toFixed(2), label: 'Total API Cost', cls: 'amber' },
+        { value: costPerLead === '—' ? '—' : '$' + costPerLead, label: 'Cost per Lead', cls: 'rose' },
+    ];
+    metrics.forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'metric-card ' + m.cls;
+        card.innerHTML = `<div class="value">${m.value}</div><div class="label">${m.label}</div>`;
+        grid.appendChild(card);
+    });
+})();
 
-    // --- Review Distribution ---
-    (function() {
-        const reviews = DATA.review_distribution || [];
-        if (reviews.length === 0) {
-            document.getElementById('review-chart').parentElement.innerHTML +=
-                '<p class="empty-state">No review data yet.</p>';
-            return;
-        }
+// ── Latest Run ────────────────────────────────────────────────────────────────
+(function() {
+    const run = DATA.latest_run;
+    const el = document.getElementById('latest-run-content');
+    if (!run) { el.innerHTML = '<p class="empty-state">No runs yet.</p>'; return; }
+    let settings = {};
+    try { settings = JSON.parse(run.settings_json || '{}'); } catch(e) {}
+    const rate = run.total_in_csv > 0 ? ((run.total_qualified / run.total_in_csv) * 100).toFixed(1) : 0;
+    el.innerHTML = `
+        <div class="run-meta">
+            Run #${run.id} &mdash; ${fmtDate(run.started_at)} &mdash;
+            <strong>${run.status || 'unknown'}</strong>
+            &mdash; File: ${run.input_file || 'N/A'}
+            &mdash; Settings: rev&ge;$${((settings.min_revenue||0)/1e6).toFixed(1)}M,
+            emp&ge;${settings.min_employees||'?'},
+            reviews&ge;${settings.min_reviews||'?'},
+            type=${settings.service_type||'?'}
+        </div>
+        <div class="run-summary">
+            <div class="run-stat"><div class="num">${fmtNum(run.total_in_csv)}</div><div class="lbl">In CSV</div></div>
+            <div class="run-stat"><div class="num">${fmtNum(run.new_companies)}</div><div class="lbl">New</div></div>
+            <div class="run-stat"><div class="num">${fmtNum(run.skipped_duplicates)}</div><div class="lbl">Skipped</div></div>
+            <div class="run-stat"><div class="num">${fmtNum(run.passed_gate1)}</div><div class="lbl">Gate 1</div></div>
+            <div class="run-stat"><div class="num">${fmtNum(run.passed_gate2)}</div><div class="lbl">Gate 2</div></div>
+            <div class="run-stat"><div class="num">${fmtNum(run.passed_gate3)}</div><div class="lbl">Gate 3</div></div>
+            <div class="run-stat"><div class="num qualified">${fmtNum(run.total_qualified)}</div><div class="lbl">Qualified</div></div>
+            <div class="run-stat"><div class="num">${rate}%</div><div class="lbl">Rate</div></div>
+            <div class="run-stat"><div class="num">$${(run.estimated_cost||0).toFixed(3)}</div><div class="lbl">Cost</div></div>
+        </div>
+    `;
+})();
 
-        // Build histogram buckets
-        const buckets = [0, 50, 100, 150, 200, 300, 500, 1000, 2000, 5000];
-        const counts = new Array(buckets.length).fill(0);
-        reviews.forEach(r => {
-            for (let i = buckets.length - 1; i >= 0; i--) {
-                if (r >= buckets[i]) { counts[i]++; break; }
+// ── SVG Funnel ────────────────────────────────────────────────────────────────
+(function() {
+    const f = DATA.funnel_data || {};
+    const steps = [
+        { label: 'CSV Input', value: f.total_input  || 0, color: '#6366f1' },
+        { label: 'Gate 1',    value: f.passed_gate1 || 0, color: '#0ea5e9' },
+        { label: 'Gate 2',    value: f.passed_gate2 || 0, color: '#14b8a6' },
+        { label: 'Gate 3',    value: f.passed_gate3 || 0, color: '#22c55e' },
+        { label: 'Qualified', value: f.total_qualified || 0, color: '#10b981' },
+    ];
+    const maxVal = Math.max(...steps.map(s => s.value), 1);
+    const container = document.getElementById('funnel-chart');
+    const SVG_W = 400, STEP_H = 44, GAP = 4;
+
+    steps.forEach((step, i) => {
+        const pct = step.value / maxVal;
+        const barW = Math.max(pct * SVG_W, 30);
+        const xOff = (SVG_W - barW) / 2;
+        const inputPct = steps[0].value > 0 ? (step.value / steps[0].value * 100).toFixed(0) : 0;
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', `0 0 ${SVG_W} ${STEP_H}`);
+        svg.setAttribute('width', '100%');
+        svg.style.display = 'block';
+
+        // Next step width for trapezoid bottom
+        const nextPct = i < steps.length - 1 ? steps[i+1].value / maxVal : pct;
+        const nextW = Math.max(nextPct * SVG_W, 30);
+        const nextXOff = (SVG_W - nextW) / 2;
+
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        rect.setAttribute('points', `${xOff},0 ${xOff+barW},0 ${nextXOff+nextW},${STEP_H} ${nextXOff},${STEP_H}`);
+        rect.setAttribute('fill', step.color);
+        rect.setAttribute('rx', '4');
+        svg.appendChild(rect);
+
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', SVG_W / 2);
+        text.setAttribute('y', STEP_H / 2 + 5);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('fill', 'white');
+        text.setAttribute('font-size', '12');
+        text.setAttribute('font-weight', '700');
+        text.setAttribute('font-family', 'system-ui, sans-serif');
+        text.textContent = `${step.label}: ${step.value.toLocaleString()} (${inputPct}%)`;
+        svg.appendChild(text);
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'funnel-step';
+        wrapper.appendChild(svg);
+        container.appendChild(wrapper);
+
+        // Drop-off label between steps
+        if (i < steps.length - 1) {
+            const dropped = step.value - steps[i+1].value;
+            if (dropped > 0) {
+                const drop = document.createElement('div');
+                drop.className = 'funnel-drop';
+                drop.textContent = `▼ ${dropped.toLocaleString()} dropped`;
+                container.appendChild(drop);
             }
-        });
-        const labels = buckets.map((b, i) =>
-            i < buckets.length - 1 ? `${b}-${buckets[i+1]-1}` : `${b}+`
-        );
-        new Chart(document.getElementById('review-chart'), {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{ label: 'Companies', data: counts, backgroundColor: '#5B9BD5' }],
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, title: { display: true, text: 'Companies' } },
-                    x: { title: { display: true, text: 'Google Reviews' } },
-                },
-            },
-        });
-    })();
-
-    // --- Runs Table ---
-    (function() {
-        const runs = (DATA.run_history || []).slice(-20).reverse();
-        const tbody = document.getElementById('runs-tbody');
-        if (runs.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No runs yet.</td></tr>';
-            return;
         }
-        runs.forEach(r => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${r.id}</td>
-                <td>${(r.started_at||'').substring(0,19)}</td>
-                <td>${r.input_file || 'N/A'}</td>
-                <td>${(r.new_companies||0).toLocaleString()}</td>
-                <td>${(r.total_qualified||0).toLocaleString()}</td>
-                <td>$${(r.estimated_cost||0).toFixed(2)}</td>
-            `;
-            tbody.appendChild(tr);
-        });
-    })();
+    });
+})();
 
-    // --- Status Changes ---
-    (function() {
-        const changes = DATA.status_changes || [];
-        const container = document.getElementById('status-changes-content');
-        if (changes.length === 0) {
-            container.innerHTML = '<p class="empty-state">No status changes between runs yet.</p>';
-            return;
+// ── Pipeline Over Time (with conversion rate) ─────────────────────────────────
+(function() {
+    const runs = DATA.run_history || [];
+    if (runs.length === 0) return;
+    const labels = runs.map(r => (r.started_at || '').substring(0, 10));
+    const rates = runs.map(r => {
+        const total = r.total_in_csv || 0;
+        return total > 0 ? +((r.total_qualified / total) * 100).toFixed(1) : 0;
+    });
+    new Chart(document.getElementById('pipeline-chart'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                { label: 'Total Processed', data: runs.map(r => r.total_in_csv || 0), backgroundColor: 'rgba(99,102,241,0.25)', borderColor: '#6366f1', borderWidth: 2, borderRadius: 4, yAxisID: 'y' },
+                { label: 'Qualified', data: runs.map(r => r.total_qualified || 0), backgroundColor: 'rgba(16,185,129,0.7)', borderColor: '#10b981', borderWidth: 2, borderRadius: 4, yAxisID: 'y' },
+                { label: 'Qual. Rate %', data: rates, type: 'line', borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', tension: 0.4, fill: false, pointRadius: 5, yAxisID: 'y2' },
+            ],
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+            scales: {
+                y:  { beginAtZero: true, title: { display: true, text: 'Companies', font: { size: 10 } }, ticks: { font: { size: 10 } } },
+                y2: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Rate (%)', font: { size: 10 } }, ticks: { font: { size: 10 } } },
+            },
+        },
+    });
+})();
+
+// ── Platform Breakdown ─────────────────────────────────────────────────────────
+(function() {
+    const platforms = DATA.platform_breakdown || {};
+    const labels = Object.keys(platforms);
+    const values = Object.values(platforms);
+    if (labels.length === 0) {
+        document.getElementById('platform-chart').parentElement.innerHTML += '<p class="empty-state">No platform data yet.</p>';
+        return;
+    }
+    const colors = ['#6366f1','#0ea5e9','#10b981','#f59e0b','#f43f5e','#8b5cf6','#14b8a6','#22c55e','#e879f9','#fb923c'];
+    new Chart(document.getElementById('platform-chart'), {
+        type: 'doughnut',
+        data: { labels, datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length), borderWidth: 2, borderColor: '#fff' }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } }, cutout: '55%' },
+    });
+})();
+
+// ── Review Distribution ────────────────────────────────────────────────────────
+(function() {
+    const reviews = DATA.review_distribution || [];
+    if (reviews.length === 0) {
+        document.getElementById('review-chart').parentElement.innerHTML += '<p class="empty-state">No review data yet.</p>';
+        return;
+    }
+    const buckets = [0, 25, 50, 100, 150, 200, 300, 500, 1000, 2000, 5000];
+    const counts = new Array(buckets.length).fill(0);
+    reviews.forEach(r => {
+        for (let i = buckets.length - 1; i >= 0; i--) {
+            if (r >= buckets[i]) { counts[i]++; break; }
         }
-        let html = '<table><thead><tr><th>Company</th><th>Domain</th><th>Old Status</th><th>New Status</th><th>Gate</th><th>Details</th><th>Date</th></tr></thead><tbody>';
-        changes.forEach(c => {
-            const oldClass = c.old_status === 'QUALIFIED' ? 'status-qualified' : c.old_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
-            const newClass = c.new_status === 'QUALIFIED' ? 'status-qualified' : c.new_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
-            html += `<tr>
-                <td>${c.company_name || ''}</td>
-                <td>${c.domain || ''}</td>
-                <td class="${oldClass}">${c.old_status || ''}</td>
-                <td class="${newClass}">${c.new_status || ''}</td>
-                <td>${c.gate_reached || ''}</td>
-                <td>${c.details || ''}</td>
-                <td>${(c.created_at||'').substring(0,19)}</td>
-            </tr>`;
+    });
+    const labels = buckets.map((b, i) => i < buckets.length - 1 ? `${b}-${buckets[i+1]-1}` : `${b}+`);
+    new Chart(document.getElementById('review-chart'), {
+        type: 'bar',
+        data: { labels, datasets: [{ label: 'Companies', data: counts, backgroundColor: 'rgba(14,165,233,0.7)', borderColor: '#0ea5e9', borderWidth: 1, borderRadius: 4 }] },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, title: { display: true, text: 'Companies', font: { size: 10 } }, ticks: { font: { size: 10 } } },
+                x: { title: { display: true, text: 'Google Reviews', font: { size: 10 } }, ticks: { font: { size: 10 } } },
+            },
+        },
+    });
+})();
+
+// ── Recent Runs Table ──────────────────────────────────────────────────────────
+(function() {
+    const runs = (DATA.run_history || []).slice(-20).reverse();
+    const tbody = document.getElementById('runs-tbody');
+    if (runs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" class="empty-state">No runs yet.</td></tr>';
+        return;
+    }
+    runs.forEach(r => {
+        const total = r.total_in_csv || 0;
+        const rate = total > 0 ? ((r.total_qualified / total) * 100).toFixed(1) + '%' : '—';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${r.id}</td>
+            <td>${fmtDate(r.started_at)}</td>
+            <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.input_file||''}">${r.input_file||'N/A'}</td>
+            <td>${fmtNum(r.new_companies)}</td>
+            <td>${fmtNum(r.passed_gate1)}</td>
+            <td>${fmtNum(r.passed_gate2)}</td>
+            <td>${fmtNum(r.passed_gate3)}</td>
+            <td><strong style="color:#10b981">${fmtNum(r.total_qualified)}</strong></td>
+            <td>${rate}</td>
+            <td>$${(r.estimated_cost||0).toFixed(3)}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+})();
+
+// ── Qualified Leads Table (sortable, paginated) ────────────────────────────────
+(function() {
+    let leads = (DATA.qualified_leads || []).slice(0, 500); // cap at 500
+    let sortCol = 'google_review_count';
+    let sortAsc = false;
+    let page = 0;
+
+    function platformBadge(p) {
+        if (!p) return '<span class="badge badge-gray">None</span>';
+        return p.split(',').map(x => x.trim()).filter(Boolean).map(x => {
+            const cls = x.toLowerCase().includes('servicetitan') ? 'badge-indigo'
+                      : x.toLowerCase().includes('housecall') ? 'badge-sky'
+                      : x.toLowerCase().includes('jobber') ? 'badge-amber'
+                      : 'badge-green';
+            return `<span class="badge ${cls}">${x}</span>`;
+        }).join(' ');
+    }
+
+    function serviceBadge(s) {
+        if (!s) return '<span class="badge badge-gray">Unknown</span>';
+        const cls = s.toLowerCase() === 'residential' ? 'badge-green' : s.toLowerCase() === 'commercial' ? 'badge-indigo' : 'badge-amber';
+        return `<span class="badge ${cls}">${s}</span>`;
+    }
+
+    function sortLeads() {
+        leads.sort((a, b) => {
+            let av = a[sortCol], bv = b[sortCol];
+            if (av == null) av = sortAsc ? Infinity : -Infinity;
+            if (bv == null) bv = sortAsc ? Infinity : -Infinity;
+            if (typeof av === 'string') av = av.toLowerCase();
+            if (typeof bv === 'string') bv = bv.toLowerCase();
+            if (av < bv) return sortAsc ? -1 : 1;
+            if (av > bv) return sortAsc ? 1 : -1;
+            return 0;
         });
-        html += '</tbody></table>';
-        container.innerHTML = html;
-    })();
-    </script>
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById('leads-tbody');
+        tbody.innerHTML = '';
+        const slice = leads.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+        if (leads.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No qualified leads yet.</td></tr>';
+        } else {
+            slice.forEach(c => {
+                const loc = [c.city, c.state].filter(Boolean).join(', ') || '—';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${c.name||'—'}</strong></td>
+                    <td><a href="https://${c.domain||''}" target="_blank" style="color:#6366f1;text-decoration:none">${c.domain||'—'}</a></td>
+                    <td>${loc}</td>
+                    <td>${fmtRevenue(c.revenue)}</td>
+                    <td>${fmtNum(c.employees)}</td>
+                    <td>${fmtNum(c.google_review_count)}</td>
+                    <td>${platformBadge(c.detected_platforms)}</td>
+                    <td>${serviceBadge(c.service_type)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        renderPagination();
+    }
+
+    function renderPagination() {
+        const totalPages = Math.ceil(leads.length / PAGE_SIZE);
+        const el = document.getElementById('leads-pagination');
+        el.innerHTML = '';
+        if (totalPages <= 1) return;
+        const info = document.createElement('span');
+        info.textContent = `Showing ${page * PAGE_SIZE + 1}–${Math.min((page+1) * PAGE_SIZE, leads.length)} of ${leads.length} qualified leads`;
+        el.appendChild(info);
+        const prev = document.createElement('button');
+        prev.textContent = '← Prev';
+        prev.disabled = page === 0;
+        prev.onclick = () => { page--; renderTable(); };
+        el.appendChild(prev);
+        const next = document.createElement('button');
+        next.textContent = 'Next →';
+        next.disabled = page >= totalPages - 1;
+        next.onclick = () => { page++; renderTable(); };
+        el.appendChild(next);
+    }
+
+    // Sort header clicks
+    document.querySelectorAll('#leads-table th.sortable').forEach(th => {
+        th.addEventListener('click', () => {
+            const col = th.dataset.col;
+            if (sortCol === col) { sortAsc = !sortAsc; }
+            else { sortCol = col; sortAsc = col === 'name' || col === 'domain' || col === 'state'; }
+            document.querySelectorAll('#leads-table th').forEach(h => h.classList.remove('sort-asc','sort-desc'));
+            th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
+            sortLeads();
+            page = 0;
+            renderTable();
+        });
+    });
+
+    // Initial render
+    sortLeads();
+    // Mark default sort header
+    document.querySelectorAll('#leads-table th.sortable').forEach(th => {
+        if (th.dataset.col === sortCol) th.classList.add('sort-desc');
+    });
+    renderTable();
+})();
+
+// ── Status Changes ─────────────────────────────────────────────────────────────
+(function() {
+    const changes = DATA.status_changes || [];
+    const container = document.getElementById('status-changes-content');
+    if (changes.length === 0) {
+        container.innerHTML = '<p class="empty-state">No status changes between runs yet.</p>';
+        return;
+    }
+    let html = '<div class="table-wrap"><table><thead><tr><th>Company</th><th>Domain</th><th>Old Status</th><th>New Status</th><th>Gate</th><th>Details</th><th>Date</th></tr></thead><tbody>';
+    changes.forEach(c => {
+        const oldCls = c.old_status === 'QUALIFIED' ? 'status-qualified' : c.old_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
+        const newCls = c.new_status === 'QUALIFIED' ? 'status-qualified' : c.new_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
+        html += `<tr>
+            <td>${c.company_name||''}</td>
+            <td>${c.domain||''}</td>
+            <td class="${oldCls}">${c.old_status||''}</td>
+            <td class="${newCls}">${c.new_status||''}</td>
+            <td>${c.gate_reached||''}</td>
+            <td>${c.details||''}</td>
+            <td>${fmtDate(c.created_at)}</td>
+        </tr>`;
+    });
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+})();
+</script>
 </body>
 </html>

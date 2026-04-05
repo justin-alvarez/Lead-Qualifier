@@ -21,6 +21,7 @@ def gather_dashboard_data(db: Database) -> Dict[str, Any]:
         "platform_breakdown": db.query_platform_breakdown(),
         "review_distribution": db.query_review_distribution(),
         "status_changes": db.query_status_changes(),
+        "qualified_leads": db.get_all_qualified(),
     }
 
 
@@ -29,11 +30,11 @@ def generate_dashboard(db: Database, output_path: str):
     data = gather_dashboard_data(db)
 
     # Read template
-    with open(DASHBOARD_TEMPLATE_PATH, "r") as f:
+    with open(DASHBOARD_TEMPLATE_PATH, "r", encoding="utf-8") as f:
         template = f.read()
 
     # Embed data as JSON
     html = template.replace("{{DATA}}", json.dumps(data, default=str))
 
-    with open(output_path, "w") as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(html)
