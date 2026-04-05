@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Qualifier Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f5;
+            color: #1a1a2e;
+            line-height: 1.6;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1 {
+            text-align: center;
+            padding: 30px 0 10px;
+            color: #1a1a2e;
+            font-size: 2em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+
+        /* Metric cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .metric-card .value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #4472C4;
+        }
+        .metric-card .label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 4px;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .section h2 {
+            margin-bottom: 16px;
+            color: #1a1a2e;
+            font-size: 1.3em;
+            border-bottom: 2px solid #4472C4;
+            padding-bottom: 8px;
+        }
+
+        /* Chart containers */
+        .chart-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 768px) {
+            .chart-row { grid-template-columns: 1fr; }
+        }
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .chart-container h2 {
+            margin-bottom: 16px;
+            color: #1a1a2e;
+            font-size: 1.2em;
+        }
+
+        /* Latest run summary */
+        .run-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .run-stat {
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .run-stat .num { font-size: 1.5em; font-weight: 700; color: #333; }
+        .run-stat .lbl { font-size: 0.85em; color: #666; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+        }
+        tr:hover { background: #f8f9fa; }
+
+        .status-qualified { color: #27ae60; font-weight: 600; }
+        .status-rejected { color: #e74c3c; font-weight: 600; }
+        .status-manual { color: #f39c12; font-weight: 600; }
+
+        .funnel-bar {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        .funnel-label {
+            width: 120px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        .funnel-track {
+            flex: 1;
+            height: 28px;
+            background: #f0f2f5;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .funnel-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+            color: white;
+            font-size: 0.85em;
+            font-weight: 600;
+            min-width: 40px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lead Qualifier Dashboard</h1>
+        <p class="subtitle">Nuve HVAC/Plumbing Lead Qualification Pipeline</p>
+
+        <!-- Cumulative Stats -->
+        <div class="metrics-grid" id="metrics-grid"></div>
+
+        <!-- Latest Run Summary -->
+        <div class="section" id="latest-run-section">
+            <h2>Latest Run Summary</h2>
+            <div id="latest-run-content"></div>
+        </div>
+
+        <!-- Funnel -->
+        <div class="section">
+            <h2>Qualification Funnel (All Time)</h2>
+            <div id="funnel-chart"></div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="chart-row">
+            <div class="chart-container">
+                <h2>Pipeline Over Time</h2>
+                <canvas id="pipeline-chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2>Platform Breakdown</h2>
+                <canvas id="platform-chart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-row">
+            <div class="chart-container">
+                <h2>Review Distribution</h2>
+                <canvas id="review-chart"></canvas>
+            </div>
+            <div class="chart-container" style="overflow-x: auto;">
+                <h2>Recent Runs</h2>
+                <table id="runs-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>File</th>
+                            <th>New</th>
+                            <th>Qualified</th>
+                            <th>Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody id="runs-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Status Changes -->
+        <div class="section">
+            <h2>Status Changes Between Runs</h2>
+            <div id="status-changes-content"></div>
+        </div>
+    </div>
+
+    <script>
+    const DATA = {"latest_run": {"id": 1, "started_at": "2026-04-05T01:05:59.352129", "completed_at": "2026-04-05T01:07:08.353657", "status": "completed", "input_file": "input\\zoominfo_325_companies_2026-04-04.csv", "settings_json": "{\"min_revenue\": 2000000, \"min_employees\": 5, \"min_reviews\": 200, \"service_type\": \"residential\"}", "total_in_csv": 10, "new_companies": 10, "skipped_duplicates": 0, "rechecked": 0, "passed_gate1": 8, "passed_gate2": 8, "passed_gate3": 4, "total_qualified": 4, "total_rejected": 3, "total_manual_review": 3, "platforms_detected": 0, "estimated_cost": 0.0104, "output_file": "output\\qualified.xlsx", "notes": null}, "run_history": [{"id": 1, "started_at": "2026-04-05T01:05:59.352129", "completed_at": "2026-04-05T01:07:08.353657", "status": "completed", "input_file": "input\\zoominfo_325_companies_2026-04-04.csv", "settings_json": "{\"min_revenue\": 2000000, \"min_employees\": 5, \"min_reviews\": 200, \"service_type\": \"residential\"}", "total_in_csv": 10, "new_companies": 10, "skipped_duplicates": 0, "rechecked": 0, "passed_gate1": 8, "passed_gate2": 8, "passed_gate3": 4, "total_qualified": 4, "total_rejected": 3, "total_manual_review": 3, "platforms_detected": 0, "estimated_cost": 0.0104, "output_file": "output\\qualified.xlsx", "notes": null}], "cumulative_stats": {"total_companies": 10, "total_qualified": 4, "total_runs": 1, "avg_qualification_rate": 40.0, "total_cost": 0.01}, "funnel_data": {"total_input": 10, "passed_gate1": 8, "passed_gate2": 8, "passed_gate3": 4, "total_qualified": 4}, "platform_breakdown": {"No Platform Detected": 4}, "review_distribution": [], "status_changes": []};
+
+    // --- Cumulative Stats ---
+    (function() {
+        const stats = DATA.cumulative_stats || {};
+        const grid = document.getElementById('metrics-grid');
+        const metrics = [
+            { value: (stats.total_companies || 0).toLocaleString(), label: 'Total Companies' },
+            { value: (stats.total_qualified || 0).toLocaleString(), label: 'Qualified Leads' },
+            { value: stats.total_runs || 0, label: 'Runs Completed' },
+            { value: (stats.avg_qualification_rate || 0) + '%', label: 'Qualification Rate' },
+            { value: '$' + (stats.total_cost || 0).toFixed(2), label: 'Total API Cost' },
+        ];
+        metrics.forEach(m => {
+            const card = document.createElement('div');
+            card.className = 'metric-card';
+            card.innerHTML = `<div class="value">${m.value}</div><div class="label">${m.label}</div>`;
+            grid.appendChild(card);
+        });
+    })();
+
+    // --- Latest Run ---
+    (function() {
+        const run = DATA.latest_run;
+        const content = document.getElementById('latest-run-content');
+        if (!run) {
+            content.innerHTML = '<p class="empty-state">No runs yet.</p>';
+            return;
+        }
+        let settings = {};
+        try { settings = JSON.parse(run.settings_json || '{}'); } catch(e) {}
+
+        content.innerHTML = `
+            <p style="color:#666; margin-bottom:12px;">
+                Run #${run.id} &mdash; ${run.started_at || 'N/A'} &mdash;
+                <strong>${run.status || 'unknown'}</strong>
+                &mdash; File: ${run.input_file || 'N/A'}
+                &mdash; Settings: rev&ge;$${((settings.min_revenue||0)/1e6).toFixed(1)}M,
+                emp&ge;${settings.min_employees||'?'},
+                reviews&ge;${settings.min_reviews||'?'},
+                type=${settings.service_type||'?'}
+            </p>
+            <div class="run-summary">
+                <div class="run-stat"><div class="num">${(run.total_in_csv||0).toLocaleString()}</div><div class="lbl">In CSV</div></div>
+                <div class="run-stat"><div class="num">${(run.new_companies||0).toLocaleString()}</div><div class="lbl">New</div></div>
+                <div class="run-stat"><div class="num">${(run.skipped_duplicates||0).toLocaleString()}</div><div class="lbl">Skipped</div></div>
+                <div class="run-stat"><div class="num">${(run.passed_gate1||0).toLocaleString()}</div><div class="lbl">Gate 1</div></div>
+                <div class="run-stat"><div class="num">${(run.passed_gate2||0).toLocaleString()}</div><div class="lbl">Gate 2</div></div>
+                <div class="run-stat"><div class="num">${(run.passed_gate3||0).toLocaleString()}</div><div class="lbl">Gate 3</div></div>
+                <div class="run-stat"><div class="num" style="color:#27ae60">${(run.total_qualified||0).toLocaleString()}</div><div class="lbl">Qualified</div></div>
+                <div class="run-stat"><div class="num">$${(run.estimated_cost||0).toFixed(2)}</div><div class="lbl">Cost</div></div>
+            </div>
+        `;
+    })();
+
+    // --- Funnel ---
+    (function() {
+        const f = DATA.funnel_data || {};
+        const container = document.getElementById('funnel-chart');
+        const steps = [
+            { label: 'CSV Input', value: f.total_input || 0, color: '#4472C4' },
+            { label: 'Gate 1', value: f.passed_gate1 || 0, color: '#5B9BD5' },
+            { label: 'Gate 2', value: f.passed_gate2 || 0, color: '#70AD47' },
+            { label: 'Gate 3', value: f.passed_gate3 || 0, color: '#FFC000' },
+            { label: 'Qualified', value: f.total_qualified || 0, color: '#27ae60' },
+        ];
+        const maxVal = Math.max(...steps.map(s => s.value), 1);
+
+        steps.forEach(step => {
+            const pct = Math.max((step.value / maxVal) * 100, 5);
+            const bar = document.createElement('div');
+            bar.className = 'funnel-bar';
+            bar.innerHTML = `
+                <div class="funnel-label">${step.label}</div>
+                <div class="funnel-track">
+                    <div class="funnel-fill" style="width:${pct}%; background:${step.color}">
+                        ${step.value.toLocaleString()}
+                    </div>
+                </div>
+            `;
+            container.appendChild(bar);
+        });
+    })();
+
+    // --- Pipeline Over Time ---
+    (function() {
+        const runs = DATA.run_history || [];
+        if (runs.length === 0) return;
+
+        const labels = runs.map(r => (r.started_at || '').substring(0, 10));
+        new Chart(document.getElementById('pipeline-chart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    { label: 'Total Processed', data: runs.map(r => r.total_in_csv || 0), borderColor: '#4472C4', tension: 0.3, fill: false },
+                    { label: 'Qualified', data: runs.map(r => r.total_qualified || 0), borderColor: '#27ae60', tension: 0.3, fill: false },
+                    { label: 'Rejected', data: runs.map(r => r.total_rejected || 0), borderColor: '#e74c3c', tension: 0.3, fill: false },
+                    { label: 'Manual Review', data: runs.map(r => r.total_manual_review || 0), borderColor: '#f39c12', tension: 0.3, fill: false },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom' } },
+                scales: { y: { beginAtZero: true } },
+            },
+        });
+    })();
+
+    // --- Platform Breakdown ---
+    (function() {
+        const platforms = DATA.platform_breakdown || {};
+        const labels = Object.keys(platforms);
+        const values = Object.values(platforms);
+        if (labels.length === 0) {
+            document.getElementById('platform-chart').parentElement.innerHTML +=
+                '<p class="empty-state">No platform data yet.</p>';
+            return;
+        }
+
+        const colors = [
+            '#4472C4','#ED7D31','#A5A5A5','#FFC000','#5B9BD5',
+            '#70AD47','#264478','#9B59B6','#1ABC9C','#E74C3C',
+            '#3498DB','#2ECC71','#F39C12','#8E44AD','#D35400',
+        ];
+        new Chart(document.getElementById('platform-chart'), {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length) }],
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom' } },
+            },
+        });
+    })();
+
+    // --- Review Distribution ---
+    (function() {
+        const reviews = DATA.review_distribution || [];
+        if (reviews.length === 0) {
+            document.getElementById('review-chart').parentElement.innerHTML +=
+                '<p class="empty-state">No review data yet.</p>';
+            return;
+        }
+
+        // Build histogram buckets
+        const buckets = [0, 50, 100, 150, 200, 300, 500, 1000, 2000, 5000];
+        const counts = new Array(buckets.length).fill(0);
+        reviews.forEach(r => {
+            for (let i = buckets.length - 1; i >= 0; i--) {
+                if (r >= buckets[i]) { counts[i]++; break; }
+            }
+        });
+        const labels = buckets.map((b, i) =>
+            i < buckets.length - 1 ? `${b}-${buckets[i+1]-1}` : `${b}+`
+        );
+        new Chart(document.getElementById('review-chart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{ label: 'Companies', data: counts, backgroundColor: '#5B9BD5' }],
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Companies' } },
+                    x: { title: { display: true, text: 'Google Reviews' } },
+                },
+            },
+        });
+    })();
+
+    // --- Runs Table ---
+    (function() {
+        const runs = (DATA.run_history || []).slice(-20).reverse();
+        const tbody = document.getElementById('runs-tbody');
+        if (runs.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No runs yet.</td></tr>';
+            return;
+        }
+        runs.forEach(r => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${r.id}</td>
+                <td>${(r.started_at||'').substring(0,19)}</td>
+                <td>${r.input_file || 'N/A'}</td>
+                <td>${(r.new_companies||0).toLocaleString()}</td>
+                <td>${(r.total_qualified||0).toLocaleString()}</td>
+                <td>$${(r.estimated_cost||0).toFixed(2)}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    })();
+
+    // --- Status Changes ---
+    (function() {
+        const changes = DATA.status_changes || [];
+        const container = document.getElementById('status-changes-content');
+        if (changes.length === 0) {
+            container.innerHTML = '<p class="empty-state">No status changes between runs yet.</p>';
+            return;
+        }
+        let html = '<table><thead><tr><th>Company</th><th>Domain</th><th>Old Status</th><th>New Status</th><th>Gate</th><th>Details</th><th>Date</th></tr></thead><tbody>';
+        changes.forEach(c => {
+            const oldClass = c.old_status === 'QUALIFIED' ? 'status-qualified' : c.old_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
+            const newClass = c.new_status === 'QUALIFIED' ? 'status-qualified' : c.new_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
+            html += `<tr>
+                <td>${c.company_name || ''}</td>
+                <td>${c.domain || ''}</td>
+                <td class="${oldClass}">${c.old_status || ''}</td>
+                <td class="${newClass}">${c.new_status || ''}</td>
+                <td>${c.gate_reached || ''}</td>
+                <td>${c.details || ''}</td>
+                <td>${(c.created_at||'').substring(0,19)}</td>
+            </tr>`;
+        });
+        html += '</tbody></table>';
+        container.innerHTML = html;
+    })();
+    </script>
+</body>
+</html>
