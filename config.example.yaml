@@ -1,0 +1,5 @@
+min_revenue: 2M
+min_employees: 5
+min_reviews: 200
+service_type: residential
+db: ./lead_qualifier.db
