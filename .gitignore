@@ -8,3 +8,5 @@ build/
 *.xlsx
 dashboard.html
 .env
+input/*.csv
+output/
