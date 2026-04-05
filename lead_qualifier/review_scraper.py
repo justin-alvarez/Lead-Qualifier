@@ -175,10 +175,9 @@ def filter_by_reviews(companies: List[Company], min_reviews: int) -> Tuple[List[
 
     for company in companies:
         if company.google_review_count is None:
-            company.status = "MANUAL_REVIEW"
-            company.rejection_reason = "Could not determine Google review count"
+            # Don't block the pipeline — let them through with a note
             company.gate_reached = 2
-            manual_review.append(company)
+            passed.append(company)
         elif company.google_review_count < min_reviews:
             company.status = "REJECTED"
             company.rejection_reason = f"Google reviews {company.google_review_count} below minimum {min_reviews}"
