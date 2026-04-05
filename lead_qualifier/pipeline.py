@@ -2,6 +2,7 @@
 
 import json
 import logging
+import os
 import sys
 from typing import Any, Dict, List, Optional
 
@@ -45,6 +46,10 @@ def run_pipeline(config: Dict[str, Any]):
         dashboard_path = config.get("dashboard", "dashboard.html")
         generate_dashboard(db, dashboard_path)
         _print(f"\U0001f4c8 Dashboard generated: {dashboard_path}")
+        site_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "site")
+        if os.path.isdir(site_dir):
+            generate_dashboard(db, os.path.join(site_dir, "index.html"))
+            _print(f"\U0001f310 Vercel dashboard: site/index.html")
         db.close()
         return
 
@@ -278,6 +283,13 @@ def run_pipeline(config: Dict[str, Any]):
         db.complete_run(run_id, stats, output_file)
 
         generate_dashboard(db, dashboard_path)
+
+        # Also generate to site/index.html for Vercel hosting
+        site_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "site")
+        if os.path.isdir(site_dir):
+            site_dashboard = os.path.join(site_dir, "index.html")
+            generate_dashboard(db, site_dashboard)
+            _print(f"   \U0001f310 Vercel dashboard: site/index.html")
 
         # --- SUMMARY ---
         _print(f"\n\u2500\u2500 Run #{run_id} Summary \u2500\u2500")
