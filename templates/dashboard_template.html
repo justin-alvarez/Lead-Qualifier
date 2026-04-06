@@ -3,746 +3,641 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lead Qualifier Dashboard</title>
+    <title>Lead Qualifier · Nuve Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f1f5f9;
-            color: #1e293b;
-            line-height: 1.6;
-        }
+        :root {
+            --navy:    #0d1b2a;
+            --navy2:   #162032;
+            --bg:      #f0f4f8;
+            --surface: #ffffff;
+            --border:  #e2e8f0;
+            --text:    #1e293b;
+            --muted:   #64748b;
+            --faint:   #94a3b8;
 
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #164e63 100%);
-            color: white;
-            padding: 32px 0 28px;
-            margin-bottom: 32px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-        }
-        .header .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .header-left h1 {
-            font-size: 1.8em;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: #fff;
-        }
-        .header-left .subtitle {
-            color: #94a3b8;
-            font-size: 0.9em;
-            margin-top: 2px;
-        }
-        .header-right {
-            text-align: right;
-            font-size: 0.8em;
-            color: #64748b;
-        }
-        .header-right strong { color: #94a3b8; }
+            --indigo:  #6366f1; --indigo-bg:  #eef2ff;
+            --emerald: #10b981; --emerald-bg: #ecfdf5;
+            --amber:   #f59e0b; --amber-bg:   #fffbeb;
+            --rose:    #f43f5e; --rose-bg:    #fff1f2;
+            --sky:     #0ea5e9; --sky-bg:     #f0f9ff;
+            --violet:  #8b5cf6; --violet-bg:  #f5f3ff;
 
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+            --sh-sm: 0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04);
+            --sh-md: 0 4px 12px rgba(0,0,0,0.08),0 2px 4px rgba(0,0,0,0.04);
+            --sh-lg: 0 12px 28px rgba(0,0,0,0.12),0 4px 8px rgba(0,0,0,0.06);
+            --r: 14px; --r-sm: 8px; --r-lg: 18px;
+            --tx: 0.18s ease;
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
 
-        /* Section */
-        .section {
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+        /* ── Navbar ── */
+        nav{
+            background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);
+            position:sticky;top:0;z-index:200;
+            box-shadow:0 2px 20px rgba(0,0,0,0.35);
         }
-        .section h2 {
-            font-size: 1.15em;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .nav-inner{
+            max-width:1380px;margin:0 auto;padding:0 24px;
+            display:flex;align-items:center;justify-content:space-between;height:60px;
         }
-        .section h2::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e2e8f0;
+        .brand{display:flex;align-items:center;gap:10px}
+        .brand-icon{
+            width:34px;height:34px;border-radius:8px;
+            background:linear-gradient(135deg,var(--indigo),var(--sky));
+            display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;
         }
+        .brand-name{font-size:1em;font-weight:700;color:#fff;letter-spacing:-0.2px}
+        .brand-sub{font-size:0.7em;color:#64748b;margin-top:-1px}
+        .updated-pill{
+            background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);
+            border-radius:99px;padding:4px 14px;font-size:0.73em;color:#64748b;white-space:nowrap;
+        }
+        .updated-pill b{color:#94a3b8}
 
-        /* Metric cards */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        .metric-card {
-            background: white;
-            border-radius: 16px;
-            padding: 22px 20px 18px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
-            border-left: 4px solid #e2e8f0;
-            transition: transform 0.15s, box-shadow 0.15s;
-        }
-        .metric-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 8px 24px rgba(0,0,0,0.08);
-        }
-        .metric-card.blue  { border-left-color: #6366f1; }
-        .metric-card.green { border-left-color: #10b981; }
-        .metric-card.sky   { border-left-color: #0ea5e9; }
-        .metric-card.amber { border-left-color: #f59e0b; }
-        .metric-card.violet{ border-left-color: #8b5cf6; }
-        .metric-card.rose  { border-left-color: #f43f5e; }
-        .metric-card .value {
-            font-size: 2em;
-            font-weight: 800;
-            color: #0f172a;
-            line-height: 1.1;
-        }
-        .metric-card .label {
-            color: #64748b;
-            font-size: 0.82em;
-            margin-top: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 500;
-        }
+        /* ── Layout ── */
+        .page{max-width:1380px;margin:0 auto;padding:28px 24px 72px}
+        .row{display:grid;gap:18px;margin-bottom:18px}
+        .col-2{grid-template-columns:1fr 1fr}
+        .col-3{grid-template-columns:1fr 1fr 1fr}
+        .col-6{grid-template-columns:repeat(6,1fr)}
+        @media(max-width:1200px){.col-6{grid-template-columns:repeat(3,1fr)}}
+        @media(max-width:900px){.col-2,.col-3{grid-template-columns:1fr}.col-6{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:480px){.col-6{grid-template-columns:repeat(2,1fr)}.nav-inner{padding:0 14px}.page{padding:16px 14px 60px}}
 
-        /* Run summary */
-        .run-meta {
-            font-size: 0.88em;
-            color: #64748b;
-            margin-bottom: 16px;
-            padding: 10px 14px;
-            background: #f8fafc;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-        }
-        .run-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-        }
-        .run-stat {
-            padding: 14px 12px;
-            background: #f8fafc;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-        }
-        .run-stat .num { font-size: 1.6em; font-weight: 800; color: #0f172a; }
-        .run-stat .num.qualified { color: #10b981; }
-        .run-stat .lbl { font-size: 0.78em; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
+        /* ── Card ── */
+        .card{background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--border);box-shadow:var(--sh-sm);overflow:hidden}
+        .card-hd{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 0}
+        .card-title{font-size:0.76em;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted)}
+        .card-bd{padding:20px 24px}
+        .divider{height:1px;background:var(--border);margin:0}
 
-        /* Charts row */
-        .chart-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 24px;
+        /* ── Metric Cards ── */
+        .metric{
+            background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--border);
+            box-shadow:var(--sh-sm);padding:20px 18px;
+            transition:transform var(--tx),box-shadow var(--tx);cursor:default;
         }
-        @media (max-width: 800px) { .chart-row { grid-template-columns: 1fr; } }
-        .chart-container {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
-        }
-        .chart-container h2 {
-            font-size: 1.05em;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 18px;
-        }
+        .metric:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
+        .m-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:14px}
+        .m-val{font-size:2em;font-weight:800;letter-spacing:-1px;color:var(--text);line-height:1}
+        .m-lbl{font-size:0.73em;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-top:5px;font-weight:500}
 
-        /* SVG Funnel */
-        .funnel-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-            padding: 8px 0;
+        /* ── Run Summary ── */
+        .run-meta{
+            display:flex;flex-wrap:wrap;gap:6px 14px;font-size:0.83em;color:var(--muted);
+            padding:11px 14px;background:var(--bg);border-radius:var(--r-sm);border:1px solid var(--border);
+            margin-bottom:14px;
         }
-        .funnel-step { width: 100%; max-width: 640px; }
-        .funnel-drop {
-            text-align: center;
-            font-size: 0.78em;
-            color: #94a3b8;
-            padding: 3px 0;
-            letter-spacing: 0.02em;
+        .run-pill{
+            background:var(--surface);border:1px solid var(--border);border-radius:99px;
+            padding:2px 10px;font-size:0.9em;white-space:nowrap;
         }
+        .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:10px}
+        .stat{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 8px;text-align:center}
+        .stat-n{font-size:1.55em;font-weight:800;color:var(--text);line-height:1}
+        .stat-n.g{color:var(--emerald)}
+        .stat-l{font-size:0.7em;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-top:4px}
 
-        /* Tables */
-        .table-wrap { overflow-x: auto; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88em;
-        }
-        th {
-            padding: 10px 14px;
-            background: #f8fafc;
-            font-weight: 600;
-            color: #475569;
-            text-align: left;
-            border-bottom: 2px solid #e2e8f0;
-            white-space: nowrap;
-        }
-        th.sortable { cursor: pointer; user-select: none; }
-        th.sortable:hover { background: #f1f5f9; color: #0f172a; }
-        th.sort-asc::after  { content: ' ▲'; font-size: 0.8em; color: #6366f1; }
-        th.sort-desc::after { content: ' ▼'; font-size: 0.8em; color: #6366f1; }
-        td {
-            padding: 10px 14px;
-            border-bottom: 1px solid #f1f5f9;
-            color: #334155;
-        }
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: #f8fafc; }
+        /* ── SVG Funnel ── */
+        .funnel-wrap{display:flex;flex-direction:column;align-items:center;gap:0;padding:4px 0}
+        .funnel-svg{width:100%;display:block}
+        .funnel-drop{text-align:center;font-size:0.72em;color:var(--faint);padding:1px 0;letter-spacing:0.02em}
 
-        .badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 99px;
-            font-size: 0.78em;
-            font-weight: 600;
+        /* ── Tables ── */
+        .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+        table{width:100%;border-collapse:collapse;font-size:0.875em}
+        thead th{
+            padding:9px 16px;text-align:left;font-size:0.75em;font-weight:700;
+            text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);
+            background:var(--bg);border-bottom:1px solid var(--border);white-space:nowrap;
         }
-        .badge-green  { background: #d1fae5; color: #065f46; }
-        .badge-gray   { background: #f1f5f9; color: #64748b; }
-        .badge-amber  { background: #fef3c7; color: #92400e; }
-        .badge-indigo { background: #e0e7ff; color: #3730a3; }
-        .badge-sky    { background: #e0f2fe; color: #075985; }
+        thead th.sortable{cursor:pointer;user-select:none}
+        thead th.sortable:hover{color:var(--indigo)}
+        thead th.sa::after{content:' ↑';color:var(--indigo)}
+        thead th.sd::after{content:' ↓';color:var(--indigo)}
+        tbody td{padding:11px 16px;border-bottom:1px solid #f8fafc;vertical-align:middle}
+        tbody tr:last-child td{border-bottom:none}
+        tbody tr:hover td{background:#fafbff}
 
-        .status-qualified { color: #10b981; font-weight: 700; }
-        .status-rejected  { color: #ef4444; font-weight: 700; }
-        .status-manual    { color: #f59e0b; font-weight: 700; }
+        /* ── Badges ── */
+        .chip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:0.76em;font-weight:600;white-space:nowrap}
+        .c-indigo{background:var(--indigo-bg);color:#4338ca}
+        .c-emerald{background:var(--emerald-bg);color:#047857}
+        .c-amber{background:var(--amber-bg);color:#b45309}
+        .c-sky{background:var(--sky-bg);color:#0369a1}
+        .c-violet{background:var(--violet-bg);color:#6d28d9}
+        .c-rose{background:var(--rose-bg);color:#be123c}
+        .c-gray{background:#f1f5f9;color:#475569}
 
-        .empty-state {
-            text-align: center;
-            padding: 48px;
-            color: #94a3b8;
-            font-size: 0.9em;
+        /* ── Company avatar ── */
+        .avatar{
+            width:30px;height:30px;border-radius:7px;flex-shrink:0;
+            display:inline-flex;align-items:center;justify-content:center;
+            font-size:0.78em;font-weight:800;color:#fff;
         }
+        .co-cell{display:flex;align-items:center;gap:10px}
+        .co-name{font-weight:600}
+        .co-domain{font-size:0.85em;color:var(--muted);margin-top:1px}
 
-        /* Leads table pagination */
-        .pagination {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 0 4px;
-            font-size: 0.88em;
-            color: #64748b;
+        /* ── Pagination ── */
+        .pg{
+            display:flex;align-items:center;justify-content:space-between;
+            padding:13px 24px;border-top:1px solid var(--border);
+            font-size:0.82em;color:var(--muted);flex-wrap:wrap;gap:10px;
         }
-        .pagination button {
-            padding: 6px 16px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            font-size: 0.9em;
-            color: #334155;
-            transition: background 0.1s;
+        .pg-btn{
+            padding:5px 14px;border:1px solid var(--border);border-radius:var(--r-sm);
+            background:var(--surface);color:var(--text);cursor:pointer;font-size:0.9em;
+            transition:all var(--tx);
         }
-        .pagination button:hover:not(:disabled) { background: #f8fafc; border-color: #6366f1; color: #6366f1; }
-        .pagination button:disabled { opacity: 0.4; cursor: default; }
+        .pg-btn:hover:not(:disabled){border-color:var(--indigo);color:var(--indigo);background:var(--indigo-bg)}
+        .pg-btn:disabled{opacity:0.4;cursor:default}
+        .pg-btns{display:flex;gap:6px}
 
-        @media (max-width: 600px) {
-            .metrics-grid { grid-template-columns: 1fr 1fr; }
+        /* ── Empty state ── */
+        .empty{text-align:center;padding:48px 24px;color:var(--faint);font-size:0.9em}
+        .empty-ico{font-size:2.2em;margin-bottom:10px}
+
+        /* ── Section label ── */
+        .sec-label{
+            font-size:0.76em;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;
+            color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:10px;
         }
+        .sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+        /* ── Status colors ── */
+        .sq{color:var(--emerald);font-weight:700}
+        .sr{color:var(--rose);font-weight:700}
+        .sm{color:var(--amber);font-weight:700}
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div class="container">
-        <div class="header-left">
-            <h1>Lead Qualifier Dashboard</h1>
-            <div class="subtitle">Nuve HVAC / Plumbing Lead Qualification Pipeline</div>
+<!-- Navbar -->
+<nav>
+    <div class="nav-inner">
+        <div class="brand">
+            <div class="brand-icon">📊</div>
+            <div>
+                <div class="brand-name">Lead Qualifier</div>
+                <div class="brand-sub">Nuve · HVAC / Plumbing Pipeline</div>
+            </div>
         </div>
-        <div class="header-right">
-            <strong>Last updated</strong><br>
-            <span id="last-updated">—</span>
-        </div>
+        <div class="updated-pill">Updated <b id="ts">—</b></div>
     </div>
-</div>
+</nav>
 
-<div class="container">
+<div class="page">
 
-    <!-- Cumulative metric cards -->
-    <div class="metrics-grid" id="metrics-grid"></div>
+    <!-- Metric cards -->
+    <div class="row col-6" id="metrics"></div>
 
-    <!-- Latest Run Summary -->
-    <div class="section" id="latest-run-section">
-        <h2>Latest Run Summary</h2>
-        <div id="latest-run-content"></div>
-    </div>
-
-    <!-- Funnel + Platform side by side -->
-    <div class="chart-row">
-        <div class="chart-container">
-            <h2>Qualification Funnel</h2>
-            <div class="funnel-wrap" id="funnel-chart"></div>
-        </div>
-        <div class="chart-container">
-            <h2>Platform Breakdown</h2>
-            <canvas id="platform-chart"></canvas>
+    <!-- Latest run -->
+    <div class="row" style="margin-bottom:18px">
+        <div class="card">
+            <div class="card-hd"><span class="card-title">Latest Run Summary</span></div>
+            <div class="card-bd" id="run-summary"></div>
         </div>
     </div>
 
-    <!-- Pipeline over time + Review distribution -->
-    <div class="chart-row">
-        <div class="chart-container">
-            <h2>Pipeline Over Time</h2>
-            <canvas id="pipeline-chart"></canvas>
+    <!-- Funnel + Platform -->
+    <div class="row col-2" style="margin-bottom:18px">
+        <div class="card">
+            <div class="card-hd"><span class="card-title">Qualification Funnel</span></div>
+            <div class="card-bd" id="funnel-wrap"></div>
         </div>
-        <div class="chart-container">
-            <h2>Review Distribution</h2>
-            <canvas id="review-chart"></canvas>
-        </div>
-    </div>
-
-    <!-- Recent Runs table -->
-    <div class="section">
-        <h2>Recent Runs</h2>
-        <div class="table-wrap">
-            <table id="runs-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Date</th>
-                        <th>File</th>
-                        <th>New</th>
-                        <th>Gate 1</th>
-                        <th>Gate 2</th>
-                        <th>Gate 3</th>
-                        <th>Qualified</th>
-                        <th>Rate</th>
-                        <th>Cost</th>
-                    </tr>
-                </thead>
-                <tbody id="runs-tbody"></tbody>
-            </table>
+        <div class="card">
+            <div class="card-hd"><span class="card-title">Platform Breakdown</span></div>
+            <div class="card-bd"><div style="position:relative"><canvas id="platform-chart"></canvas></div></div>
         </div>
     </div>
 
-    <!-- Qualified Leads Table -->
-    <div class="section">
-        <h2>Qualified Leads</h2>
-        <div class="table-wrap">
-            <table id="leads-table">
-                <thead>
-                    <tr>
+    <!-- Pipeline + Reviews -->
+    <div class="row col-2" style="margin-bottom:18px">
+        <div class="card">
+            <div class="card-hd"><span class="card-title">Pipeline Over Time</span></div>
+            <div class="card-bd"><canvas id="pipeline-chart"></canvas></div>
+        </div>
+        <div class="card">
+            <div class="card-hd"><span class="card-title">Review Distribution</span></div>
+            <div class="card-bd"><canvas id="review-chart"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Recent Runs -->
+    <div class="row" style="margin-bottom:18px">
+        <div class="card">
+            <div class="card-hd"><span class="card-title">Recent Runs</span></div>
+            <div class="tbl-scroll">
+                <table>
+                    <thead><tr>
+                        <th>#</th><th>Date</th><th>File</th>
+                        <th>In CSV</th><th>New</th><th>Gate 1</th><th>Gate 2</th><th>Gate 3</th>
+                        <th>Qualified</th><th>Rate</th><th>Cost</th>
+                    </tr></thead>
+                    <tbody id="runs-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Qualified Leads -->
+    <div class="row" style="margin-bottom:18px">
+        <div class="card">
+            <div class="card-hd"><span class="card-title">Qualified Leads</span><span id="leads-count" style="font-size:0.78em;color:var(--muted)"></span></div>
+            <div class="tbl-scroll" style="margin-top:4px">
+                <table id="leads-table">
+                    <thead><tr>
                         <th class="sortable" data-col="name">Company</th>
-                        <th class="sortable" data-col="domain">Domain</th>
                         <th class="sortable" data-col="state">Location</th>
                         <th class="sortable" data-col="revenue">Revenue</th>
                         <th class="sortable" data-col="employees">Employees</th>
                         <th class="sortable" data-col="google_review_count">Reviews</th>
-                        <th data-col="detected_platforms">Platform</th>
+                        <th>Platform</th>
                         <th class="sortable" data-col="service_type">Service Type</th>
-                    </tr>
-                </thead>
-                <tbody id="leads-tbody"></tbody>
-            </table>
+                    </tr></thead>
+                    <tbody id="leads-tbody"></tbody>
+                </table>
+            </div>
+            <div class="pg" id="leads-pg"></div>
         </div>
-        <div class="pagination" id="leads-pagination"></div>
     </div>
 
     <!-- Status Changes -->
-    <div class="section">
-        <h2>Status Changes Between Runs</h2>
-        <div id="status-changes-content"></div>
+    <div class="row" style="margin-bottom:0">
+        <div class="card">
+            <div class="card-hd"><span class="card-title">Status Changes Between Runs</span></div>
+            <div id="status-wrap"></div>
+        </div>
     </div>
 
-</div>
+</div><!-- /page -->
 
-<script type="application/json" id="dashboard-data">{{DATA}}</script>
+<script type="application/json" id="dd">{{DATA}}</script>
 <script>
-const DATA = JSON.parse(document.getElementById('dashboard-data').textContent);
-const PAGE_SIZE = 25;
+/* ── Bootstrap ─────────────────────────── */
+const D = JSON.parse(document.getElementById('dd').textContent);
+const PAGE = 25;
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-
-function fmtRevenue(v) {
-    if (!v) return '—';
-    if (v >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B';
-    if (v >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
-    if (v >= 1e3) return '$' + (v / 1e3).toFixed(0) + 'K';
-    return '$' + v;
+/* ── Helpers ───────────────────────────── */
+const $  = id => document.getElementById(id);
+const ce = tag => document.createElement(tag);
+const ns = (n,d=0) => (n||0).toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});
+const dt = s => (s||'').substring(0,16).replace('T',' ');
+function fmtRev(v){
+    if(!v)return'—';
+    if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';
+    if(v>=1e6)return'$'+(v/1e6).toFixed(1)+'M';
+    if(v>=1e3)return'$'+(v/1e3).toFixed(0)+'K';
+    return'$'+v;
 }
-function fmtNum(v) { return (v || 0).toLocaleString(); }
-function fmtDate(s) { return (s || '').substring(0, 19); }
+const AVATAR_COLORS=['#6366f1','#10b981','#0ea5e9','#f59e0b','#f43f5e','#8b5cf6','#14b8a6','#e879f9'];
+function avatarColor(name){ let h=0; for(let c of(name||''))h=(h*31+c.charCodeAt(0))>>>0; return AVATAR_COLORS[h%AVATAR_COLORS.length]; }
 
-// ── Last Updated ──────────────────────────────────────────────────────────────
-(function() {
-    const run = DATA.latest_run;
-    const el = document.getElementById('last-updated');
-    if (run && run.completed_at) {
-        el.textContent = fmtDate(run.completed_at);
-    } else if (run && run.started_at) {
-        el.textContent = fmtDate(run.started_at);
-    }
+/* ── Timestamp ─────────────────────────── */
+(()=>{
+    const r=D.latest_run;
+    if(r) $('ts').textContent=dt(r.completed_at||r.started_at);
 })();
 
-// ── Cumulative Metric Cards ───────────────────────────────────────────────────
-(function() {
-    const s = DATA.cumulative_stats || {};
-    const qualified = s.total_qualified || 0;
-    const cost = s.total_cost || 0;
-    const costPerLead = qualified > 0 ? (cost / qualified).toFixed(3) : '—';
-    const grid = document.getElementById('metrics-grid');
-    const metrics = [
-        { value: fmtNum(s.total_companies), label: 'Total Companies', cls: 'blue' },
-        { value: fmtNum(s.total_qualified), label: 'Qualified Leads', cls: 'green' },
-        { value: s.total_runs || 0, label: 'Runs Completed', cls: 'sky' },
-        { value: (s.avg_qualification_rate || 0) + '%', label: 'Qualification Rate', cls: 'violet' },
-        { value: '$' + cost.toFixed(2), label: 'Total API Cost', cls: 'amber' },
-        { value: costPerLead === '—' ? '—' : '$' + costPerLead, label: 'Cost per Lead', cls: 'rose' },
+/* ── Metrics ───────────────────────────── */
+(()=>{
+    const s=D.cumulative_stats||{};
+    const ql=s.total_qualified||0, cost=s.total_cost||0;
+    const cpl=ql>0?'$'+(cost/ql).toFixed(3):'—';
+    const cards=[
+        {icon:'🏢',bg:'#eef2ff',val:ns(s.total_companies),lbl:'Total Companies'},
+        {icon:'✅',bg:'#ecfdf5',val:ns(s.total_qualified),lbl:'Qualified Leads'},
+        {icon:'🔁',bg:'#f0f9ff',val:s.total_runs||0,lbl:'Runs Completed'},
+        {icon:'📈',bg:'#f5f3ff',val:(s.avg_qualification_rate||0)+'%',lbl:'Qualification Rate'},
+        {icon:'💰',bg:'#fffbeb',val:'$'+(cost).toFixed(2),lbl:'Total API Cost'},
+        {icon:'🎯',bg:'#fff1f2',val:cpl,lbl:'Cost per Lead'},
     ];
-    metrics.forEach(m => {
-        const card = document.createElement('div');
-        card.className = 'metric-card ' + m.cls;
-        card.innerHTML = `<div class="value">${m.value}</div><div class="label">${m.label}</div>`;
-        grid.appendChild(card);
+    const grid=$('metrics');
+    cards.forEach(c=>{
+        const el=ce('div'); el.className='metric';
+        el.innerHTML=`<div class="m-icon" style="background:${c.bg}">${c.icon}</div><div class="m-val">${c.val}</div><div class="m-lbl">${c.lbl}</div>`;
+        grid.appendChild(el);
     });
 })();
 
-// ── Latest Run ────────────────────────────────────────────────────────────────
-(function() {
-    const run = DATA.latest_run;
-    const el = document.getElementById('latest-run-content');
-    if (!run) { el.innerHTML = '<p class="empty-state">No runs yet.</p>'; return; }
-    let settings = {};
-    try { settings = JSON.parse(run.settings_json || '{}'); } catch(e) {}
-    const rate = run.total_in_csv > 0 ? ((run.total_qualified / run.total_in_csv) * 100).toFixed(1) : 0;
-    el.innerHTML = `
-        <div class="run-meta">
-            Run #${run.id} &mdash; ${fmtDate(run.started_at)} &mdash;
-            <strong>${run.status || 'unknown'}</strong>
-            &mdash; File: ${run.input_file || 'N/A'}
-            &mdash; Settings: rev&ge;$${((settings.min_revenue||0)/1e6).toFixed(1)}M,
-            emp&ge;${settings.min_employees||'?'},
-            reviews&ge;${settings.min_reviews||'?'},
-            type=${settings.service_type||'?'}
-        </div>
-        <div class="run-summary">
-            <div class="run-stat"><div class="num">${fmtNum(run.total_in_csv)}</div><div class="lbl">In CSV</div></div>
-            <div class="run-stat"><div class="num">${fmtNum(run.new_companies)}</div><div class="lbl">New</div></div>
-            <div class="run-stat"><div class="num">${fmtNum(run.skipped_duplicates)}</div><div class="lbl">Skipped</div></div>
-            <div class="run-stat"><div class="num">${fmtNum(run.passed_gate1)}</div><div class="lbl">Gate 1</div></div>
-            <div class="run-stat"><div class="num">${fmtNum(run.passed_gate2)}</div><div class="lbl">Gate 2</div></div>
-            <div class="run-stat"><div class="num">${fmtNum(run.passed_gate3)}</div><div class="lbl">Gate 3</div></div>
-            <div class="run-stat"><div class="num qualified">${fmtNum(run.total_qualified)}</div><div class="lbl">Qualified</div></div>
-            <div class="run-stat"><div class="num">${rate}%</div><div class="lbl">Rate</div></div>
-            <div class="run-stat"><div class="num">$${(run.estimated_cost||0).toFixed(3)}</div><div class="lbl">Cost</div></div>
-        </div>
-    `;
+/* ── Latest Run ────────────────────────── */
+(()=>{
+    const r=D.latest_run, el=$('run-summary');
+    if(!r){el.innerHTML='<div class="empty"><div class="empty-ico">🚀</div>No runs yet.</div>';return;}
+    let s={};try{s=JSON.parse(r.settings_json||'{}')}catch(e){}
+    const rate=r.total_in_csv>0?((r.total_qualified/r.total_in_csv)*100).toFixed(1)+'%':'—';
+    const pills=[
+        `Run <b>#${r.id}</b>`,
+        dt(r.started_at),
+        `<b>${r.status||'unknown'}</b>`,
+        `Rev ≥ $${((s.min_revenue||0)/1e6).toFixed(1)}M`,
+        `Emp ≥ ${s.min_employees||'?'}`,
+        `Reviews ≥ ${s.min_reviews||'?'}`,
+        `Type: ${s.service_type||'?'}`,
+    ].map(p=>`<span class="run-pill">${p}</span>`).join('');
+    const stats=[
+        {n:ns(r.total_in_csv),l:'In CSV'},{n:ns(r.new_companies),l:'New'},
+        {n:ns(r.skipped_duplicates),l:'Skipped'},{n:ns(r.passed_gate1),l:'Gate 1'},
+        {n:ns(r.passed_gate2),l:'Gate 2'},{n:ns(r.passed_gate3),l:'Gate 3'},
+        {n:ns(r.total_qualified),l:'Qualified',g:true},{n:rate,l:'Rate'},
+        {n:'$'+(r.estimated_cost||0).toFixed(3),l:'Cost'},
+    ].map(x=>`<div class="stat"><div class="stat-n${x.g?' g':''}">${x.n}</div><div class="stat-l">${x.l}</div></div>`).join('');
+    el.innerHTML=`<div class="run-meta">${pills}</div><div class="stat-grid">${stats}</div>`;
 })();
 
-// ── SVG Funnel ────────────────────────────────────────────────────────────────
-(function() {
-    const f = DATA.funnel_data || {};
-    const steps = [
-        { label: 'CSV Input', value: f.total_input  || 0, color: '#6366f1' },
-        { label: 'Gate 1',    value: f.passed_gate1 || 0, color: '#0ea5e9' },
-        { label: 'Gate 2',    value: f.passed_gate2 || 0, color: '#14b8a6' },
-        { label: 'Gate 3',    value: f.passed_gate3 || 0, color: '#22c55e' },
-        { label: 'Qualified', value: f.total_qualified || 0, color: '#10b981' },
+/* ── Funnel ────────────────────────────── */
+(()=>{
+    const f=D.funnel_data||{};
+    const steps=[
+        {label:'CSV Input', value:f.total_input||0,  color:'#6366f1'},
+        {label:'Gate 1',    value:f.passed_gate1||0, color:'#0ea5e9'},
+        {label:'Gate 2',    value:f.passed_gate2||0, color:'#14b8a6'},
+        {label:'Gate 3',    value:f.passed_gate3||0, color:'#22c55e'},
+        {label:'Qualified', value:f.total_qualified||0, color:'#10b981'},
     ];
-    const maxVal = Math.max(...steps.map(s => s.value), 1);
-    const container = document.getElementById('funnel-chart');
-    const SVG_W = 400, STEP_H = 44, GAP = 4;
+    const W=560, SH=48, maxV=Math.max(...steps.map(s=>s.value),1);
+    const totalH=steps.length*SH+(steps.length-1)*22;
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox',`0 0 ${W} ${totalH}`);
+    svg.setAttribute('width','100%');
+    svg.classList.add('funnel-svg');
 
-    steps.forEach((step, i) => {
-        const pct = step.value / maxVal;
-        const barW = Math.max(pct * SVG_W, 30);
-        const xOff = (SVG_W - barW) / 2;
-        const inputPct = steps[0].value > 0 ? (step.value / steps[0].value * 100).toFixed(0) : 0;
+    // Defs for gradients
+    const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+    steps.forEach((step,i)=>{
+        const g=document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+        g.setAttribute('id',`fg${i}`);
+        g.setAttribute('x1','0%');g.setAttribute('y1','0%');g.setAttribute('x2','100%');g.setAttribute('y2','0%');
+        const s1=document.createElementNS('http://www.w3.org/2000/svg','stop');
+        s1.setAttribute('offset','0%');s1.setAttribute('stop-color',step.color);s1.setAttribute('stop-opacity','0.85');
+        const s2=document.createElementNS('http://www.w3.org/2000/svg','stop');
+        s2.setAttribute('offset','100%');s2.setAttribute('stop-color',step.color);
+        g.appendChild(s1);g.appendChild(s2);defs.appendChild(g);
+    });
+    svg.appendChild(defs);
 
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('viewBox', `0 0 ${SVG_W} ${STEP_H}`);
-        svg.setAttribute('width', '100%');
-        svg.style.display = 'block';
+    let y=0;
+    steps.forEach((step,i)=>{
+        const pct=Math.max(step.value/maxV,0.06);
+        const w=pct*W*0.96;
+        const nextPct=i<steps.length-1?Math.max(steps[i+1].value/maxV,0.06):pct;
+        const nw=nextPct*W*0.96;
+        const x1=(W-w)/2, x2=(W+w)/2, x3=(W+nw)/2, x4=(W-nw)/2;
+        const pct0=steps[0].value>0?Math.round(step.value/steps[0].value*100):0;
 
-        // Next step width for trapezoid bottom
-        const nextPct = i < steps.length - 1 ? steps[i+1].value / maxVal : pct;
-        const nextW = Math.max(nextPct * SVG_W, 30);
-        const nextXOff = (SVG_W - nextW) / 2;
+        const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+        poly.setAttribute('points',`${x1},${y} ${x2},${y} ${x3},${y+SH} ${x4},${y+SH}`);
+        poly.setAttribute('fill',`url(#fg${i})`);
+        svg.appendChild(poly);
 
-        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-        rect.setAttribute('points', `${xOff},0 ${xOff+barW},0 ${nextXOff+nextW},${STEP_H} ${nextXOff},${STEP_H}`);
-        rect.setAttribute('fill', step.color);
-        rect.setAttribute('rx', '4');
-        svg.appendChild(rect);
+        const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+        txt.setAttribute('x',W/2);
+        txt.setAttribute('y',y+SH/2+5);
+        txt.setAttribute('text-anchor','middle');
+        txt.setAttribute('fill','white');
+        txt.setAttribute('font-size','12');
+        txt.setAttribute('font-weight','700');
+        txt.setAttribute('font-family','system-ui,sans-serif');
+        txt.textContent=`${step.label}: ${step.value.toLocaleString()}  (${pct0}%)`;
+        svg.appendChild(txt);
+        y+=SH;
 
-        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.setAttribute('x', SVG_W / 2);
-        text.setAttribute('y', STEP_H / 2 + 5);
-        text.setAttribute('text-anchor', 'middle');
-        text.setAttribute('fill', 'white');
-        text.setAttribute('font-size', '12');
-        text.setAttribute('font-weight', '700');
-        text.setAttribute('font-family', 'system-ui, sans-serif');
-        text.textContent = `${step.label}: ${step.value.toLocaleString()} (${inputPct}%)`;
-        svg.appendChild(text);
-
-        const wrapper = document.createElement('div');
-        wrapper.className = 'funnel-step';
-        wrapper.appendChild(svg);
-        container.appendChild(wrapper);
-
-        // Drop-off label between steps
-        if (i < steps.length - 1) {
-            const dropped = step.value - steps[i+1].value;
-            if (dropped > 0) {
-                const drop = document.createElement('div');
-                drop.className = 'funnel-drop';
-                drop.textContent = `▼ ${dropped.toLocaleString()} dropped`;
-                container.appendChild(drop);
-            }
+        // Drop label
+        if(i<steps.length-1){
+            const dropped=step.value-steps[i+1].value;
+            const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+            lbl.setAttribute('x',W/2);
+            lbl.setAttribute('y',y+13);
+            lbl.setAttribute('text-anchor','middle');
+            lbl.setAttribute('fill','#94a3b8');
+            lbl.setAttribute('font-size','10');
+            lbl.setAttribute('font-family','system-ui,sans-serif');
+            lbl.textContent=dropped>0?`▼ ${dropped.toLocaleString()} filtered`:'';
+            svg.appendChild(lbl);
+            y+=22;
         }
     });
+    $('funnel-wrap').appendChild(svg);
 })();
 
-// ── Pipeline Over Time (with conversion rate) ─────────────────────────────────
-(function() {
-    const runs = DATA.run_history || [];
-    if (runs.length === 0) return;
-    const labels = runs.map(r => (r.started_at || '').substring(0, 10));
-    const rates = runs.map(r => {
-        const total = r.total_in_csv || 0;
-        return total > 0 ? +((r.total_qualified / total) * 100).toFixed(1) : 0;
+/* ── Platform Doughnut ─────────────────── */
+(()=>{
+    const p=D.platform_breakdown||{};
+    const labels=Object.keys(p), vals=Object.values(p);
+    if(!labels.length){
+        $('platform-chart').parentElement.innerHTML='<div class="empty"><div class="empty-ico">📋</div>No platform data yet.</div>';
+        return;
+    }
+    const colors=['#6366f1','#0ea5e9','#10b981','#f59e0b','#f43f5e','#8b5cf6','#14b8a6','#e879f9','#fb923c','#34d399'];
+    new Chart($('platform-chart'),{
+        type:'doughnut',
+        data:{labels,datasets:[{data:vals,backgroundColor:colors.slice(0,labels.length),borderWidth:3,borderColor:'#fff',hoverOffset:6}]},
+        options:{responsive:true,cutout:'58%',plugins:{legend:{position:'bottom',labels:{boxWidth:11,font:{size:11},padding:14}}}},
     });
-    new Chart(document.getElementById('pipeline-chart'), {
-        type: 'bar',
-        data: {
+})();
+
+/* ── Pipeline Over Time ────────────────── */
+(()=>{
+    const runs=D.run_history||[];
+    if(!runs.length)return;
+    const labels=runs.map(r=>(r.started_at||'').substring(0,10));
+    const rates=runs.map(r=>r.total_in_csv>0?+((r.total_qualified/r.total_in_csv)*100).toFixed(1):0);
+    new Chart($('pipeline-chart'),{
+        type:'bar',
+        data:{
             labels,
-            datasets: [
-                { label: 'Total Processed', data: runs.map(r => r.total_in_csv || 0), backgroundColor: 'rgba(99,102,241,0.25)', borderColor: '#6366f1', borderWidth: 2, borderRadius: 4, yAxisID: 'y' },
-                { label: 'Qualified', data: runs.map(r => r.total_qualified || 0), backgroundColor: 'rgba(16,185,129,0.7)', borderColor: '#10b981', borderWidth: 2, borderRadius: 4, yAxisID: 'y' },
-                { label: 'Qual. Rate %', data: rates, type: 'line', borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', tension: 0.4, fill: false, pointRadius: 5, yAxisID: 'y2' },
+            datasets:[
+                {label:'Processed',data:runs.map(r=>r.total_in_csv||0),backgroundColor:'rgba(99,102,241,0.18)',borderColor:'#6366f1',borderWidth:2,borderRadius:5,yAxisID:'y'},
+                {label:'Qualified',data:runs.map(r=>r.total_qualified||0),backgroundColor:'rgba(16,185,129,0.65)',borderColor:'#10b981',borderWidth:1,borderRadius:5,yAxisID:'y'},
+                {label:'Rate %',data:rates,type:'line',borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0.08)',tension:0.4,fill:true,pointRadius:5,pointBackgroundColor:'#f59e0b',yAxisID:'y2'},
             ],
         },
-        options: {
-            responsive: true,
-            plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
-            scales: {
-                y:  { beginAtZero: true, title: { display: true, text: 'Companies', font: { size: 10 } }, ticks: { font: { size: 10 } } },
-                y2: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Rate (%)', font: { size: 10 } }, ticks: { font: { size: 10 } } },
+        options:{
+            responsive:true,
+            interaction:{mode:'index',intersect:false},
+            plugins:{legend:{position:'bottom',labels:{boxWidth:11,font:{size:11},padding:14}}},
+            scales:{
+                y:{beginAtZero:true,grid:{color:'#f1f5f9'},ticks:{font:{size:10}}},
+                y2:{beginAtZero:true,position:'right',grid:{drawOnChartArea:false},ticks:{font:{size:10},callback:v=>v+'%'}},
             },
         },
     });
 })();
 
-// ── Platform Breakdown ─────────────────────────────────────────────────────────
-(function() {
-    const platforms = DATA.platform_breakdown || {};
-    const labels = Object.keys(platforms);
-    const values = Object.values(platforms);
-    if (labels.length === 0) {
-        document.getElementById('platform-chart').parentElement.innerHTML += '<p class="empty-state">No platform data yet.</p>';
+/* ── Review Distribution ───────────────── */
+(()=>{
+    const rev=D.review_distribution||[];
+    if(!rev.length){
+        $('review-chart').parentElement.innerHTML='<div class="empty"><div class="empty-ico">⭐</div>No review data yet.</div>';
         return;
     }
-    const colors = ['#6366f1','#0ea5e9','#10b981','#f59e0b','#f43f5e','#8b5cf6','#14b8a6','#22c55e','#e879f9','#fb923c'];
-    new Chart(document.getElementById('platform-chart'), {
-        type: 'doughnut',
-        data: { labels, datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length), borderWidth: 2, borderColor: '#fff' }] },
-        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } }, cutout: '55%' },
-    });
-})();
-
-// ── Review Distribution ────────────────────────────────────────────────────────
-(function() {
-    const reviews = DATA.review_distribution || [];
-    if (reviews.length === 0) {
-        document.getElementById('review-chart').parentElement.innerHTML += '<p class="empty-state">No review data yet.</p>';
-        return;
-    }
-    const buckets = [0, 25, 50, 100, 150, 200, 300, 500, 1000, 2000, 5000];
-    const counts = new Array(buckets.length).fill(0);
-    reviews.forEach(r => {
-        for (let i = buckets.length - 1; i >= 0; i--) {
-            if (r >= buckets[i]) { counts[i]++; break; }
-        }
-    });
-    const labels = buckets.map((b, i) => i < buckets.length - 1 ? `${b}-${buckets[i+1]-1}` : `${b}+`);
-    new Chart(document.getElementById('review-chart'), {
-        type: 'bar',
-        data: { labels, datasets: [{ label: 'Companies', data: counts, backgroundColor: 'rgba(14,165,233,0.7)', borderColor: '#0ea5e9', borderWidth: 1, borderRadius: 4 }] },
-        options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: { beginAtZero: true, title: { display: true, text: 'Companies', font: { size: 10 } }, ticks: { font: { size: 10 } } },
-                x: { title: { display: true, text: 'Google Reviews', font: { size: 10 } }, ticks: { font: { size: 10 } } },
+    const bk=[0,25,50,100,150,200,300,500,1000,2000,5000];
+    const cts=new Array(bk.length).fill(0);
+    rev.forEach(r=>{for(let i=bk.length-1;i>=0;i--){if(r>=bk[i]){cts[i]++;break;}}});
+    const lbls=bk.map((b,i)=>i<bk.length-1?`${b}–${bk[i+1]-1}`:`${b}+`);
+    new Chart($('review-chart'),{
+        type:'bar',
+        data:{labels:lbls,datasets:[{label:'Companies',data:cts,backgroundColor:'rgba(14,165,233,0.65)',borderColor:'#0ea5e9',borderWidth:1,borderRadius:5}]},
+        options:{
+            responsive:true,
+            plugins:{legend:{display:false}},
+            scales:{
+                y:{beginAtZero:true,grid:{color:'#f1f5f9'},ticks:{font:{size:10}}},
+                x:{ticks:{font:{size:9}}},
             },
         },
     });
 })();
 
-// ── Recent Runs Table ──────────────────────────────────────────────────────────
-(function() {
-    const runs = (DATA.run_history || []).slice(-20).reverse();
-    const tbody = document.getElementById('runs-tbody');
-    if (runs.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="10" class="empty-state">No runs yet.</td></tr>';
-        return;
-    }
-    runs.forEach(r => {
-        const total = r.total_in_csv || 0;
-        const rate = total > 0 ? ((r.total_qualified / total) * 100).toFixed(1) + '%' : '—';
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${r.id}</td>
-            <td>${fmtDate(r.started_at)}</td>
-            <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.input_file||''}">${r.input_file||'N/A'}</td>
-            <td>${fmtNum(r.new_companies)}</td>
-            <td>${fmtNum(r.passed_gate1)}</td>
-            <td>${fmtNum(r.passed_gate2)}</td>
-            <td>${fmtNum(r.passed_gate3)}</td>
-            <td><strong style="color:#10b981">${fmtNum(r.total_qualified)}</strong></td>
+/* ── Recent Runs ───────────────────────── */
+(()=>{
+    const runs=(D.run_history||[]).slice(-20).reverse();
+    const tb=$('runs-tbody');
+    if(!runs.length){tb.innerHTML='<tr><td colspan="11" class="empty">No runs yet.</td></tr>';return;}
+    runs.forEach(r=>{
+        const rate=r.total_in_csv>0?((r.total_qualified/r.total_in_csv)*100).toFixed(1)+'%':'—';
+        const file=(r.input_file||'N/A').split(/[/\\]/).pop();
+        const tr=ce('tr');
+        tr.innerHTML=`
+            <td><b>${r.id}</b></td>
+            <td style="white-space:nowrap">${dt(r.started_at)}</td>
+            <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.input_file||''}">${file}</td>
+            <td>${ns(r.total_in_csv)}</td>
+            <td>${ns(r.new_companies)}</td>
+            <td>${ns(r.passed_gate1)}</td>
+            <td>${ns(r.passed_gate2)}</td>
+            <td>${ns(r.passed_gate3)}</td>
+            <td><b style="color:var(--emerald)">${ns(r.total_qualified)}</b></td>
             <td>${rate}</td>
             <td>$${(r.estimated_cost||0).toFixed(3)}</td>
         `;
-        tbody.appendChild(tr);
+        tb.appendChild(tr);
     });
 })();
 
-// ── Qualified Leads Table (sortable, paginated) ────────────────────────────────
-(function() {
-    let leads = (DATA.qualified_leads || []).slice(0, 500); // cap at 500
-    let sortCol = 'google_review_count';
-    let sortAsc = false;
-    let page = 0;
+/* ── Qualified Leads (sortable + paginated) ── */
+(()=>{
+    let leads=(D.qualified_leads||[]).slice(0,500);
+    let sortCol='google_review_count', sortAsc=false, page=0;
 
-    function platformBadge(p) {
-        if (!p) return '<span class="badge badge-gray">None</span>';
-        return p.split(',').map(x => x.trim()).filter(Boolean).map(x => {
-            const cls = x.toLowerCase().includes('servicetitan') ? 'badge-indigo'
-                      : x.toLowerCase().includes('housecall') ? 'badge-sky'
-                      : x.toLowerCase().includes('jobber') ? 'badge-amber'
-                      : 'badge-green';
-            return `<span class="badge ${cls}">${x}</span>`;
+    $('leads-count').textContent=leads.length?`${leads.length} companies`:'';
+
+    function platformChips(p){
+        if(!p) return '<span class="chip c-gray">None detected</span>';
+        return p.split(',').map(x=>x.trim()).filter(Boolean).map(x=>{
+            const cls=x.toLowerCase().includes('servicetitan')?'c-indigo':
+                      x.toLowerCase().includes('housecall')?'c-sky':
+                      x.toLowerCase().includes('jobber')?'c-amber':'c-emerald';
+            return`<span class="chip ${cls}">${x}</span>`;
         }).join(' ');
     }
-
-    function serviceBadge(s) {
-        if (!s) return '<span class="badge badge-gray">Unknown</span>';
-        const cls = s.toLowerCase() === 'residential' ? 'badge-green' : s.toLowerCase() === 'commercial' ? 'badge-indigo' : 'badge-amber';
-        return `<span class="badge ${cls}">${s}</span>`;
+    function svcChip(s){
+        if(!s)return'<span class="chip c-gray">Unknown</span>';
+        const cls=s.toLowerCase()==='residential'?'c-emerald':s.toLowerCase()==='commercial'?'c-indigo':'c-amber';
+        return`<span class="chip ${cls}">${s}</span>`;
     }
 
-    function sortLeads() {
-        leads.sort((a, b) => {
-            let av = a[sortCol], bv = b[sortCol];
-            if (av == null) av = sortAsc ? Infinity : -Infinity;
-            if (bv == null) bv = sortAsc ? Infinity : -Infinity;
-            if (typeof av === 'string') av = av.toLowerCase();
-            if (typeof bv === 'string') bv = bv.toLowerCase();
-            if (av < bv) return sortAsc ? -1 : 1;
-            if (av > bv) return sortAsc ? 1 : -1;
-            return 0;
+    function sort(){
+        leads.sort((a,b)=>{
+            let av=a[sortCol],bv=b[sortCol];
+            if(av==null)av=sortAsc?Infinity:-Infinity;
+            if(bv==null)bv=sortAsc?Infinity:-Infinity;
+            if(typeof av==='string')av=av.toLowerCase();
+            if(typeof bv==='string')bv=bv.toLowerCase();
+            return av<bv?(sortAsc?-1:1):av>bv?(sortAsc?1:-1):0;
         });
     }
 
-    function renderTable() {
-        const tbody = document.getElementById('leads-tbody');
-        tbody.innerHTML = '';
-        const slice = leads.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
-        if (leads.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No qualified leads yet.</td></tr>';
-        } else {
-            slice.forEach(c => {
-                const loc = [c.city, c.state].filter(Boolean).join(', ') || '—';
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><strong>${c.name||'—'}</strong></td>
-                    <td><a href="https://${c.domain||''}" target="_blank" style="color:#6366f1;text-decoration:none">${c.domain||'—'}</a></td>
-                    <td>${loc}</td>
-                    <td>${fmtRevenue(c.revenue)}</td>
-                    <td>${fmtNum(c.employees)}</td>
-                    <td>${fmtNum(c.google_review_count)}</td>
-                    <td>${platformBadge(c.detected_platforms)}</td>
-                    <td>${serviceBadge(c.service_type)}</td>
-                `;
-                tbody.appendChild(tr);
-            });
+    function render(){
+        const tb=$('leads-tbody');
+        tb.innerHTML='';
+        if(!leads.length){
+            tb.innerHTML='<tr><td colspan="7" class="empty"><div class="empty-ico">🎯</div>No qualified leads yet.</td></tr>';
+            $('leads-pg').innerHTML=''; return;
         }
-        renderPagination();
+        const sl=leads.slice(page*PAGE,(page+1)*PAGE);
+        sl.forEach(c=>{
+            const loc=[c.city,c.state].filter(Boolean).join(', ')||'—';
+            const tr=ce('tr');
+            const col=avatarColor(c.name);
+            const init=(c.name||'?').charAt(0).toUpperCase();
+            tr.innerHTML=`
+                <td>
+                    <div class="co-cell">
+                        <div class="avatar" style="background:${col}">${init}</div>
+                        <div>
+                            <div class="co-name">${c.name||'—'}</div>
+                            <div class="co-domain"><a href="https://${c.domain||''}" target="_blank" style="color:var(--muted);text-decoration:none">${c.domain||'—'}</a></div>
+                        </div>
+                    </div>
+                </td>
+                <td>${loc}</td>
+                <td>${fmtRev(c.revenue)}</td>
+                <td>${ns(c.employees)}</td>
+                <td>${ns(c.google_review_count)}</td>
+                <td>${platformChips(c.detected_platforms)}</td>
+                <td>${svcChip(c.service_type)}</td>
+            `;
+            tb.appendChild(tr);
+        });
+        renderPg();
     }
 
-    function renderPagination() {
-        const totalPages = Math.ceil(leads.length / PAGE_SIZE);
-        const el = document.getElementById('leads-pagination');
-        el.innerHTML = '';
-        if (totalPages <= 1) return;
-        const info = document.createElement('span');
-        info.textContent = `Showing ${page * PAGE_SIZE + 1}–${Math.min((page+1) * PAGE_SIZE, leads.length)} of ${leads.length} qualified leads`;
+    function renderPg(){
+        const tot=Math.ceil(leads.length/PAGE), el=$('leads-pg');
+        el.innerHTML='';
+        if(tot<=1)return;
+        const info=ce('span');
+        info.textContent=`${page*PAGE+1}–${Math.min((page+1)*PAGE,leads.length)} of ${leads.length}`;
         el.appendChild(info);
-        const prev = document.createElement('button');
-        prev.textContent = '← Prev';
-        prev.disabled = page === 0;
-        prev.onclick = () => { page--; renderTable(); };
-        el.appendChild(prev);
-        const next = document.createElement('button');
-        next.textContent = 'Next →';
-        next.disabled = page >= totalPages - 1;
-        next.onclick = () => { page++; renderTable(); };
-        el.appendChild(next);
+        const btns=ce('div'); btns.className='pg-btns';
+        const prev=ce('button'); prev.className='pg-btn'; prev.textContent='← Prev'; prev.disabled=page===0;
+        prev.onclick=()=>{page--;render();};
+        const next=ce('button'); next.className='pg-btn'; next.textContent='Next →'; next.disabled=page>=tot-1;
+        next.onclick=()=>{page++;render();};
+        btns.appendChild(prev); btns.appendChild(next); el.appendChild(btns);
     }
 
-    // Sort header clicks
-    document.querySelectorAll('#leads-table th.sortable').forEach(th => {
-        th.addEventListener('click', () => {
-            const col = th.dataset.col;
-            if (sortCol === col) { sortAsc = !sortAsc; }
-            else { sortCol = col; sortAsc = col === 'name' || col === 'domain' || col === 'state'; }
-            document.querySelectorAll('#leads-table th').forEach(h => h.classList.remove('sort-asc','sort-desc'));
-            th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
-            sortLeads();
-            page = 0;
-            renderTable();
+    document.querySelectorAll('#leads-table thead th.sortable').forEach(th=>{
+        th.addEventListener('click',()=>{
+            const col=th.dataset.col;
+            if(sortCol===col)sortAsc=!sortAsc;
+            else{sortCol=col;sortAsc=(col==='name'||col==='state');}
+            document.querySelectorAll('#leads-table thead th').forEach(h=>h.classList.remove('sa','sd'));
+            th.classList.add(sortAsc?'sa':'sd');
+            sort(); page=0; render();
         });
     });
-
-    // Initial render
-    sortLeads();
-    // Mark default sort header
-    document.querySelectorAll('#leads-table th.sortable').forEach(th => {
-        if (th.dataset.col === sortCol) th.classList.add('sort-desc');
-    });
-    renderTable();
+    // Default sort indicator
+    document.querySelector(`#leads-table thead th[data-col="${sortCol}"]`)?.classList.add('sd');
+    sort(); render();
 })();
 
-// ── Status Changes ─────────────────────────────────────────────────────────────
-(function() {
-    const changes = DATA.status_changes || [];
-    const container = document.getElementById('status-changes-content');
-    if (changes.length === 0) {
-        container.innerHTML = '<p class="empty-state">No status changes between runs yet.</p>';
+/* ── Status Changes ────────────────────── */
+(()=>{
+    const changes=D.status_changes||[], el=$('status-wrap');
+    if(!changes.length){
+        el.innerHTML='<div class="empty"><div class="empty-ico">🔄</div>No status changes between runs yet.</div>';
         return;
     }
-    let html = '<div class="table-wrap"><table><thead><tr><th>Company</th><th>Domain</th><th>Old Status</th><th>New Status</th><th>Gate</th><th>Details</th><th>Date</th></tr></thead><tbody>';
-    changes.forEach(c => {
-        const oldCls = c.old_status === 'QUALIFIED' ? 'status-qualified' : c.old_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
-        const newCls = c.new_status === 'QUALIFIED' ? 'status-qualified' : c.new_status === 'REJECTED' ? 'status-rejected' : 'status-manual';
-        html += `<tr>
-            <td>${c.company_name||''}</td>
+    const scls=s=>s==='QUALIFIED'?'sq':s==='REJECTED'?'sr':'sm';
+    let html='<div class="tbl-scroll"><table><thead><tr><th>Company</th><th>Domain</th><th>Previous</th><th>New</th><th>Gate</th><th>Details</th><th>Date</th></tr></thead><tbody>';
+    changes.forEach(c=>{
+        html+=`<tr>
+            <td><b>${c.company_name||''}</b></td>
             <td>${c.domain||''}</td>
-            <td class="${oldCls}">${c.old_status||''}</td>
-            <td class="${newCls}">${c.new_status||''}</td>
+            <td class="${scls(c.old_status)}">${c.old_status||''}</td>
+            <td class="${scls(c.new_status)}">${c.new_status||''}</td>
             <td>${c.gate_reached||''}</td>
-            <td>${c.details||''}</td>
-            <td>${fmtDate(c.created_at)}</td>
+            <td style="color:var(--muted);font-size:0.9em">${c.details||''}</td>
+            <td style="white-space:nowrap">${dt(c.created_at)}</td>
         </tr>`;
     });
-    html += '</tbody></table></div>';
-    container.innerHTML = html;
+    html+='</tbody></table></div>';
+    el.innerHTML=html;
 })();
 </script>
 </body>
